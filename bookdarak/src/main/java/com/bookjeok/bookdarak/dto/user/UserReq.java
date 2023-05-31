@@ -12,4 +12,9 @@ public class UserReq {
         private String introduction;
         private String profile_url;
     }
+    @Getter @AllArgsConstructor
+    public static class LoginReq{
+        private String email;
+        private String password;
+    }
 }

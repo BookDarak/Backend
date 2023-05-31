@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-
+    @PostMapping("/login")
+    public BaseResponse<UserRes.LoginRes> login(@RequestBody UserReq.LoginReq request){
+        return userService.login(request);
+    }
     @PostMapping("/signup")
     public BaseResponse<UserRes.SignupRes> signup(@RequestBody UserReq.SignupReq request){
         return userService.signup(request);
