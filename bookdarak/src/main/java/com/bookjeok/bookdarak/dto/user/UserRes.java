@@ -6,13 +6,7 @@ import lombok.Getter;
 public class UserRes {
     @Getter
     @AllArgsConstructor
-    public static class SignupRes{
-        private Long id;
-    }
-
-    @Getter
-    @AllArgsConstructor
-    public static class LoginRes{
+    public static class UserIdRes{
         private Long id;
     }
 }

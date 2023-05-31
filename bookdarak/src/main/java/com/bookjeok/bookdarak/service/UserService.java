@@ -19,16 +19,16 @@ import java.util.regex.Pattern;
 public class UserService {
     private final UserRepository userRepository;
 
-    public BaseResponse<UserRes.SignupRes> signup(UserReq.SignupReq request){
+    public BaseResponse<UserRes.UserIdRes> signup(UserReq.SignupReq request){
         if (userRepository.existsByEmail(request.getEmail())){
             return new BaseResponse<>(BaseResponseStatus.DUPLICATED_EMAIL);
         }
         User user = userRepository.save(
                 new User(request.getEmail(),request.getPassword(),request.getName(),request.getAge(),request.getIntroduction(),request.getProfile_url()));
-        return new BaseResponse<>(new UserRes.SignupRes(user.getId()));
+        return new BaseResponse<>(new UserRes.UserIdRes(user.getId()));
     }
 
-    public BaseResponse<UserRes.LoginRes> login(UserReq.LoginReq request){
+    public BaseResponse<UserRes.UserIdRes> login(UserReq.LoginReq request){
         if (request.getEmail().isBlank())
             return new BaseResponse<>(BaseResponseStatus.POST_USERS_EMPTY_EMAIL);
         if (!isValidEmail(request.getEmail())){
@@ -43,7 +43,14 @@ public class UserService {
         User user = userRepository.findByEmail(request.getEmail());
         if (!request.getPassword().equals(user.getPassword()))
             return new BaseResponse<>(BaseResponseStatus.NOT_CORRECT_PASSWORD);
-        return new BaseResponse<>(new UserRes.LoginRes(user.getId()));
+        return new BaseResponse<>(new UserRes.UserIdRes(user.getId()));
+    }
+
+    public BaseResponse<UserRes.UserIdRes> deleteUser(Long id){
+        if (!userRepository.existsById(id)){
+            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USER_ID);
+        }
+        return new BaseResponse<>(new UserRes.UserIdRes(id));
     }
 
     /**이메일 형식 검사 **/
