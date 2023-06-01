@@ -1,11 +1,12 @@
 package com.bookjeok.bookdarak.domain;
 
 import com.bookjeok.bookdarak.base.BaseEntity;
-import lombok.AllArgsConstructor;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
 
 @Entity @Getter
 @NoArgsConstructor
@@ -15,11 +16,11 @@ public class User extends BaseEntity {
     @Column(name = "user_id")
     private Long id;
 
+
     private String email;
     private String password;
     private String name;
     private int age;
-
     private String introduction;
     private String profileUrl;
 

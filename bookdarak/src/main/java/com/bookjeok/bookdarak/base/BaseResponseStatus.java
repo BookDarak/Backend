@@ -35,7 +35,7 @@ public enum BaseResponseStatus {
 
     POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
 
-    TOO_SHORT_PASSWORD(false, 2018, "비밀번호의 길이를 8자 이상을 설정해주세요."),
+    INVALID_PASSWORD_LENGTH(false, 2018, "비밀번호는 숫자, 영문, 특수문자를 각 1자리 이상 포함해서 8자~16자 이내로 설정해주세요."),
 
     FAILED_TO_SIGN_UP(false, 2019, "회원가입에 실패하였습니다."),
 
@@ -66,6 +66,10 @@ public enum BaseResponseStatus {
     EMPTY_BOOK_AUTHOR(false, 2032, "책 저자를 입력해주세요."),
 
     NOT_EXIST_BOOK_ID(false, 2033, "존재하지 않는 책 id입니다."),
+
+    EMPTY_USER_AGE(false, 2034, "나이를 입력해주세요."),
+
+    EMPTY_USER_INTRO(false, 2035, "자기소개를 입력해주세요."),
 
 
     /**
