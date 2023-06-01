@@ -23,6 +23,9 @@ public class UserService {
         if (request.getEmail().isBlank()){
             return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_EMAIL);
         }
+        if (!isValidEmailFormat(request.getEmail())){
+            return new BaseResponse<>(BaseResponseStatus.INVALID_USER_EMAIL);
+        }
         if (userRepository.existsByEmail(request.getEmail())){
             return new BaseResponse<>(BaseResponseStatus.DUPLICATED_USER_EMAIL);
         }
@@ -80,7 +83,7 @@ public class UserService {
     public boolean isValidEmailFormat(String email){
         boolean validation = false;
 
-        String regex = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\\\w+\\\\.)+\\\\w+$";
+        String regex = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(email);
         if (m.matches())
@@ -91,7 +94,7 @@ public class UserService {
     /**비밀번호 형식 검사 **/
     public boolean isValidPasswordFormat(String password){
         boolean validation = false;
-        String regex = "^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\\\(\\\\)\\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\\\(\\\\)\\-_=+]).{8,16}$";
+        String regex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(password);
         if (m.matches())

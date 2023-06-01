@@ -31,9 +31,9 @@ public enum BaseResponseStatus {
 
     INVALID_USER_EMAIL(false, 2015, "이메일 형식을 확인해주세요."),
 
-    EMPTY_USER_PASSWORD(false, 2016, "비밀번호를 입력해주세요."),
+    DUPLICATED_USER_EMAIL(false,2016,"중복된 이메일입니다."),
 
-    DUPLICATED_USER_EMAIL(false,2017,"중복된 이메일입니다."),
+    EMPTY_USER_PASSWORD(false, 2017, "비밀번호를 입력해주세요."),
 
     INVALID_FORMAT_PASSWORD(false, 2018, "비밀번호는 숫자, 영문, 특수문자를 각 1자리 이상 포함해서 8자~16자 이내로 설정해주세요."),
 
