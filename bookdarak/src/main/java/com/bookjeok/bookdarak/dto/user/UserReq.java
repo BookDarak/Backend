@@ -8,7 +8,7 @@ public class UserReq {
         private String email;
         private String password;
         private String name;
-        private int age;
+        private Integer age;
         private String introduction;
         private String profile_url;
     }

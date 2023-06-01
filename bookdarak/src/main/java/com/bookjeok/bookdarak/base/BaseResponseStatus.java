@@ -27,15 +27,15 @@ public enum BaseResponseStatus {
 
     USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
 
-    POST_USERS_EMPTY_EMAIL(false, 2014, "이메일을 입력해주세요."),
+    EMPTY_USER_EMAIL(false, 2014, "이메일을 입력해주세요."),
 
-    POST_USERS_INVALID_EMAIL(false, 2015, "이메일 형식을 확인해주세요."),
+    INVALID_USER_EMAIL(false, 2015, "이메일 형식을 확인해주세요."),
 
-    USERS_EMPTY_USER_PASSWORD(false, 2016, "비밀번호를 입력해주세요."),
+    EMPTY_USER_PASSWORD(false, 2016, "비밀번호를 입력해주세요."),
 
-    POST_USERS_EXISTS_EMAIL(false,2017,"중복된 이메일입니다."),
+    DUPLICATED_USER_EMAIL(false,2017,"중복된 이메일입니다."),
 
-    INVALID_PASSWORD_LENGTH(false, 2018, "비밀번호는 숫자, 영문, 특수문자를 각 1자리 이상 포함해서 8자~16자 이내로 설정해주세요."),
+    INVALID_FORMAT_PASSWORD(false, 2018, "비밀번호는 숫자, 영문, 특수문자를 각 1자리 이상 포함해서 8자~16자 이내로 설정해주세요."),
 
     FAILED_TO_SIGN_UP(false, 2019, "회원가입에 실패하였습니다."),
 
@@ -43,7 +43,7 @@ public enum BaseResponseStatus {
 
     USERS_EXISTS_NICKNAME(false,2021,"중복된 닉네임입니다."),
 
-    POST_USERS_EMPTY_NICKNAME(false,2022,"닉네임을 입력해주세요."),
+    EMPTY_USER_NICKNAME(false,2022,"닉네임을 입력해주세요."),
 
     FAILED_TO_LOGIN(false, 2023, "로그인에 실패하였습니다."),
 

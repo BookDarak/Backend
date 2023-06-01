@@ -21,19 +21,24 @@ public class UserService {
 
     public BaseResponse<UserRes.UserIdRes> signup(UserReq.SignupReq request){
         if (request.getEmail().isBlank()){
-            return new BaseResponse<>(BaseResponseStatus.POST_USERS_EMPTY_EMAIL);
+            return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_EMAIL);
         }
         if (userRepository.existsByEmail(request.getEmail())){
-            return new BaseResponse<>(BaseResponseStatus.DUPLICATED_EMAIL);
+            return new BaseResponse<>(BaseResponseStatus.DUPLICATED_USER_EMAIL);
         }
+
         if (request.getPassword().isBlank()){
-            return new BaseResponse<>(BaseResponseStatus.USERS_EMPTY_USER_PASSWORD);
+            return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_PASSWORD);
         }
-        if (!isValidPassword(request.getPassword())) {
-            return new BaseResponse<>(BaseResponseStatus.INVALID_PASSWORD_LENGTH);
+        if (!isValidPasswordFormat(request.getPassword())) {
+            return new BaseResponse<>(BaseResponseStatus.INVALID_FORMAT_PASSWORD);
         }
+
         if (request.getName().isBlank()){
-            return new BaseResponse<>(BaseResponseStatus.POST_USERS_EMPTY_NICKNAME);
+            return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_NICKNAME);
+        }
+        if (request.getAge() == null){
+            return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_AGE);
         }
         if (request.getIntroduction().isBlank()){
             return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_INTRO);
@@ -47,15 +52,15 @@ public class UserService {
 
     public BaseResponse<UserRes.UserIdRes> login(UserReq.LoginReq request){
         if (request.getEmail().isBlank())
-            return new BaseResponse<>(BaseResponseStatus.POST_USERS_EMPTY_EMAIL);
-        if (!isValidEmail(request.getEmail())){
-            return new BaseResponse<>(BaseResponseStatus.POST_USERS_INVALID_EMAIL);
+            return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_EMAIL);
+        if (!isValidEmailFormat(request.getEmail())){
+            return new BaseResponse<>(BaseResponseStatus.INVALID_USER_EMAIL);
         }
         if (!userRepository.existsByEmail(request.getEmail())){
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_EMAIL);
         }
         if (request.getPassword().isBlank())
-            return new BaseResponse<>(BaseResponseStatus.USERS_EMPTY_USER_PASSWORD);
+            return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_PASSWORD);
 
         User user = userRepository.findByEmail(request.getEmail());
         if (!request.getPassword().equals(user.getPassword()))
@@ -72,7 +77,7 @@ public class UserService {
     }
 
     /**이메일 형식 검사 **/
-    public boolean isValidEmail(String email){
+    public boolean isValidEmailFormat(String email){
         boolean validation = false;
 
         String regex = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\\\w+\\\\.)+\\\\w+$";
@@ -84,7 +89,7 @@ public class UserService {
         return validation;
     }
     /**비밀번호 형식 검사 **/
-    public boolean isValidPassword(String password){
+    public boolean isValidPasswordFormat(String password){
         boolean validation = false;
         String regex = "^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\\\(\\\\)\\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\\\(\\\\)\\-_=+]).{8,16}$";
         Pattern p = Pattern.compile(regex);
