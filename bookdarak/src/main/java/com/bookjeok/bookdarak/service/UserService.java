@@ -50,6 +50,7 @@ public class UserService {
         if (!userRepository.existsById(id)){
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USER_ID);
         }
+        userRepository.deleteById(id);
         return new BaseResponse<>(new UserRes.UserIdRes(id));
     }
 
