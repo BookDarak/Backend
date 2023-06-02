@@ -20,33 +20,10 @@ public class UserService {
     private final UserRepository userRepository;
 
     public BaseResponse<UserRes.UserIdRes> signup(UserReq.SignupReq request){
-        if (request.getEmail().isBlank()){
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_EMAIL);
-        }
-        if (!isValidEmailFormat(request.getEmail())){
-            return new BaseResponse<>(BaseResponseStatus.INVALID_USER_EMAIL);
-        }
+
         if (userRepository.existsByEmail(request.getEmail())){
             return new BaseResponse<>(BaseResponseStatus.DUPLICATED_USER_EMAIL);
         }
-
-        if (request.getPassword().isBlank()){
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_PASSWORD);
-        }
-        if (!isValidPasswordFormat(request.getPassword())) {
-            return new BaseResponse<>(BaseResponseStatus.INVALID_FORMAT_PASSWORD);
-        }
-
-        if (request.getName().isBlank()){
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_NICKNAME);
-        }
-        if (request.getAge() == null){
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_AGE);
-        }
-        if (request.getIntroduction().isBlank()){
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_INTRO);
-        }
-
         //유저 저장
         User user = userRepository.save(
                 new User(request.getEmail(),request.getPassword(),request.getName(),request.getAge(),request.getIntroduction(),request.getProfile_url()));
@@ -54,20 +31,15 @@ public class UserService {
     }
 
     public BaseResponse<UserRes.UserIdRes> login(UserReq.LoginReq request){
-        if (request.getEmail().isBlank())
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_EMAIL);
-        if (!isValidEmailFormat(request.getEmail())){
-            return new BaseResponse<>(BaseResponseStatus.INVALID_USER_EMAIL);
-        }
+
         if (!userRepository.existsByEmail(request.getEmail())){
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_EMAIL);
         }
-        if (request.getPassword().isBlank())
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_PASSWORD);
 
         User user = userRepository.findByEmail(request.getEmail());
         if (!request.getPassword().equals(user.getPassword()))
             return new BaseResponse<>(BaseResponseStatus.NOT_CORRECT_PASSWORD);
+
         return new BaseResponse<>(new UserRes.UserIdRes(user.getId()));
     }
 
