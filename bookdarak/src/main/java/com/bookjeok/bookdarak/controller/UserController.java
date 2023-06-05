@@ -58,7 +58,7 @@ public class UserController {
 
     @ApiOperation(value = "회원탈퇴")
     @DeleteMapping("/user/{id}")
-    public BaseResponse<UserRes.UserIdRes> deleteUser(@PathVariable("id") Long id){
+    public BaseResponse<UserRes.UserIdRes> deleteUser(@PathVariable Long id){
         return userService.deleteUser(id);
     }
 }
