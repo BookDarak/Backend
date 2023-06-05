@@ -7,6 +7,7 @@ import com.bookjeok.bookdarak.dto.user.UserReq;
 import com.bookjeok.bookdarak.dto.user.UserRes;
 import com.bookjeok.bookdarak.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,15 +19,20 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public BaseResponse<UserRes.UserIdRes> signup(UserReq.SignupReq request){
 
         if (userRepository.existsByEmail(request.getEmail())){
             return new BaseResponse<>(BaseResponseStatus.DUPLICATED_USER_EMAIL);
         }
+
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+
+
         //유저 저장
         User user = userRepository.save(
-                new User(request.getEmail(),request.getPassword(),request.getName(),request.getAge(),request.getIntroduction(),request.getProfile_url()));
+                new User(request.getEmail(),encodedPassword,request.getName(),request.getAge(),request.getIntroduction(),request.getProfile_url()));
         return new BaseResponse<>(new UserRes.UserIdRes(user.getId()));
     }
 
@@ -37,7 +43,7 @@ public class UserService {
         }
 
         User user = userRepository.findByEmail(request.getEmail());
-        if (!request.getPassword().equals(user.getPassword()))
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword()))
             return new BaseResponse<>(BaseResponseStatus.NOT_CORRECT_PASSWORD);
 
         return new BaseResponse<>(new UserRes.UserIdRes(user.getId()));
