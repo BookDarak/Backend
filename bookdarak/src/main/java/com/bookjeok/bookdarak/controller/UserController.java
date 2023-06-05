@@ -5,6 +5,7 @@ import com.bookjeok.bookdarak.base.BaseResponseStatus;
 import com.bookjeok.bookdarak.dto.user.UserReq;
 import com.bookjeok.bookdarak.dto.user.UserRes;
 import com.bookjeok.bookdarak.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    @ApiOperation(value = "회원가입")
     @PostMapping("/signup")
     public BaseResponse<UserRes.UserIdRes> signup(@RequestBody UserReq.SignupReq request){
         if (request.getEmail().isBlank()){
@@ -40,6 +42,7 @@ public class UserController {
         }
         return userService.signup(request);
     }
+    @ApiOperation(value = "로그인")
     @PostMapping("/login")
     public BaseResponse<UserRes.UserIdRes> login(@RequestBody UserReq.LoginReq request){
         if (request.getEmail().isBlank())
@@ -52,6 +55,8 @@ public class UserController {
 
         return userService.login(request);
     }
+
+    @ApiOperation(value = "회원탈퇴")
     @DeleteMapping("/user/{id}")
     public BaseResponse<UserRes.UserIdRes> deleteUser(@PathVariable("id") Long id){
         return userService.deleteUser(id);
