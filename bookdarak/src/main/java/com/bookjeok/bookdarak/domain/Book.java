@@ -2,11 +2,12 @@ package com.bookjeok.bookdarak.domain;
 
 import com.bookjeok.bookdarak.base.BaseEntity;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Entity @Getter
+@Entity @Getter @NoArgsConstructor
 public class Book extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,4 +23,15 @@ public class Book extends BaseEntity {
     private String introduction;
     private String siteUrl;
     private String imgUrl;
+
+    public Book(String name, String author, String publisher, LocalDate publishedDate, int price, String introduction, String siteUrl, String imgUrl) {
+        this.name = name;
+        this.author = author;
+        this.publisher = publisher;
+        this.publishedDate = publishedDate;
+        this.price = price;
+        this.introduction = introduction;
+        this.siteUrl = siteUrl;
+        this.imgUrl = imgUrl;
+    }
 }

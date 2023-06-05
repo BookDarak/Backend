@@ -59,11 +59,11 @@ public enum BaseResponseStatus {
 
     DUPLICATED_BOOK_NAME(false, 2029, "이미 등록된 책입니다."),
 
-    EMPTY_BOOK_NAME(false, 2030, "책 이름을 입력해주세요."),
+    EMPTY_BOOK_NAME(false, 2030, "도서명을 입력해주세요."),
 
-    EMPTY_BOOK_PRICE(false, 2031, "책 가격을 입력해주세요."),
+    EMPTY_BOOK_AUTHOR(false, 2031, "저자를 입력해주세요."),
 
-    EMPTY_BOOK_AUTHOR(false, 2032, "책 저자를 입력해주세요."),
+    EMPTY_BOOK_PUBLISHER(false, 2032, "도서 출판사를 입력해주세요."),
 
     NOT_EXIST_BOOK_ID(false, 2033, "존재하지 않는 책 id입니다."),
 
