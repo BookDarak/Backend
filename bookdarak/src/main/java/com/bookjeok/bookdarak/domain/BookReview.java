@@ -1,13 +1,16 @@
 package com.bookjeok.bookdarak.domain;
 
 import com.bookjeok.bookdarak.base.BaseEntity;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BookReview extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
