@@ -29,9 +29,21 @@ public class BookReview extends BaseEntity {
     private String content;
     private String phrase;
 
-    private String publicYn; // Y, N
+    private Character publicYn; // Y, N
     private int likeCount;
 
     private LocalDate startDate;
     private LocalDate endDate;
+
+
+    public BookReview(User user, Book book, BigDecimal rating, String content, String phrase, Character publicYn, LocalDate startDate, LocalDate endDate) {
+        this.user = user;
+        this.book = book;
+        this.rating = rating;
+        this.content = content;
+        this.phrase = phrase;
+        this.publicYn = publicYn;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 }

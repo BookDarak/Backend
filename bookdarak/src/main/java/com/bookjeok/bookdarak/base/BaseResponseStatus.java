@@ -72,6 +72,21 @@ public enum BaseResponseStatus {
     EMPTY_USER_INTRO(false, 2035, "자기소개를 입력해주세요."),
 
 
+    EMPTY_REVIEW_RATING(false, 2040, "평점 입력해주세요."),
+
+    EMPTY_REVIEW_CONTENT(false, 2041, "서평 내용을 입력해주세요."),
+
+    EMPTY_REVIEW_PUBLIC(false, 2042, "서평 공개 여부를 지정해주세요."),
+
+    EMPTY_REVIEW_START_DATE(false, 2043, "시작 독서일을 선택해주세요."),
+
+    EMPTY_REVIEW_END_DATE(false, 2044, "완료 독서일을 선택해주세요."),
+
+    INVALID_DATE_INTERVAL(false,2045, "시작일은 완료일보다 앞서야 합니다."),
+
+
+
+
     /**
      * 3000 : Response 오류
      */
@@ -80,7 +95,7 @@ public enum BaseResponseStatus {
 
     DUPLICATED_EMAIL(false, 3013, "중복된 이메일입니다."),
 
-
+    REVIEW_ALREADY_EXISTS(false,3040,"해당 도서에 대한 서평이 이미 존재합니다."),
 
     /**
      * 4000 : Database, Server 오류
