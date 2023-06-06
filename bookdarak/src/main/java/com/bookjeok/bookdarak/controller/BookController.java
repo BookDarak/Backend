@@ -20,7 +20,7 @@ public class BookController {
         if (request.getName().isBlank()){
             return new BaseResponse<>(BaseResponseStatus.EMPTY_BOOK_NAME);
         }
-        if (request.getAuthor().isBlank()){
+        if (request.getAuthorList() == null){
             return new BaseResponse<>(BaseResponseStatus.EMPTY_BOOK_AUTHOR);
         }
         if (request.getPublisher().isBlank()){

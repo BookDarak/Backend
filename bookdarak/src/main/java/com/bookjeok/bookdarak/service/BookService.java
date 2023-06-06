@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -23,8 +26,10 @@ public class BookService {
         책 없으면 책 저장 후 아이디 반환
          */
         Book book = bookRepository.findBookByNameAndPublisher(request.getName(), request.getPublisher());
+
+        String author = listToString(request.getAuthorList());
         if (book == null){
-            book = bookRepository.save(new Book(request.getName(),request.getAuthor(),request.getPublisher(),
+            book = bookRepository.save(new Book(request.getName(), author ,request.getPublisher(),
                     request.getPublishedDate(),request.getPrice(), request.getIntroduction(),request.getSiteUrl(),request.getImgUrl()));
         }
         return new BaseResponse<>(new BookRes.BookFindRes(book.getId()));
@@ -36,7 +41,20 @@ public class BookService {
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_BOOK_ID);
         }
         Book book = bookRepository.findById(id).orElseThrow();
-        return new BaseResponse<>(new BookRes.BookInfoRes(book.getName(),book.getAuthor(), book.getPublisher(), book.getPublishedDate(),book.getPrice(),book.getIntroduction(),book.getSiteUrl(),book.getImgUrl()));
+
+        List<String> authorList = stringToList(book.getAuthor());
+        return new BaseResponse<>(new BookRes.BookInfoRes(book.getName(),authorList, book.getPublisher(), book.getPublishedDate(),book.getPrice(),book.getIntroduction(),book.getSiteUrl(),book.getImgUrl()));
     }
 
+    private String listToString(List<String> authorList){
+        String author = "";
+        for (String item : authorList) {
+            author += item + ",";
+        }
+        return author;
+    }
+
+    private List<String> stringToList(String author){
+        return Arrays.asList(author.split("\\s*,\\s*"));
+    }
 }
