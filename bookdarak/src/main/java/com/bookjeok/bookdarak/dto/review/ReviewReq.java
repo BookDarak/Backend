@@ -12,6 +12,7 @@ public class ReviewReq {
         private String content;
         private String phrase;
         private Character publicYn;
+        private int likeCount;
         private LocalDate startDate;
         private LocalDate endDate;
     }

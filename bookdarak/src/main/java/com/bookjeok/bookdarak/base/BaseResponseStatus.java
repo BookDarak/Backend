@@ -76,7 +76,7 @@ public enum BaseResponseStatus {
 
     EMPTY_REVIEW_CONTENT(false, 2041, "서평 내용을 입력해주세요."),
 
-    WRONG_REVIEW_PUBLIC_FORMAT(false, 2042, "서평 공개 여부는 'Y'나 'N'으로 지정해주세요."),
+    WRONG_REVIEW_PUBLIC_FORMAT(false, 2042, "공개여부 형식이 올바르지 않습니다."),
 
     EMPTY_REVIEW_START_DATE(false, 2043, "시작 독서일을 선택해주세요."),
 
@@ -85,7 +85,7 @@ public enum BaseResponseStatus {
     INVALID_DATE_INTERVAL(false,2045, "시작일은 완료일보다 앞서야 합니다."),
 
 
-
+    NOT_EXIST_REVIEW(false, 2050, "해당 리뷰가 존재하지 않습니다."),
 
     /**
      * 3000 : Response 오류

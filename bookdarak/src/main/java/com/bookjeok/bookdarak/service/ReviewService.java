@@ -3,7 +3,7 @@ package com.bookjeok.bookdarak.service;
 import com.bookjeok.bookdarak.base.BaseResponse;
 import com.bookjeok.bookdarak.base.BaseResponseStatus;
 import com.bookjeok.bookdarak.domain.Book;
-import com.bookjeok.bookdarak.domain.BookReview;
+import com.bookjeok.bookdarak.domain.Review;
 import com.bookjeok.bookdarak.domain.User;
 import com.bookjeok.bookdarak.dto.review.ReviewReq;
 import com.bookjeok.bookdarak.dto.review.ReviewRes;
@@ -41,10 +41,19 @@ public class ReviewService {
             return new BaseResponse<>(BaseResponseStatus.REVIEW_ALREADY_EXISTS);
         }
 
-        BookReview bookReview = reviewRepository.save(new BookReview(user, book, request.getRating(), request.getContent(),
-            request.getPhrase(), request.getPublicYn(), request.getStartDate(), request.getEndDate()));
+        Review review = reviewRepository.save(new Review(user, book, request.getRating(), request.getContent(),
+            request.getPhrase(),  request.getPublicYn(), request.getStartDate(), request.getEndDate()));
 
-        return new BaseResponse<>(new ReviewRes.AddReviewRes(bookReview.getId()));
+        return new BaseResponse<>(new ReviewRes.AddReviewRes(review.getId()));
+    }
+
+    public BaseResponse<ReviewRes.GetReviewRes> getReview(Long userId, Long bookId) {
+        Review review = reviewRepository.findReviewByUserIdAndBookId(userId, bookId);
+        if (review == null){
+            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_REVIEW);
+        }
+        return new BaseResponse<>(new ReviewRes.GetReviewRes(review.getRating(),review.getContent(),
+                review.getPhrase(),review.getPublicYn(),review.getLikeCount(),review.getStartDate(),review.getEndDate()));
     }
 
     //시작일, 종료일 크기 비교
@@ -63,5 +72,9 @@ public class ReviewService {
         int compare = startDate.compareTo( endDate );
 
         return (compare > 0);
+    }
+
+    public boolean isValidPublicYn(Character publicYn){
+        return publicYn=='Y'|| publicYn=='N';
     }
 }

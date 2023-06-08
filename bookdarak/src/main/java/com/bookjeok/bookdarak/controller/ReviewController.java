@@ -7,10 +7,7 @@ import com.bookjeok.bookdarak.dto.review.ReviewRes;
 import com.bookjeok.bookdarak.service.ReviewService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,10 +24,11 @@ public class ReviewController {
             return new BaseResponse<>(BaseResponseStatus.EMPTY_REVIEW_CONTENT);
 
         }
-        if (request.getPublicYn()!='Y' || request.getPublicYn()!='N'){
+        if (!reviewService.isValidPublicYn(request.getPublicYn())){
             return new BaseResponse<>(BaseResponseStatus.WRONG_REVIEW_PUBLIC_FORMAT);
 
         }
+
         if (request.getStartDate()==null){
             return new BaseResponse<>(BaseResponseStatus.EMPTY_REVIEW_START_DATE);
 
@@ -43,5 +41,11 @@ public class ReviewController {
             return new BaseResponse<>(BaseResponseStatus.INVALID_DATE_INTERVAL);
         }
         return reviewService.addReview(userId, bookId, request);
+    }
+
+    @ApiOperation(value = "유저Id와 책Id로 서평 조회")
+    @GetMapping("/reviews/{userId}/{bookId}")
+    public BaseResponse<ReviewRes.GetReviewRes> getReview(@PathVariable Long userId, @PathVariable Long bookId ){
+        return reviewService.getReview(userId, bookId);
     }
 }
