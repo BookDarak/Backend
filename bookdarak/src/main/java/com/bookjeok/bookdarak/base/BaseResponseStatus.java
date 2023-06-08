@@ -76,7 +76,7 @@ public enum BaseResponseStatus {
 
     EMPTY_REVIEW_CONTENT(false, 2041, "서평 내용을 입력해주세요."),
 
-    EMPTY_REVIEW_PUBLIC(false, 2042, "서평 공개 여부를 지정해주세요."),
+    WRONG_REVIEW_PUBLIC_FORMAT(false, 2042, "서평 공개 여부는 'Y'나 'N'으로 지정해주세요."),
 
     EMPTY_REVIEW_START_DATE(false, 2043, "시작 독서일을 선택해주세요."),
 

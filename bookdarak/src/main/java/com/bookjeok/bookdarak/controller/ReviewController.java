@@ -27,8 +27,8 @@ public class ReviewController {
             return new BaseResponse<>(BaseResponseStatus.EMPTY_REVIEW_CONTENT);
 
         }
-        if (request.getPublicYn()==null){
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_REVIEW_PUBLIC);
+        if (request.getPublicYn()!='Y' || request.getPublicYn()!='N'){
+            return new BaseResponse<>(BaseResponseStatus.WRONG_REVIEW_PUBLIC_FORMAT);
 
         }
         if (request.getStartDate()==null){
