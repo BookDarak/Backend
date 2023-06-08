@@ -48,4 +48,10 @@ public class ReviewController {
     public BaseResponse<ReviewRes.GetReviewRes> getReview(@PathVariable Long userId, @PathVariable Long bookId ){
         return reviewService.getReview(userId, bookId);
     }
+
+    @ApiOperation(value = "서평 삭제")
+    @DeleteMapping("/reviews/{userId}/{bookId}")
+    public BaseResponse<String> deleteReview(@PathVariable Long userId, @PathVariable Long bookId){
+        return reviewService.deleteReview(userId, bookId);
+    }
 }

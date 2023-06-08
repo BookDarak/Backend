@@ -56,6 +56,15 @@ public class ReviewService {
                 review.getPhrase(),review.getPublicYn(),review.getLikeCount(),review.getStartDate(),review.getEndDate()));
     }
 
+    public BaseResponse<String> deleteReview(Long userId, Long bookId){
+        Review review = reviewRepository.findReviewByUserIdAndBookId(userId, bookId);
+        if (review == null){
+            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_REVIEW);
+        }
+        reviewRepository.delete(review);
+        return new BaseResponse<>("리뷰를 성공적으로 삭제했습니다.");
+    }
+
     //시작일, 종료일 크기 비교
     public boolean isValidDateInterval(LocalDate stDate, LocalDate edDate){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
