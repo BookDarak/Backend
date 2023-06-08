@@ -18,22 +18,13 @@ public class Book extends BaseEntity {
 
     private String name;
     private String author;
-    private String publisher;
-    private LocalDate publishedDate;
-
-    private int price;
-    private String introduction;
-    private String siteUrl;
+    private String isbn;
     private String imgUrl;
 
-    public Book(String name, String author, String publisher, LocalDate publishedDate, int price, String introduction, String siteUrl, String imgUrl) {
+    public Book(String name, String author,  String isbn, String imgUrl) {
         this.name = name;
         this.author = author;
-        this.publisher = publisher;
-        this.publishedDate = publishedDate;
-        this.price = price;
-        this.introduction = introduction;
-        this.siteUrl = siteUrl;
+        this.isbn = isbn;
         this.imgUrl = imgUrl;
     }
 }

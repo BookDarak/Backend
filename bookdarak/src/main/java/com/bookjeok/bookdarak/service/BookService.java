@@ -21,16 +21,15 @@ public class BookService {
 
     public BaseResponse<BookRes.BookFindRes> findBookByName(BookReq.FindBookReq request){
         /*
-        받은 정보 중 책이름 & 출판사로 책 검색
+        받은 정보 중 isbn으로 책 검색
         책 있으면 책 아이디 반환
         책 없으면 책 저장 후 아이디 반환
          */
-        Book book = bookRepository.findBookByNameAndPublisher(request.getName(), request.getPublisher());
+        Book book = bookRepository.findBookByIsbn(request.getIsbn());
 
         String author = listToString(request.getAuthorList());
         if (book == null){
-            book = bookRepository.save(new Book(request.getName(), author ,request.getPublisher(),
-                    request.getPublishedDate(),request.getPrice(), request.getIntroduction(),request.getSiteUrl(),request.getImgUrl()));
+            book = bookRepository.save(new Book(request.getName(), author , request.getIsbn(),request.getImgUrl()));
         }
         return new BaseResponse<>(new BookRes.BookFindRes(book.getId()));
     }
@@ -43,7 +42,7 @@ public class BookService {
         Book book = bookRepository.findById(id).orElseThrow();
 
         List<String> authorList = stringToList(book.getAuthor());
-        return new BaseResponse<>(new BookRes.BookInfoRes(book.getName(),authorList, book.getPublisher(), book.getPublishedDate(),book.getPrice(),book.getIntroduction(),book.getSiteUrl(),book.getImgUrl()));
+        return new BaseResponse<>(new BookRes.BookInfoRes(book.getName(),authorList, book.getIsbn(),book.getImgUrl()));
     }
 
     private String listToString(List<String> authorList){

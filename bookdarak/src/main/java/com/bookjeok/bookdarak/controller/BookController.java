@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class BookController {
     private final BookService bookService;
 
-    @ApiOperation(value = "도서 검색", notes = "책 이름과 출판사로 책 검색해서 ID 반환; 책 없으면 DB에 저장 후 ID 반환")
+    @ApiOperation(value = "도서 검색", notes = "책 isbn으로 책 검색해서 ID 반환; 책 없으면 DB에 저장 후 ID 반환")
     @PostMapping("/books")
     public BaseResponse<BookRes.BookFindRes> findBookByNameAndPub(@RequestBody BookReq.FindBookReq request){
         if (request.getName().isBlank()){
@@ -23,8 +23,8 @@ public class BookController {
         if (request.getAuthorList() == null || request.getAuthorList().isEmpty()){
             return new BaseResponse<>(BaseResponseStatus.EMPTY_BOOK_AUTHOR);
         }
-        if (request.getPublisher().isBlank()){
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_BOOK_PUBLISHER);
+        if (request.getIsbn().isBlank()){
+            return new BaseResponse<>(BaseResponseStatus.EMPTY_BOOK_ISBN);
         }
         return bookService.findBookByName(request);
     }

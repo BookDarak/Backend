@@ -63,7 +63,7 @@ public enum BaseResponseStatus {
 
     EMPTY_BOOK_AUTHOR(false, 2031, "저자를 입력해주세요."),
 
-    EMPTY_BOOK_PUBLISHER(false, 2032, "도서 출판사를 입력해주세요."),
+    EMPTY_BOOK_ISBN(false, 2032, "isbn을 입력해주세요."),
 
     NOT_EXIST_BOOK_ID(false, 2033, "존재하지 않는 책 id입니다."),
 

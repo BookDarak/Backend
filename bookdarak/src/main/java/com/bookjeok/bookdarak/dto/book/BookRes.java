@@ -16,11 +16,7 @@ public class BookRes {
     public static class BookInfoRes{
         private String name;
         private List<String> authorList;
-        private String publisher;
-        private LocalDate publishedDate;
-        private int price;
-        private String introduction;
-        private String siteUrl;
+        private String isbn;
         private String imgUrl;
     }
 }
