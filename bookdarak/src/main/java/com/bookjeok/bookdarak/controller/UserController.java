@@ -18,26 +18,26 @@ public class UserController {
     @ApiOperation(value = "회원가입")
     @PostMapping("/signup")
     public BaseResponse<UserRes.UserIdRes> signup(@RequestBody UserReq.SignupReq request){
-        if (request.getEmail().isBlank()){
+        if (request.getEmail()==null){
             return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_EMAIL);
         }
-        if (!userService.isValidEmailFormat(request.getEmail())){
+        if (userService.isInValidEmailFormat(request.getEmail())){
             return new BaseResponse<>(BaseResponseStatus.INVALID_USER_EMAIL);
         }
-        if (request.getPassword().isBlank()){
+        if (request.getPassword()==null) {
             return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_PASSWORD);
         }
-        if (!userService.isValidPasswordFormat(request.getPassword())) {
+        if (userService.isInValidPasswordFormat(request.getPassword())) {
             return new BaseResponse<>(BaseResponseStatus.INVALID_FORMAT_PASSWORD);
         }
 
-        if (request.getName().isBlank()){
+        if (request.getName() == null || request.getName().isBlank()){
             return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_NICKNAME);
         }
         if (request.getAge() == null){
             return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_AGE);
         }
-        if (request.getIntroduction().isBlank()){
+        if (request.getIntroduction() == null || request.getIntroduction().isBlank()){
             return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_INTRO);
         }
         return userService.signup(request);
@@ -45,12 +45,12 @@ public class UserController {
     @ApiOperation(value = "로그인")
     @PostMapping("/login")
     public BaseResponse<UserRes.UserIdRes> login(@RequestBody UserReq.LoginReq request){
-        if (request.getEmail().isBlank())
+        if (request.getEmail() == null)
             return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_EMAIL);
-        if (!userService.isValidEmailFormat(request.getEmail())){
+        if (userService.isInValidEmailFormat(request.getEmail())){
             return new BaseResponse<>(BaseResponseStatus.INVALID_USER_EMAIL);
         }
-        if (request.getPassword().isBlank())
+        if (request.getPassword() == null)
             return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_PASSWORD);
 
         return userService.login(request);

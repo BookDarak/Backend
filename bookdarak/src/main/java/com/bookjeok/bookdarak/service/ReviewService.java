@@ -18,7 +18,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.Objects;
 
 @Service
 @Transactional
@@ -94,6 +93,6 @@ public class ReviewService {
     }
 
     public boolean isInValidPublicYn(String publicYn){
-        return !(Objects.equals(publicYn, "Y") || Objects.equals(publicYn, "N"));
+        return !(publicYn.equals("Y") || publicYn.equals("N"));
     }
 }

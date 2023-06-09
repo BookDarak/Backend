@@ -19,7 +19,7 @@ import java.util.List;
 public class BookService {
     private final BookRepository bookRepository;
 
-    public BaseResponse<BookRes.BookFindRes> findBookByName(BookReq.FindBookReq request){
+    public BaseResponse<BookRes.BookFindRes> findBookByIsbn(BookReq.FindBookReq request){
         /*
         받은 정보 중 isbn으로 책 검색
         책 있으면 책 아이디 반환
@@ -45,6 +45,8 @@ public class BookService {
         return new BaseResponse<>(new BookRes.BookInfoRes(book.getName(),authorList, book.getIsbn(),book.getImgUrl()));
     }
 
+
+    // author 타입 변환 함수
     private String listToString(List<String> authorList){
         String author = "";
         for (String item : authorList) {

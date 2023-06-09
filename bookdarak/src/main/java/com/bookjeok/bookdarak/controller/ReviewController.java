@@ -20,7 +20,7 @@ public class ReviewController {
         if (request.getRating()==null){
             return new BaseResponse<>(BaseResponseStatus.EMPTY_REVIEW_RATING);
         }
-        if (request.getContent().isBlank()){
+        if (request.getContent()==null || request.getContent().isBlank()){
             return new BaseResponse<>(BaseResponseStatus.EMPTY_REVIEW_CONTENT);
 
         }

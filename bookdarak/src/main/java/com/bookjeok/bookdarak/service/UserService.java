@@ -58,7 +58,7 @@ public class UserService {
     }
 
     /**이메일 형식 검사 **/
-    public boolean isValidEmailFormat(String email){
+    public boolean isInValidEmailFormat(String email){
         boolean validation = false;
 
         String regex = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
@@ -67,10 +67,10 @@ public class UserService {
         if (m.matches())
             validation = true;
 
-        return validation;
+        return !validation;
     }
     /**비밀번호 형식 검사 **/
-    public boolean isValidPasswordFormat(String password){
+    public boolean isInValidPasswordFormat(String password){
         boolean validation = false;
         String regex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
         Pattern p = Pattern.compile(regex);
@@ -78,6 +78,6 @@ public class UserService {
         if (m.matches())
             validation = true;
 
-        return validation;
+        return !validation;
     }
 }
