@@ -24,7 +24,7 @@ public class ReviewController {
             return new BaseResponse<>(BaseResponseStatus.EMPTY_REVIEW_CONTENT);
 
         }
-        if (!reviewService.isValidPublicYn(request.getPublicYn())){
+        if (reviewService.isInValidPublicYn(request.getPublicYn())){
             return new BaseResponse<>(BaseResponseStatus.WRONG_REVIEW_PUBLIC_FORMAT);
 
         }
@@ -37,7 +37,7 @@ public class ReviewController {
             return new BaseResponse<>(BaseResponseStatus.EMPTY_REVIEW_END_DATE);
 
         }
-        if (reviewService.isValidDateInterval(request.getStartDate(),request.getEndDate())){
+        if (reviewService.isInValidDateInterval(request.getStartDate(),request.getEndDate())){
             return new BaseResponse<>(BaseResponseStatus.INVALID_DATE_INTERVAL);
         }
         return reviewService.addReview(userId, bookId, request);
@@ -48,10 +48,10 @@ public class ReviewController {
         if (request.getContent()!=null && request.getContent().isBlank()){
             return new BaseResponse<>(BaseResponseStatus.EMPTY_REVIEW_CONTENT);
         }
-        if (request.getPublicYn()!=null && !reviewService.isValidPublicYn(request.getPublicYn())){
+        if (request.getPublicYn()!=null && reviewService.isInValidPublicYn(request.getPublicYn())){
             return new BaseResponse<>(BaseResponseStatus.WRONG_REVIEW_PUBLIC_FORMAT);
         }
-        if (request.getStartDate()!=null&& request.getEndDate()!=null&& reviewService.isValidDateInterval(request.getStartDate(),request.getEndDate())){
+        if (request.getStartDate()!=null&& request.getEndDate()!=null&& reviewService.isInValidDateInterval(request.getStartDate(),request.getEndDate())){
             return new BaseResponse<>(BaseResponseStatus.INVALID_DATE_INTERVAL);
         }
         return reviewService.updateReview(request, userId, bookId);

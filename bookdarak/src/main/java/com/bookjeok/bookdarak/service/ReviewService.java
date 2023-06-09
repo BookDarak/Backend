@@ -76,7 +76,7 @@ public class ReviewService {
     }
 
     //시작일, 종료일 크기 비교
-    public boolean isValidDateInterval(LocalDate stDate, LocalDate edDate){
+    public boolean isInValidDateInterval(LocalDate stDate, LocalDate edDate){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date startDate;
         Date endDate;
@@ -90,10 +90,10 @@ public class ReviewService {
         }
         int compare = startDate.compareTo( endDate );
 
-        return (compare > 0);
+        return (compare < 0);
     }
 
-    public boolean isValidPublicYn(String publicYn){
-        return Objects.equals(publicYn, "Y") || Objects.equals(publicYn, "N");
+    public boolean isInValidPublicYn(String publicYn){
+        return !(Objects.equals(publicYn, "Y") || Objects.equals(publicYn, "N"));
     }
 }
