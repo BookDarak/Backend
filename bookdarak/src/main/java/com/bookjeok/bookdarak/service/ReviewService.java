@@ -18,6 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -58,7 +59,7 @@ public class ReviewService {
 
     public BaseResponse<String> updateReview(ReviewReq.UpdateReviewReq request, Long userId, Long bookId){
         Review review = reviewRepository.findReviewByUserIdAndBookId(userId, bookId);
-        if (review !=null){
+        if (review ==null){
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_REVIEW);
         }
         review.updateReview(request);
@@ -92,7 +93,7 @@ public class ReviewService {
         return (compare > 0);
     }
 
-    public boolean isValidPublicYn(Character publicYn){
-        return publicYn=='Y'|| publicYn=='N';
+    public boolean isValidPublicYn(String publicYn){
+        return Objects.equals(publicYn, "Y") || Objects.equals(publicYn, "N");
     }
 }

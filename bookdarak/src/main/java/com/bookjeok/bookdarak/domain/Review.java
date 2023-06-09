@@ -30,14 +30,14 @@ public class Review extends BaseEntity {
     private String content;
     private String phrase;
 
-    private Character publicYn; // Y, N
+    private String publicYn; // Y, N
     private int likeCount;
 
     private LocalDate startDate;
     private LocalDate endDate;
 
 
-    public Review(User user, Book book, BigDecimal rating, String content, String phrase, Character publicYn,  LocalDate startDate, LocalDate endDate) {
+    public Review(User user, Book book, BigDecimal rating, String content, String phrase, String publicYn,  LocalDate startDate, LocalDate endDate) {
         this.user = user;
         this.book = book;
         this.rating = rating;

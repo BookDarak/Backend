@@ -11,7 +11,7 @@ public class ReviewReq {
         private BigDecimal rating;
         private String content;
         private String phrase;
-        private Character publicYn;
+        private String publicYn;
         private int likeCount;
         private LocalDate startDate;
         private LocalDate endDate;
@@ -22,7 +22,7 @@ public class ReviewReq {
         private BigDecimal rating;
         private String content;
         private String phrase;
-        private Character publicYn;
+        private String publicYn;
         private int likeCount;
         private LocalDate startDate;
         private LocalDate endDate;

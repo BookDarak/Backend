@@ -23,5 +23,5 @@ public class Bookmark extends BaseEntity {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    private Character bookmarkYn; //Y,N
+    private String bookmarkYn; //Y,N
 }
