@@ -43,6 +43,20 @@ public class ReviewController {
         return reviewService.addReview(userId, bookId, request);
     }
 
+    @PatchMapping("/reviews/{userId}/{bookId}")
+    public BaseResponse<String> updateReview(@RequestBody ReviewReq.UpdateReviewReq request,@PathVariable Long userId, @PathVariable Long bookId){
+        if (request.getContent()!=null && request.getContent().isBlank()){
+            return new BaseResponse<>(BaseResponseStatus.EMPTY_REVIEW_CONTENT);
+        }
+        if (request.getPublicYn()!=null && !reviewService.isValidPublicYn(request.getPublicYn())){
+            return new BaseResponse<>(BaseResponseStatus.WRONG_REVIEW_PUBLIC_FORMAT);
+        }
+        if (request.getStartDate()!=null&& request.getEndDate()!=null&& reviewService.isValidDateInterval(request.getStartDate(),request.getEndDate())){
+            return new BaseResponse<>(BaseResponseStatus.INVALID_DATE_INTERVAL);
+        }
+        return reviewService.updateReview(request, userId, bookId);
+    }
+
     @ApiOperation(value = "유저Id와 책Id로 서평 조회")
     @GetMapping("/reviews/{userId}/{bookId}")
     public BaseResponse<ReviewRes.GetReviewRes> getReview(@PathVariable Long userId, @PathVariable Long bookId ){

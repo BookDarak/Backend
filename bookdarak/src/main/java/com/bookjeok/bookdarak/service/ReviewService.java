@@ -56,13 +56,22 @@ public class ReviewService {
                 review.getPhrase(),review.getPublicYn(),review.getLikeCount(),review.getStartDate(),review.getEndDate()));
     }
 
+    public BaseResponse<String> updateReview(ReviewReq.UpdateReviewReq request, Long userId, Long bookId){
+        Review review = reviewRepository.findReviewByUserIdAndBookId(userId, bookId);
+        if (review !=null){
+            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_REVIEW);
+        }
+        review.updateReview(request);
+        return new BaseResponse<>("서평을 성공적으로 수정했습니다.");
+    }
+
     public BaseResponse<String> deleteReview(Long userId, Long bookId){
         Review review = reviewRepository.findReviewByUserIdAndBookId(userId, bookId);
         if (review == null){
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_REVIEW);
         }
         reviewRepository.delete(review);
-        return new BaseResponse<>("리뷰를 성공적으로 삭제했습니다.");
+        return new BaseResponse<>("서평을 성공적으로 삭제했습니다.");
     }
 
     //시작일, 종료일 크기 비교

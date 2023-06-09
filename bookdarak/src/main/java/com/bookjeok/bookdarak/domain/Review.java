@@ -1,6 +1,7 @@
 package com.bookjeok.bookdarak.domain;
 
 import com.bookjeok.bookdarak.base.BaseEntity;
+import com.bookjeok.bookdarak.dto.review.ReviewReq;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,5 +46,27 @@ public class Review extends BaseEntity {
         this.publicYn = publicYn;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    //PATCH
+    public void updateReview(ReviewReq.UpdateReviewReq updateDto){
+        if (updateDto.getRating()!=null){
+            this.rating = updateDto.getRating();
+        }
+        if (updateDto.getContent()!=null){
+            this.content = updateDto.getContent();
+        }
+        if (updateDto.getPhrase()!=null){
+            this.phrase = updateDto.getPhrase();
+        }
+        if (updateDto.getPublicYn()!=null){
+            this.publicYn = updateDto.getPublicYn();
+        }
+        if (updateDto.getStartDate()!=null){
+            this.startDate = updateDto.getStartDate();
+        }
+        if (updateDto.getEndDate()!=null){
+            this.endDate = updateDto.getEndDate();
+        }
     }
 }

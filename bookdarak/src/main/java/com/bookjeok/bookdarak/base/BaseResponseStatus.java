@@ -85,7 +85,7 @@ public enum BaseResponseStatus {
     INVALID_DATE_INTERVAL(false,2045, "시작일은 완료일보다 앞서야 합니다."),
 
 
-    NOT_EXIST_REVIEW(false, 2050, "해당 리뷰가 존재하지 않습니다."),
+    NOT_EXIST_REVIEW(false, 2050, "해당 서평이 존재하지 않습니다."),
 
     /**
      * 3000 : Response 오류

@@ -16,4 +16,15 @@ public class ReviewReq {
         private LocalDate startDate;
         private LocalDate endDate;
     }
+
+    @Getter
+    public static class UpdateReviewReq{
+        private BigDecimal rating;
+        private String content;
+        private String phrase;
+        private Character publicYn;
+        private int likeCount;
+        private LocalDate startDate;
+        private LocalDate endDate;
+    }
 }
