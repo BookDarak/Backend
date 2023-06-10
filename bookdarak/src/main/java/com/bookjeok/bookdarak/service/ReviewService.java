@@ -47,6 +47,7 @@ public class ReviewService {
         return new BaseResponse<>(new ReviewRes.AddReviewRes(review.getId()));
     }
 
+    @Transactional(readOnly = true)
     public BaseResponse<ReviewRes.GetReviewRes> getReview(Long userId, Long bookId) {
         Review review = reviewRepository.findReviewByUserIdAndBookId(userId, bookId);
         if (review == null){
@@ -89,7 +90,7 @@ public class ReviewService {
         }
         int compare = startDate.compareTo( endDate );
 
-        return (compare < 0);
+        return (compare > 0);
     }
 
     public boolean isInValidPublicYn(String publicYn){

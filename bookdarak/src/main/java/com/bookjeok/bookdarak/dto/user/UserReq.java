@@ -15,7 +15,7 @@ public class UserReq {
         @NotBlank(message="비밀번호를 입력해주세요.")
         private String password;
 
-        @NotBlank(message="이름을 입력해주세요.")
+        @NotBlank(message="닉네임을 입력해주세요.")
         private String name;
         @NotNull(message="나이를 입력해주세요.")
         private Integer age;

@@ -47,7 +47,6 @@ public class GlobalExceptionHandler{
                 rating, content, publicYn, sDate, eDate};
 
         for (BaseResponseStatus status: statusList) {
-            System.out.println(status);
             if (errors.contains(status.getMessage())){
                 return new BaseResponse<>(status);
             }
