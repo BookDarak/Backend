@@ -9,6 +9,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 public class BookController {
@@ -16,16 +18,7 @@ public class BookController {
 
     @ApiOperation(value = "도서 검색", notes = "책 isbn으로 책 검색해서 ID 반환; 책 없으면 DB에 저장 후 ID 반환")
     @PostMapping("/books")
-    public BaseResponse<BookRes.BookFindRes> findBookByNameAndPub(@RequestBody BookReq.FindBookReq request){
-        if (request.getName()==null || request.getName().isBlank()){
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_BOOK_NAME);
-        }
-        if (request.getAuthorList() == null || request.getAuthorList().isEmpty()){
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_BOOK_AUTHOR);
-        }
-        if (request.getName()==null || request.getIsbn().isBlank()){
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_BOOK_ISBN);
-        }
+    public BaseResponse<BookRes.BookFindRes> findBookByNameAndPub(@Valid @RequestBody BookReq.FindBookReq request){
         return bookService.findBookByIsbn(request);
     }
 

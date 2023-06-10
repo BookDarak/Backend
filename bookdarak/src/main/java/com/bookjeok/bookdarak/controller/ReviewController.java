@@ -9,6 +9,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 public class ReviewController {
@@ -16,25 +18,9 @@ public class ReviewController {
 
     @ApiOperation(value = "서평 작성")
     @PostMapping("/reviews/{userId}/{bookId}")
-    public BaseResponse<ReviewRes.AddReviewRes> addReview (@PathVariable Long userId, @PathVariable Long bookId, @RequestBody ReviewReq.AddReviewReq request){
-        if (request.getRating()==null){
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_REVIEW_RATING);
-        }
-        if (request.getContent()==null || request.getContent().isBlank()){
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_REVIEW_CONTENT);
-
-        }
+    public BaseResponse<ReviewRes.AddReviewRes> addReview (@PathVariable Long userId, @PathVariable Long bookId, @Valid @RequestBody ReviewReq.AddReviewReq request){
         if (reviewService.isInValidPublicYn(request.getPublicYn())){
             return new BaseResponse<>(BaseResponseStatus.WRONG_REVIEW_PUBLIC_FORMAT);
-
-        }
-
-        if (request.getStartDate()==null){
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_REVIEW_START_DATE);
-
-        }
-        if (request.getEndDate()==null){
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_REVIEW_END_DATE);
 
         }
         if (reviewService.isInValidDateInterval(request.getStartDate(),request.getEndDate())){

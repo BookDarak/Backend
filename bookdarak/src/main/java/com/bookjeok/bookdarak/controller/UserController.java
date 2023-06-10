@@ -17,42 +17,23 @@ public class UserController {
     private final UserService userService;
     @ApiOperation(value = "회원가입")
     @PostMapping("/signup")
-    public BaseResponse<UserRes.UserIdRes> signup(@RequestBody UserReq.SignupReq request){
-        if (request.getEmail()==null){
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_EMAIL);
-        }
+    public BaseResponse<UserRes.UserIdRes> signup(@Valid @RequestBody UserReq.SignupReq request){
+
         if (userService.isInValidEmailFormat(request.getEmail())){
             return new BaseResponse<>(BaseResponseStatus.INVALID_USER_EMAIL);
-        }
-        if (request.getPassword()==null) {
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_PASSWORD);
         }
         if (userService.isInValidPasswordFormat(request.getPassword())) {
             return new BaseResponse<>(BaseResponseStatus.INVALID_FORMAT_PASSWORD);
         }
 
-        if (request.getName() == null || request.getName().isBlank()){
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_NICKNAME);
-        }
-        if (request.getAge() == null){
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_AGE);
-        }
-        if (request.getIntroduction() == null || request.getIntroduction().isBlank()){
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_INTRO);
-        }
         return userService.signup(request);
     }
     @ApiOperation(value = "로그인")
     @PostMapping("/login")
-    public BaseResponse<UserRes.UserIdRes> login(@RequestBody UserReq.LoginReq request){
-        if (request.getEmail() == null)
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_EMAIL);
+    public BaseResponse<UserRes.UserIdRes> login(@Valid @RequestBody UserReq.LoginReq request){
         if (userService.isInValidEmailFormat(request.getEmail())){
             return new BaseResponse<>(BaseResponseStatus.INVALID_USER_EMAIL);
         }
-        if (request.getPassword() == null)
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_USER_PASSWORD);
-
         return userService.login(request);
     }
 

@@ -72,17 +72,19 @@ public enum BaseResponseStatus {
     EMPTY_USER_INTRO(false, 2035, "자기소개를 입력해주세요."),
 
 
-    EMPTY_REVIEW_RATING(false, 2040, "평점 입력해주세요."),
+    EMPTY_REVIEW_RATING(false, 2040, "평점을 입력해주세요."),
 
     EMPTY_REVIEW_CONTENT(false, 2041, "서평 내용을 입력해주세요."),
 
-    WRONG_REVIEW_PUBLIC_FORMAT(false, 2042, "공개여부 형식이 올바르지 않습니다."),
+    EMPTY_PUBLIC_YN(false, 2042, "공개여부를 입력해주세요."),
 
-    EMPTY_REVIEW_START_DATE(false, 2043, "시작 독서일을 선택해주세요."),
+    WRONG_REVIEW_PUBLIC_FORMAT(false, 2043, "공개여부 형식이 올바르지 않습니다."),
 
-    EMPTY_REVIEW_END_DATE(false, 2044, "완료 독서일을 선택해주세요."),
+    EMPTY_REVIEW_START_DATE(false, 2044, "시작 독서일을 선택해주세요."),
 
-    INVALID_DATE_INTERVAL(false,2045, "시작일은 완료일보다 앞서야 합니다."),
+    EMPTY_REVIEW_END_DATE(false, 2045, "완료 독서일을 선택해주세요."),
+
+    INVALID_DATE_INTERVAL(false,2046, "시작일은 완료일보다 앞서야 합니다."),
 
 
     NOT_EXIST_REVIEW(false, 2050, "해당 서평이 존재하지 않습니다."),
