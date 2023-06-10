@@ -49,12 +49,12 @@ public class UserService {
         return new BaseResponse<>(new UserRes.UserIdRes(user.getId()));
     }
 
-    public BaseResponse<UserRes.UserIdRes> deleteUser(Long id){
+    public BaseResponse<String> deleteUser(Long id){
         if (!userRepository.existsById(id)){
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USER_ID);
         }
         userRepository.deleteById(id);
-        return new BaseResponse<>(new UserRes.UserIdRes(id));
+        return new BaseResponse<>("회원탈퇴가 완료되었습니다.");
     }
 
     /**이메일 형식 검사 **/

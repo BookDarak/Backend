@@ -63,7 +63,7 @@ public class ReviewService {
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_REVIEW);
         }
         review.updateReview(request);
-        return new BaseResponse<>("서평을 성공적으로 수정했습니다.");
+        return new BaseResponse<>("수정을 완료했습니다.");
     }
 
     public BaseResponse<String> deleteReview(Long userId, Long bookId){
@@ -72,7 +72,7 @@ public class ReviewService {
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_REVIEW);
         }
         reviewRepository.delete(review);
-        return new BaseResponse<>("서평을 성공적으로 삭제했습니다.");
+        return new BaseResponse<>("삭제를 완료했습니다.");
     }
 
     //시작일, 종료일 크기 비교
