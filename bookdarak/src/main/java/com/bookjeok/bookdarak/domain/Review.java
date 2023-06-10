@@ -31,7 +31,7 @@ public class Review extends BaseEntity {
     private String phrase;
 
     private String publicYn; // Y, N
-    private int likeCount;
+    private Integer likeCount;
 
     private LocalDate startDate;
     private LocalDate endDate;
@@ -61,6 +61,9 @@ public class Review extends BaseEntity {
         }
         if (updateDto.getPublicYn()!=null){
             this.publicYn = updateDto.getPublicYn();
+        }
+        if (updateDto.getLikeCount()!=null){
+            this.likeCount = updateDto.getLikeCount();
         }
         if (updateDto.getStartDate()!=null){
             this.startDate = updateDto.getStartDate();

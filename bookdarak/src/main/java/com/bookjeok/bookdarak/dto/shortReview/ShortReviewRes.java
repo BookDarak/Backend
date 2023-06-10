@@ -3,7 +3,6 @@ package com.bookjeok.bookdarak.dto.shortReview;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -18,7 +17,7 @@ public class ShortReviewRes {
         private Long bookId;
         private String bookImgUrl;
         private BigDecimal rating;
-        private int likeCount;
+        private Integer likeCount;
         private LocalDate updatedDate;
     }
 }

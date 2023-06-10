@@ -21,7 +21,7 @@ public class ReviewReq {
         @NotBlank(message="공개여부를 입력해주세요.")
         private String publicYn;
 
-        private int likeCount;
+        private Integer likeCount;
 
         @NotNull(message="시작 독서일을 선택해주세요.")
         private LocalDate startDate;
@@ -36,7 +36,7 @@ public class ReviewReq {
         private String content;
         private String phrase;
         private String publicYn;
-        private int likeCount;
+        private Integer likeCount;
         private LocalDate startDate;
         private LocalDate endDate;
     }

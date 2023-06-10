@@ -16,7 +16,7 @@ import java.util.List;
 public class ShortReviewController {
     private final ShortReviewService shortReviewService;
 
-    @ApiOperation(value = "모든 공개 서평 조회", notes = "추천순, 최신순 정렬")
+    @ApiOperation(value = "모든 공개 서평(요약) 조회", notes = "추천순, 최신순 정렬")
     @GetMapping("/reviews/short")
     public BaseResponse<List<ShortReviewRes.publicReviews>>
     getPublicReviews(@RequestParam(required = false, defaultValue = "likeCount") String orderCriteria) {
