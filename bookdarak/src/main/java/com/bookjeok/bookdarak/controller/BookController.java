@@ -1,7 +1,6 @@
 package com.bookjeok.bookdarak.controller;
 
 import com.bookjeok.bookdarak.base.BaseResponse;
-import com.bookjeok.bookdarak.base.BaseResponseStatus;
 import com.bookjeok.bookdarak.dto.book.BookReq;
 import com.bookjeok.bookdarak.dto.book.BookRes;
 import com.bookjeok.bookdarak.service.BookService;
@@ -18,13 +17,13 @@ public class BookController {
 
     @ApiOperation(value = "도서 검색", notes = "책 isbn으로 책 검색해서 ID 반환; 책 없으면 DB에 저장 후 ID 반환")
     @PostMapping("/books")
-    public BaseResponse<BookRes.BookFindRes> findBookByNameAndPub(@Valid @RequestBody BookReq.FindBookReq request){
+    public BaseResponse<BookRes.BookId> findBookByNameAndPub(@Valid @RequestBody BookReq.bookInfo request){
         return bookService.findBookByIsbn(request);
     }
 
     @ApiOperation(value = "책 정보 조회", notes = "책 아이디 사용")
     @GetMapping("/books/{id}")
-    public BaseResponse<BookRes.BookInfoRes> getBookInfo(@PathVariable Long id){
+    public BaseResponse<BookRes.BookInfo> getBookInfo(@PathVariable Long id){
         return bookService.getBookInfo(id);
     }
 }

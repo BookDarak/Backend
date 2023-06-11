@@ -10,16 +10,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class BookService {
     private final BookRepository bookRepository;
 
-    public BaseResponse<BookRes.BookFindRes> findBookByIsbn(BookReq.FindBookReq request){
+    public BaseResponse<BookRes.BookId> findBookByIsbn(BookReq.bookInfo request){
         /*
         받은 정보 중 isbn으로 책 검색
         책 있으면 책 아이디 반환
@@ -27,35 +24,21 @@ public class BookService {
          */
         Book book = bookRepository.findBookByIsbn(request.getIsbn());
 
-        String author = listToString(request.getAuthorList());
         if (book == null){
-            book = bookRepository.save(new Book(request.getName(), author , request.getIsbn(),request.getImgUrl()));
+            book = bookRepository.save(new Book(request));
         }
-        return new BaseResponse<>(new BookRes.BookFindRes(book.getId()));
+        return new BaseResponse<>(new BookRes.BookId(book.getId()));
     }
 
     @Transactional(readOnly = true)
-    public BaseResponse<BookRes.BookInfoRes> getBookInfo(Long id){
+    public BaseResponse<BookRes.BookInfo> getBookInfo(Long id){
         if (!bookRepository.existsById(id)){
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_BOOK_ID);
         }
         Book book = bookRepository.findById(id).orElseThrow();
 
-        List<String> authorList = stringToList(book.getAuthor());
-        return new BaseResponse<>(new BookRes.BookInfoRes(book.getName(),authorList, book.getIsbn(),book.getImgUrl()));
-    }
+        BookRes.BookInfo bookInfoRes = new BookRes.BookInfo(book);
 
-
-    // author 타입 변환 함수
-    private String listToString(List<String> authorList){
-        String author = "";
-        for (String item : authorList) {
-            author += item + ",";
-        }
-        return author;
-    }
-
-    private List<String> stringToList(String author){
-        return Arrays.asList(author.split("\\s*,\\s*"));
+        return new BaseResponse<>(bookInfoRes);
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 public class BookReq {
     @Getter @AllArgsConstructor
-    public static class FindBookReq{
+    public static class bookInfo {
         @NotBlank(message="도서명을 입력해주세요.")
         private String name;
 
