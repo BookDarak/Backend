@@ -69,28 +69,4 @@ public class UserService {
         userRepository.deleteById(id);
         return new BaseResponse<>("회원탈퇴가 완료되었습니다.");
     }
-
-    /**이메일 형식 검사 **/
-    public boolean isInValidEmailFormat(String email){
-        boolean validation = false;
-
-        String regex = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(email);
-        if (m.matches())
-            validation = true;
-
-        return !validation;
-    }
-    /**비밀번호 형식 검사 **/
-    public boolean isInValidPasswordFormat(String password){
-        boolean validation = false;
-        String regex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(password);
-        if (m.matches())
-            validation = true;
-
-        return !validation;
-    }
 }

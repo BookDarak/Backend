@@ -35,7 +35,7 @@ public enum BaseResponseStatus {
 
     EMPTY_USER_PASSWORD(false, 2017, "비밀번호를 입력해주세요."),
 
-    INVALID_FORMAT_PASSWORD(false, 2018, "비밀번호는 숫자, 영문, 특수문자를 각 1자리 이상 포함해서 8자~16자 이내로 설정해주세요."),
+    INVALID_FORMAT_PASSWORD(false, 2018, "비밀번호는 숫자, 영문, 특수문자를 포함해서 8자~16자 이내로 설정해주세요."),
 
     FAILED_TO_SIGN_UP(false, 2019, "회원가입에 실패하였습니다."),
 

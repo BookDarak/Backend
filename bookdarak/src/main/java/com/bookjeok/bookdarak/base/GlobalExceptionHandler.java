@@ -25,7 +25,9 @@ public class GlobalExceptionHandler{
     private BaseResponse<BaseResponseStatus> extractErrors(List<String> errors){
         // 회원
         BaseResponseStatus email = BaseResponseStatus.EMPTY_USER_EMAIL;
+        BaseResponseStatus emailFormat = BaseResponseStatus.INVALID_USER_EMAIL;
         BaseResponseStatus pwd = BaseResponseStatus.EMPTY_USER_PASSWORD;
+        BaseResponseStatus pwdFormat = BaseResponseStatus.INVALID_FORMAT_PASSWORD;
         BaseResponseStatus age = BaseResponseStatus.EMPTY_USER_AGE;
         BaseResponseStatus name = BaseResponseStatus.EMPTY_USER_NICKNAME;
         BaseResponseStatus intro = BaseResponseStatus.EMPTY_USER_INTRO;
@@ -43,7 +45,7 @@ public class GlobalExceptionHandler{
         BaseResponseStatus sDate = BaseResponseStatus.EMPTY_REVIEW_START_DATE;
         BaseResponseStatus eDate = BaseResponseStatus.EMPTY_REVIEW_END_DATE;
 
-        BaseResponseStatus[] statusList = new BaseResponseStatus[]{email, pwd, name, age, intro,
+        BaseResponseStatus[] statusList = new BaseResponseStatus[]{email, emailFormat, pwd, pwdFormat, name, age, intro,
                 bookName, authors, isbn,
                 rating, content, publicYn, sDate, eDate};
 
@@ -53,7 +55,6 @@ public class GlobalExceptionHandler{
             }
         }
         return new BaseResponse<>(BaseResponseStatus.RESPONSE_ERROR);
-
 
     }
 

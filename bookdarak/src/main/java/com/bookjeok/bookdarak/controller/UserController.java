@@ -18,22 +18,11 @@ public class UserController {
     @ApiOperation(value = "회원가입")
     @PostMapping("/signup")
     public BaseResponse<UserRes.UserId> signup(@Valid @RequestBody UserReq.Signup request){
-
-        if (userService.isInValidEmailFormat(request.getEmail())){
-            return new BaseResponse<>(BaseResponseStatus.INVALID_USER_EMAIL);
-        }
-        if (userService.isInValidPasswordFormat(request.getPassword())) {
-            return new BaseResponse<>(BaseResponseStatus.INVALID_FORMAT_PASSWORD);
-        }
-
         return userService.signup(request);
     }
     @ApiOperation(value = "로그인")
     @PostMapping("/login")
     public BaseResponse<UserRes.UserId> login(@Valid @RequestBody UserReq.Login request){
-        if (userService.isInValidEmailFormat(request.getEmail())){
-            return new BaseResponse<>(BaseResponseStatus.INVALID_USER_EMAIL);
-        }
         return userService.login(request);
     }
 
