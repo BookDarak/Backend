@@ -5,6 +5,7 @@ import com.bookjeok.bookdarak.base.BaseResponseStatus;
 import com.bookjeok.bookdarak.domain.User;
 import com.bookjeok.bookdarak.dto.user.UserReq;
 import com.bookjeok.bookdarak.dto.user.UserRes;
+import com.bookjeok.bookdarak.repository.ReviewRepository;
 import com.bookjeok.bookdarak.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +20,7 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final ReviewRepository reviewRepository;
     private final PasswordEncoder passwordEncoder;
 
     public BaseResponse<UserRes.UserIdRes> signup(UserReq.SignupReq request){
@@ -53,6 +55,12 @@ public class UserService {
         if (!userRepository.existsById(id)){
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USER_ID);
         }
+        //유저가 작성한 리뷰 삭제
+        User user = userRepository.findById(id).orElseThrow();
+        if (reviewRepository.existsByUser(user)){
+            reviewRepository.deleteReviewsByUser(user);
+        }
+
         userRepository.deleteById(id);
         return new BaseResponse<>("회원탈퇴가 완료되었습니다.");
     }
