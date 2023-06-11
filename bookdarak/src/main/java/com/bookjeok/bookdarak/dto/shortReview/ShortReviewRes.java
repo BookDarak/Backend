@@ -22,7 +22,7 @@ public class ShortReviewRes {
     private Integer likeCount;
     private LocalDate updatedDate;
 
-    // Review, User, Book에서 필요한 정보 꺼내서 shortReivew 리스트로 반환
+    // Review, User, Book에서 필요한 정보 꺼내서 shortReview 리스트로 반환
     public static List<ShortReviewRes> extractShortReviews(List<Review> reviews){
         List<ShortReviewRes> shortReviewList = new ArrayList<>();
 

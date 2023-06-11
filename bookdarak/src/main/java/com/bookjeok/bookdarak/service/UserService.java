@@ -23,7 +23,7 @@ public class UserService {
     private final ReviewRepository reviewRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public BaseResponse<UserRes.UserIdRes> signup(UserReq.SignupReq request){
+    public BaseResponse<UserRes.UserId> signup(UserReq.Signup request){
 
         if (userRepository.existsByEmail(request.getEmail())){
             return new BaseResponse<>(BaseResponseStatus.DUPLICATED_USER_EMAIL);
@@ -31,14 +31,19 @@ public class UserService {
 
         String encodedPassword = passwordEncoder.encode(request.getPassword());
 
+        User user = userRepository.save(User.builder()
+                            .email(request.getEmail())
+                            .password(encodedPassword)
+                            .name(request.getName())
+                            .age(request.getAge())
+                            .introduction(request.getIntroduction())
+                            .profileUrl(request.getProfile_url()).build());
 
-        //유저 저장
-        User user = userRepository.save(
-                new User(request.getEmail(),encodedPassword,request.getName(),request.getAge(),request.getIntroduction(),request.getProfile_url()));
-        return new BaseResponse<>(new UserRes.UserIdRes(user.getId()));
+
+        return new BaseResponse<>(new UserRes.UserId(user.getId()));
     }
 
-    public BaseResponse<UserRes.UserIdRes> login(UserReq.LoginReq request){
+    public BaseResponse<UserRes.UserId> login(UserReq.Login request){
 
         if (!userRepository.existsByEmail(request.getEmail())){
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_EMAIL);
@@ -48,7 +53,7 @@ public class UserService {
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword()))
             return new BaseResponse<>(BaseResponseStatus.NOT_CORRECT_PASSWORD);
 
-        return new BaseResponse<>(new UserRes.UserIdRes(user.getId()));
+        return new BaseResponse<>(new UserRes.UserId(user.getId()));
     }
 
     public BaseResponse<String> deleteUser(Long id){

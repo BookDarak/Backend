@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 public class UserReq {
     @Getter @AllArgsConstructor
-    public static class SignupReq{
+    public static class Signup {
         @NotBlank(message="이메일을 입력해주세요.")
         private String email;
 
@@ -24,7 +24,7 @@ public class UserReq {
         private String profile_url;
     }
     @Getter @AllArgsConstructor
-    public static class LoginReq{
+    public static class Login {
         @NotBlank(message="이메일을 입력해주세요.")
         private String email;
 
