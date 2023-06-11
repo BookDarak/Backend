@@ -14,10 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
 
 @Service
 @Transactional
@@ -27,7 +23,8 @@ public class ReviewService {
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
 
-    public BaseResponse<ReviewRes.AddReviewRes> addReview(Long userId, Long bookId, ReviewReq.AddReviewReq request)  {
+    public BaseResponse<ReviewRes.ReviewId> addReview(Long userId, Long bookId, ReviewReq.AddReviewReq request)  {
+        //유저와 도서 조회
         if (!userRepository.existsById(userId)) {
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USER_ID);
         }
@@ -37,14 +34,15 @@ public class ReviewService {
         User user = userRepository.findById(userId).orElseThrow();
         Book book = bookRepository.findById(bookId).orElseThrow();
 
+        //유저id, 도서id를 비교해 기존 서평 있는지 체크
         if (reviewRepository.existsByUserAndBook(user,book)){
             return new BaseResponse<>(BaseResponseStatus.REVIEW_ALREADY_EXISTS);
         }
 
-        Review review = reviewRepository.save(new Review(user, book, request.getRating(), request.getContent(),
-            request.getPhrase(),  request.getPublicYn(), request.getStartDate(), request.getEndDate()));
+        //없으면 서평 저장
+        Review review = reviewRepository.save(new Review(user, book, request));
 
-        return new BaseResponse<>(new ReviewRes.AddReviewRes(review.getId()));
+        return new BaseResponse<>(new ReviewRes.ReviewId(review.getId()));
     }
 
     @Transactional(readOnly = true)
@@ -53,13 +51,12 @@ public class ReviewService {
         if (review == null){
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_REVIEW);
         }
-        return new BaseResponse<>(new ReviewRes.GetReviewRes(review.getRating(),review.getContent(),
-                review.getPhrase(),review.getPublicYn(),review.getLikeCount(),review.getStartDate(),review.getEndDate()));
+        return new BaseResponse<>(new ReviewRes.GetReviewRes(review));
     }
 
     public BaseResponse<String> updateReview(ReviewReq.UpdateReviewReq request, Long userId, Long bookId){
         Review review = reviewRepository.findReviewByUserIdAndBookId(userId, bookId);
-        if (review ==null){
+        if (review == null){
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_REVIEW);
         }
         review.updateReview(request);
@@ -73,27 +70,5 @@ public class ReviewService {
         }
         reviewRepository.delete(review);
         return new BaseResponse<>("삭제를 완료했습니다.");
-    }
-
-    //시작일, 종료일 크기 비교
-    public boolean isInValidDateInterval(LocalDate stDate, LocalDate edDate){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date startDate;
-        Date endDate;
-
-        try {
-            startDate = dateFormat.parse( String.valueOf(stDate) );
-            endDate = dateFormat.parse( String.valueOf(edDate) );
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return false;
-        }
-        int compare = startDate.compareTo( endDate );
-
-        return (compare > 0);
-    }
-
-    public boolean isInValidPublicYn(String publicYn){
-        return !(publicYn.equals("Y") || publicYn.equals("N"));
     }
 }

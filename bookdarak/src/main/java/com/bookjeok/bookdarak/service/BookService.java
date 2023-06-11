@@ -37,8 +37,6 @@ public class BookService {
         }
         Book book = bookRepository.findById(id).orElseThrow();
 
-        BookRes.BookInfo bookInfoRes = new BookRes.BookInfo(book);
-
-        return new BaseResponse<>(bookInfoRes);
+        return new BaseResponse<>(new BookRes.BookInfo(book));
     }
 }

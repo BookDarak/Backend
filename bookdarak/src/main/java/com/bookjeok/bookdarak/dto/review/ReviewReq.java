@@ -5,7 +5,10 @@ import lombok.Getter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class ReviewReq {
     @Getter
@@ -39,5 +42,27 @@ public class ReviewReq {
         private Integer likeCount;
         private LocalDate startDate;
         private LocalDate endDate;
+    }
+
+    //시작일, 종료일 크기 비교
+    public static boolean isInValidDateInterval(LocalDate stDate, LocalDate edDate){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate;
+        Date endDate;
+
+        try {
+            startDate = dateFormat.parse( String.valueOf(stDate) );
+            endDate = dateFormat.parse( String.valueOf(edDate) );
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+        int compare = startDate.compareTo( endDate );
+
+        return (compare > 0);
+    }
+
+    public static boolean isInValidPublicYn(String publicYn){
+        return !(publicYn.equals("Y") || publicYn.equals("N"));
     }
 }

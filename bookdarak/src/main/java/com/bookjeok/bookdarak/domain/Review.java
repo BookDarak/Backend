@@ -8,7 +8,10 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -37,15 +40,16 @@ public class Review extends BaseEntity {
     private LocalDate endDate;
 
 
-    public Review(User user, Book book, BigDecimal rating, String content, String phrase, String publicYn,  LocalDate startDate, LocalDate endDate) {
+
+    public Review(User user, Book book, ReviewReq.AddReviewReq dto){
         this.user = user;
         this.book = book;
-        this.rating = rating;
-        this.content = content;
-        this.phrase = phrase;
-        this.publicYn = publicYn;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.rating = dto.getRating();
+        this.content = dto.getContent();
+        this.phrase = dto.getPhrase();
+        this.publicYn = dto.getPublicYn();
+        this.startDate = dto.getStartDate();
+        this.endDate = dto.getEndDate();
     }
 
     //PATCH

@@ -18,12 +18,12 @@ public class ReviewController {
 
     @ApiOperation(value = "서평 작성")
     @PostMapping("/reviews/{userId}/{bookId}")
-    public BaseResponse<ReviewRes.AddReviewRes> addReview (@PathVariable Long userId, @PathVariable Long bookId, @Valid @RequestBody ReviewReq.AddReviewReq request){
-        if (reviewService.isInValidPublicYn(request.getPublicYn())){
+    public BaseResponse<ReviewRes.ReviewId> addReview (@PathVariable Long userId, @PathVariable Long bookId, @Valid @RequestBody ReviewReq.AddReviewReq request){
+        if (ReviewReq.isInValidPublicYn(request.getPublicYn())){
             return new BaseResponse<>(BaseResponseStatus.WRONG_REVIEW_PUBLIC_FORMAT);
 
         }
-        if (reviewService.isInValidDateInterval(request.getStartDate(),request.getEndDate())){
+        if (ReviewReq.isInValidDateInterval(request.getStartDate(),request.getEndDate())){
             return new BaseResponse<>(BaseResponseStatus.INVALID_DATE_INTERVAL);
         }
         return reviewService.addReview(userId, bookId, request);
@@ -34,10 +34,10 @@ public class ReviewController {
         if (request.getContent()!=null && request.getContent().isBlank()){
             return new BaseResponse<>(BaseResponseStatus.EMPTY_REVIEW_CONTENT);
         }
-        if (request.getPublicYn()!=null && reviewService.isInValidPublicYn(request.getPublicYn())){
+        if (request.getPublicYn()!=null && ReviewReq.isInValidPublicYn(request.getPublicYn())){
             return new BaseResponse<>(BaseResponseStatus.WRONG_REVIEW_PUBLIC_FORMAT);
         }
-        if (request.getStartDate()!=null&& request.getEndDate()!=null&& reviewService.isInValidDateInterval(request.getStartDate(),request.getEndDate())){
+        if (request.getStartDate()!=null&& request.getEndDate()!=null&& ReviewReq.isInValidDateInterval(request.getStartDate(),request.getEndDate())){
             return new BaseResponse<>(BaseResponseStatus.INVALID_DATE_INTERVAL);
         }
         return reviewService.updateReview(request, userId, bookId);
