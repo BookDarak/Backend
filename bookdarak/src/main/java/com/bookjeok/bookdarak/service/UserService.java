@@ -12,9 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -24,7 +21,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
 
-    public BaseResponse<UserRes.UserId> signup(UserReq.Signup request){
+    public BaseResponse<UserRes.Signup> signup(UserReq.Signup request){
 
         if (userRepository.existsByEmail(request.getEmail())){
             return new BaseResponse<>(BaseResponseStatus.DUPLICATED_USER_EMAIL);
@@ -40,11 +37,10 @@ public class UserService {
                             .introduction(request.getIntroduction())
                             .profileUrl(request.getProfile_url()).build());
 
-
-        return new BaseResponse<>(new UserRes.UserId(user.getId()));
+        return new BaseResponse<>(new UserRes.Signup(user.getId()));
     }
 
-    public BaseResponse<UserRes.UserId> login(UserReq.Login request){
+    public BaseResponse<UserRes.Login> login(UserReq.Login request){
 
         if (!userRepository.existsByEmail(request.getEmail())){
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_EMAIL);
@@ -56,8 +52,7 @@ public class UserService {
 
         // 로그인 성공 시 토큰 값을 DTO에 담아서 응답해줌
         String jwTokenString = tokenService.createToken(user.getId().toString()).getJwTokenString();
-        System.out.println(jwTokenString);
-        return new BaseResponse<>(new UserRes.UserId(user.getId()));
+        return new BaseResponse<>(new UserRes.Login(user.getId(),jwTokenString));
     }
 
     public BaseResponse<String> deleteUser(Long id){

@@ -6,6 +6,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,6 @@ import java.util.Date;
 @Slf4j
 @Service
 public class TokenService {
-
     @Value("${spring.jwt.timeOut}")
     private Long timeOut;
 
@@ -24,7 +25,7 @@ public class TokenService {
     String secret;
 
     public String getJWTokenString(String userId){
-        log.debug("##### getJWTokenString #####");
+        log.info("##### getJWTokenString #####");
 
         byte[] keyBytes = Decoders.BASE64.decode(secret);
         Key key = Keys.hmacShaKeyFor(keyBytes);
@@ -40,7 +41,7 @@ public class TokenService {
     }
 
     public Token createToken(String userId){
-        log.debug("##### createToken #####");
+        log.info("##### createToken #####");
         String jwTokenString = getJWTokenString(userId);
 
         Token token = Token.builder()

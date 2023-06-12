@@ -1,23 +1,25 @@
 package com.bookjeok.bookdarak.dto.interceptor;
 
+import com.bookjeok.bookdarak.base.BaseResponse;
+import com.bookjeok.bookdarak.base.BaseResponseStatus;
+import com.bookjeok.bookdarak.base.GlobalExceptionHandler;
 import com.bookjeok.bookdarak.dto.token.Token;
 import com.bookjeok.bookdarak.service.TokenService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.Instant;
 import java.util.Date;
+import java.util.EmptyStackException;
 
 @Slf4j
 public class UserInterceptor implements HandlerInterceptor {
@@ -59,9 +61,8 @@ public class UserInterceptor implements HandlerInterceptor {
         String jsonWebToken = request.getHeader("jwtoken");
         log.debug("#### request of jsonWebToken ####" + request.getRequestURI() + " " + jsonWebToken);
 
-        if (!StringUtils.hasText(jsonWebToken)) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-            return false;
+        if (!StringUtils.hasText(jsonWebToken)) { // client가 토큰없이 요청 보냄
+            throw new JwtException("jwt를 입력해주세요.");
         }
 
         try {

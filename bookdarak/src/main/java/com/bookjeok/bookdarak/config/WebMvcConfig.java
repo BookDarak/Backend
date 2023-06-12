@@ -15,6 +15,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
     public void addInterceptors(InterceptorRegistry registry) {
         List<String> excludePaths = new ArrayList<>();
         excludePaths.add("/login");
+        excludePaths.add("/signup");
 
         registry.addInterceptor(userInterceptor())
                 .excludePathPatterns(excludePaths);
