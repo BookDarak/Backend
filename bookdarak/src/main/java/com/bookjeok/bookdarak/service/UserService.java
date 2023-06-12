@@ -22,6 +22,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
     private final PasswordEncoder passwordEncoder;
+    private final TokenService tokenService;
 
     public BaseResponse<UserRes.UserId> signup(UserReq.Signup request){
 
@@ -53,6 +54,9 @@ public class UserService {
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword()))
             return new BaseResponse<>(BaseResponseStatus.NOT_CORRECT_PASSWORD);
 
+        // 로그인 성공 시 토큰 값을 DTO에 담아서 응답해줌
+        String jwTokenString = tokenService.createToken(user.getId().toString()).getJwTokenString();
+        System.out.println(jwTokenString);
         return new BaseResponse<>(new UserRes.UserId(user.getId()));
     }
 
