@@ -2,9 +2,9 @@ package com.bookjeok.bookdarak.dto.interceptor;
 
 import com.bookjeok.bookdarak.base.BaseResponse;
 import com.bookjeok.bookdarak.base.BaseResponseStatus;
-import com.bookjeok.bookdarak.base.GlobalExceptionHandler;
 import com.bookjeok.bookdarak.dto.token.Token;
 import com.bookjeok.bookdarak.service.TokenService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 
@@ -12,14 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.Instant;
 import java.util.Date;
-import java.util.EmptyStackException;
 
 @Slf4j
 public class UserInterceptor implements HandlerInterceptor {
@@ -50,6 +48,9 @@ public class UserInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.debug("preHandle ======================================================");
+        response.setContentType("text/json; charset=UTF-8"); // json, 한글
+        ObjectMapper objectMapper = new ObjectMapper(); // BaseResponse 반환
+
         if ("OPTIONS".equals(request.getMethod())) {
             return true;
         }
@@ -61,23 +62,35 @@ public class UserInterceptor implements HandlerInterceptor {
         String jsonWebToken = request.getHeader("jwtoken");
         log.debug("#### request of jsonWebToken ####" + request.getRequestURI() + " " + jsonWebToken);
 
-        if (!StringUtils.hasText(jsonWebToken)) { // client가 토큰없이 요청 보냄
-            throw new JwtException("jwt를 입력해주세요.");
+        if (!StringUtils.hasText(jsonWebToken)) {
+            response.getWriter().write(objectMapper.writeValueAsString(new BaseResponse<>(BaseResponseStatus.EMPTY_JWT)));
         }
 
         try {
             Claims claims = Jwts.parserBuilder()
                     .setSigningKey(Decoders.BASE64.decode(secret))
                     .build().parseClaimsJws(jsonWebToken).getBody();
-
+            System.out.println("checkpoint1");
             // jwt로 체크해야 할 로직들을 검증한 후에 true면 다시 새로운 토큰 추가
             if (refreshWhenValid(claims, jsonWebToken, requestMethod, requestUri)) {
+                System.out.println("checkpoint2");
+
                 Token token = tokenService.createToken(claims.getIssuer());
                 log.debug("##### 다시 생성된 tokenData #####: " + token.toString());
 
                 response.setHeader("jwtoken", token.getJwTokenString());
                 return true;
             }
+
+
+        }
+//        catch(IllegalArgumentException e){
+//            System.out.println("Illegal Argument Exception");
+//            response.getWriter().write(objectMapper.writeValueAsString(new BaseResponse<>(BaseResponseStatus.EMPTY_JWT)));
+//        }
+        catch (MalformedJwtException malformedJwtException){
+            System.out.println("malformed");
+            response.getWriter().write(objectMapper.writeValueAsString(new BaseResponse<>(BaseResponseStatus.INVALID_JWT)));
         } catch (NullPointerException npe) {
             log.error(npe.getMessage(), npe);
         } catch (ExpiredJwtException jwtException) {
