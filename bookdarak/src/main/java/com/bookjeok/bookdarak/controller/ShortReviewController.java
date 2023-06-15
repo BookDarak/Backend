@@ -18,14 +18,23 @@ public class ShortReviewController {
     private final ShortReviewService shortReviewService;
 
     @ApiOperation(value = "모든 공개 서평(요약) 조회", notes = "추천순, 최신순 정렬")
-    @GetMapping("/reviews/short")
+    @GetMapping("/reviews/shorts")
     public BaseResponse<List<ShortReviewRes>>
-    getPublicReviews(@RequestParam(required = false, defaultValue = "likeCount") String orderCriteria) {
+    getAllPublicReviews(@RequestParam(required = false, defaultValue = "likeCount") String orderCriteria) {
         return shortReviewService.getAllPublicReviews(orderCriteria);
     }
 
-    @ApiOperation(value="특정 유저 서평(요약) 조회", notes = "공개여부 입력 필요")
-    @GetMapping("/reviews/short/{userId}")
+    @ApiOperation(value = "특정 책 공개 서평(요약) 조회", notes = "추천순, 최신순 정렬")
+    @GetMapping("/reviews/shorts/books/{bookId}")
+    public BaseResponse<List<ShortReviewRes>>
+    getBookPublicReviews(@PathVariable Long bookId,
+                         @RequestParam(required = false, defaultValue = "likeCount") String orderCriteria){
+        return shortReviewService.getBookPublicReviews(bookId, orderCriteria);
+    }
+
+
+    @ApiOperation(value="유저 서평(요약) 조회", notes = "주인 여부 입력 필요")
+    @GetMapping("/reviews/shorts/users/{userId}")
     public BaseResponse<List<ShortReviewRes>>
     getUserReviews(@PathVariable Long userId, @RequestParam String owner){
         return shortReviewService.getUserReviews(userId, owner);

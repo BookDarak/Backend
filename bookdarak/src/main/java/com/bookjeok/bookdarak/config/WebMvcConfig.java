@@ -16,6 +16,7 @@ public class WebMvcConfig implements WebMvcConfigurer{
         List<String> excludePaths = new ArrayList<>();
         excludePaths.add("/login");
         excludePaths.add("/signup");
+        excludePaths.add("/**"); // 임시로 모든 경로 허용
 
         registry.addInterceptor(userInterceptor())
                 .excludePathPatterns(excludePaths);
