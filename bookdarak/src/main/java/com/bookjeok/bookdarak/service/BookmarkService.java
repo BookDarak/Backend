@@ -5,12 +5,15 @@ import com.bookjeok.bookdarak.base.BaseResponseStatus;
 import com.bookjeok.bookdarak.domain.Book;
 import com.bookjeok.bookdarak.domain.Bookmark;
 import com.bookjeok.bookdarak.domain.User;
+import com.bookjeok.bookdarak.dto.bookmark.BookmarkRes;
 import com.bookjeok.bookdarak.repository.BookRepository;
 import com.bookjeok.bookdarak.repository.BookmarkRepository;
 import com.bookjeok.bookdarak.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -51,6 +54,7 @@ public class BookmarkService {
 
     }
 
+    @Transactional(readOnly = true)
     public BaseResponse<String> getBookmarkStatus(Long userId, Long bookId) {
 
         if (validateId(userId, bookId)!=null){
@@ -67,6 +71,24 @@ public class BookmarkService {
 
     }
 
+    @Transactional(readOnly = true)
+    public BaseResponse<List<BookmarkRes>> getUserBookmarks(Long userId) {
+        if (!userRepository.existsById(userId)){
+            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USER_ID);
+        }
+
+        User user = userRepository.findById(userId).orElseThrow();
+        List<Bookmark> bookmarks = bookmarkRepository.findAllByUser(user);
+
+        if (bookmarks.isEmpty()){
+            return new BaseResponse<>(BaseResponseStatus.BOOKMARK_NOT_EXISTS);
+        }
+        List<BookmarkRes> bookmarkResList = BookmarkRes.getBookmarkResList(bookmarks);
+
+
+        return new BaseResponse<>(bookmarkResList);
+    }
+
     public BaseResponse<String> validateId(Long userId, Long bookId){
         if (!userRepository.existsById(userId)){
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USER_ID);
@@ -76,5 +98,4 @@ public class BookmarkService {
         }
         return null;
     }
-
 }

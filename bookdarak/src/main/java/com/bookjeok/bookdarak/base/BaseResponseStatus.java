@@ -89,7 +89,9 @@ public enum BaseResponseStatus {
 
     NOT_EXIST_REVIEW(false, 2050, "해당 서평이 존재하지 않습니다."),
 
-    BOOKMARK_ALREADY_ADDED(false, 2051, "이미 북마크가 추가된 책입니다."),
+    BOOKMARK_ALREADY_ADDED(false, 2051, "이미 북마크에 추가된 책입니다."),
+
+    BOOKMARK_NOT_EXISTS(false, 2052, "북마크에 추가된 책이 없습니다."),
 
 
     /**

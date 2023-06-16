@@ -1,4 +1,4 @@
-package com.bookjeok.bookdarak.dto.token;
+package com.bookjeok.bookdarak.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

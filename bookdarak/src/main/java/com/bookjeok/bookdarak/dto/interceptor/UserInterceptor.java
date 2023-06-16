@@ -2,7 +2,7 @@ package com.bookjeok.bookdarak.dto.interceptor;
 
 import com.bookjeok.bookdarak.base.BaseResponse;
 import com.bookjeok.bookdarak.base.BaseResponseStatus;
-import com.bookjeok.bookdarak.dto.token.Token;
+import com.bookjeok.bookdarak.dto.user.Token;
 import com.bookjeok.bookdarak.service.TokenService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.*;
