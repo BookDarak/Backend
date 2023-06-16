@@ -57,14 +57,13 @@ public class ShortReviewService {
         if (orderCriteria.equals("likeCount")){
             reviews = shortReviewRepository.findByBookAndPublicYnOrderByLikeCountDesc(book,"Y");
         }
-        if (orderCriteria.equals("updatedAt")){
+        if (orderCriteria.equals("latest")){
             reviews = shortReviewRepository.findByBookAndPublicYnOrderByUpdatedAtDesc(book,"Y");
         }
 
         if (reviews.isEmpty()){
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_REVIEW);
         }
-        System.out.println(reviews);
         List<ShortReviewRes> shortReviewRes = ShortReviewRes.extractShortReviews(reviews);
 
         return new BaseResponse<>(shortReviewRes);
@@ -85,7 +84,6 @@ public class ShortReviewService {
             reviews = shortReviewRepository.findByUserAndPublicYn(user, "Y");
 
         }
-        System.out.println(reviews);
         if (reviews.isEmpty()){
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_REVIEW);
         }

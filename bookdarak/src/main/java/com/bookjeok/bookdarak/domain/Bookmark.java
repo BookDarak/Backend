@@ -2,6 +2,7 @@ package com.bookjeok.bookdarak.domain;
 
 import com.bookjeok.bookdarak.base.BaseEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,4 +25,11 @@ public class Bookmark extends BaseEntity {
     private Book book;
 
     private String bookmarkYn; //Y,N
+
+    @Builder
+    public Bookmark(User user, Book book, String bookmarkYn){
+        this.user = user;
+        this.book = book;
+        this.bookmarkYn = bookmarkYn;
+    }
 }
