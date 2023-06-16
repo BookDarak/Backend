@@ -5,7 +5,7 @@ import com.bookjeok.bookdarak.base.BaseResponseStatus;
 import com.bookjeok.bookdarak.domain.Book;
 import com.bookjeok.bookdarak.domain.Bookmark;
 import com.bookjeok.bookdarak.domain.User;
-import com.bookjeok.bookdarak.dto.bookmark.BookmarkRes;
+import com.bookjeok.bookdarak.dto.book.BookmarkRes;
 import com.bookjeok.bookdarak.repository.BookRepository;
 import com.bookjeok.bookdarak.repository.BookmarkRepository;
 import com.bookjeok.bookdarak.repository.UserRepository;
@@ -48,7 +48,11 @@ public class BookmarkService {
         User user = userRepository.findById(userId).orElseThrow();
         Book book = bookRepository.findById(bookId).orElseThrow();
 
-        bookmarkRepository.deleteBookmarkByUserAndBook(user, book);
+        Bookmark bookmark = bookmarkRepository.findBookmarkByUserAndBook(user, book);
+        if (bookmark == null){
+            return new BaseResponse<>(BaseResponseStatus.BOOKMARK_ALREADY_DELETED);
+        }
+        bookmarkRepository.delete(bookmark);
 
         return new BaseResponse<>("북마크를 삭제했습니다.");
 

@@ -1,7 +1,7 @@
 package com.bookjeok.bookdarak.controller;
 
 import com.bookjeok.bookdarak.base.BaseResponse;
-import com.bookjeok.bookdarak.dto.bookmark.BookmarkRes;
+import com.bookjeok.bookdarak.dto.book.BookmarkRes;
 import com.bookjeok.bookdarak.service.BookmarkService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

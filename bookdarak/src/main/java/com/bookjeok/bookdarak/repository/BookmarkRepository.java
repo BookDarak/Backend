@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
+
 public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
    Boolean existsByUserAndBook(User user, Book book);
-   void deleteBookmarkByUserAndBook(User user, Book book);
-    List<Bookmark> findAllByUser(User user);
-
+   Bookmark findBookmarkByUserAndBook(User user, Book book);
+   List<Bookmark> findAllByUser(User user);
 }

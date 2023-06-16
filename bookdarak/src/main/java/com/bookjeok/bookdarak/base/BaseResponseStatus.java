@@ -91,9 +91,14 @@ public enum BaseResponseStatus {
 
     BOOKMARK_ALREADY_ADDED(false, 2051, "이미 북마크에 추가된 책입니다."),
 
-    BOOKMARK_NOT_EXISTS(false, 2052, "북마크에 추가된 책이 없습니다."),
+    BOOKMARK_ALREADY_DELETED(false, 2052, "이미 북마크에 추가된 책입니다."),
 
+    BOOKMARK_NOT_EXISTS(false, 2053, "북마크에 추가된 책이 없습니다."),
 
+    FOLLOW_INVALID_INPUT(false,2054,"팔로워와 팔로이 아이디는 동일할 수 없습니다."),
+
+    FOLLOW_ALREADY_ADDED(false, 2055, "이미 팔로우한 유저입니다."),
+    FOLLOW_ALREADY_DELETED(false, 2056, "이미 팔로우 취소한 유저입니다."),
     /**
      * 3000 : Response 오류
      */

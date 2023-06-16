@@ -1,4 +1,4 @@
-package com.bookjeok.bookdarak.dto.bookmark;
+package com.bookjeok.bookdarak.dto.book;
 
 import com.bookjeok.bookdarak.domain.Book;
 import com.bookjeok.bookdarak.domain.Bookmark;
