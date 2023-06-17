@@ -15,10 +15,12 @@ public class Follow extends BaseEntity {
     @Column(name = "follow_id")
     private Long id;
 
+    //팔로우 하는 사람
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "follower_id")
     private User followerUser;
 
+    //팔로우 당하는 사람
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "followee_id")
     private User followeeUser;
@@ -27,12 +29,5 @@ public class Follow extends BaseEntity {
     public Follow(User followeeUser, User followerUser){
         this.followerUser = followerUser;
         this.followeeUser = followeeUser;
-    }
-    public static List<Long> getFollowers(List<Follow> follows){
-        List<Long> followerIdList = new ArrayList<>();
-        for (Follow follow: follows) {
-            followerIdList.add(follow.getFollowerUser().getId());
-        }
-        return followerIdList;
     }
 }

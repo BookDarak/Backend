@@ -1,6 +1,7 @@
 package com.bookjeok.bookdarak.controller;
 
 import com.bookjeok.bookdarak.base.BaseResponse;
+import com.bookjeok.bookdarak.dto.user.FollowRes;
 import com.bookjeok.bookdarak.service.FollowService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,8 @@ public class FollowController {
         return followService.getFollowStatus(followerId, followeeId);
     }
 
-    @GetMapping("/follows/{followeeId}")
-    public BaseResponse<List<Long>> getUserFollowers(@PathVariable Long followeeId) {
-        return followService.getUserFollowers(followeeId);
+    @GetMapping("/follows/{userId}")
+    public BaseResponse<List<FollowRes>> getUserFollowers(@PathVariable Long userId) {
+        return followService.getUserFollowers(userId);
     }
 }
