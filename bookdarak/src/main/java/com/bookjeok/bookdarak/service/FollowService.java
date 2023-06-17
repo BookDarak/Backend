@@ -47,6 +47,7 @@ public class FollowService {
 
     }
 
+    @Transactional(readOnly = true)
     public BaseResponse<String> getFollowStatus(Long followerId, Long followeeId) {
         if (getFollowEntity(followerId, followeeId)==null){
            return new BaseResponse<>("false");
@@ -55,6 +56,7 @@ public class FollowService {
         }
     }
 
+    @Transactional(readOnly = true)
     public BaseResponse<List<FollowRes>> getUserFollowers(Long userId){
         //유저 조회
         if (!userRepository.existsById(userId)) {
@@ -64,11 +66,16 @@ public class FollowService {
 
         //유저의 팔로워들 조회
         List<Follow> follows= followRepository.findAllByFolloweeUser(user);
+
+        //팔로워들 컬럼 조회
         List<FollowRes> followResList = new ArrayList<>();
         for (Follow follow : follows) {
             User followUser = userRepository.findById(follow.getFollowerUser().getId()).orElseThrow();
-            followResList.add(new FollowRes(followUser.getId(), followUser.getName(), followUser.getProfileUrl()));
-
+            followResList.add(FollowRes.builder()
+                    .followerId(followUser.getId())
+                    .followerName(followUser.getName())
+                    .followerImgUrl(followUser.getProfileUrl())
+                    .build());
         }
         return new BaseResponse<>(followResList);
     }
@@ -79,4 +86,5 @@ public class FollowService {
 
         return followRepository.findFollowByFollowerUserAndFolloweeUser(followerUser, followeeUser);
     }
+
 }
