@@ -30,4 +30,10 @@ public class UserController {
     public BaseResponse<String> deleteUser(@PathVariable Long id){
         return userService.deleteUser(id);
     }
+
+    @ApiOperation(value = "유저 정보 조회")
+    @GetMapping("/users/info/{id}")
+    public BaseResponse<UserRes.UserInfo> getUserInfo(@PathVariable Long id){
+        return userService.getUserInfo(id);
+    }
 }

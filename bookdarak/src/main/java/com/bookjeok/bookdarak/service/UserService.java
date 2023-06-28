@@ -2,9 +2,12 @@ package com.bookjeok.bookdarak.service;
 
 import com.bookjeok.bookdarak.base.BaseResponse;
 import com.bookjeok.bookdarak.base.BaseResponseStatus;
+import com.bookjeok.bookdarak.domain.Bookmark;
 import com.bookjeok.bookdarak.domain.User;
 import com.bookjeok.bookdarak.dto.user.UserReq;
 import com.bookjeok.bookdarak.dto.user.UserRes;
+import com.bookjeok.bookdarak.repository.BookmarkRepository;
+import com.bookjeok.bookdarak.repository.FollowRepository;
 import com.bookjeok.bookdarak.repository.ReviewRepository;
 import com.bookjeok.bookdarak.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
+    private final BookmarkRepository bookmarkRepository;
+    private final FollowRepository followRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
 
@@ -67,5 +72,19 @@ public class UserService {
 
         userRepository.deleteById(id);
         return new BaseResponse<>("회원탈퇴가 완료되었습니다.");
+    }
+
+    public BaseResponse<UserRes.UserInfo> getUserInfo(Long id) {
+        if (!userRepository.existsById(id)) {
+            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USER_ID);
+        }
+        User user = userRepository.findById(id).orElseThrow();
+        Long reviewCount = reviewRepository.countByUser(user);
+        Long bookmarkCount = bookmarkRepository.countByUser(user);
+        Long followCount = followRepository.countByFollowerUser(user);
+
+        UserRes.UserInfo userInfo = new UserRes.UserInfo(user, reviewCount, bookmarkCount, followCount);
+
+        return new BaseResponse<>(userInfo);
     }
 }
