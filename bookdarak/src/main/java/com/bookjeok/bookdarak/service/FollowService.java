@@ -1,7 +1,6 @@
 package com.bookjeok.bookdarak.service;
 
 import com.bookjeok.bookdarak.base.BaseResponse;
-import com.bookjeok.bookdarak.base.BaseResponseStatus;
 import com.bookjeok.bookdarak.domain.Follow;
 import com.bookjeok.bookdarak.domain.User;
 import com.bookjeok.bookdarak.dto.user.FollowRes;
@@ -69,10 +68,33 @@ public class FollowService {
         //유저의 팔로워들 조회
         List<Follow> follows= followRepository.findAllByFolloweeUser(user);
 
-        //팔로워들 컬럼 조회
+        return getFollowResList(follows, true);
+    }
+
+    public BaseResponse<List<FollowRes>> getUserFollowings(Long userId) {
+        if (!userRepository.existsById(userId)) {
+            return new BaseResponse<>(NOT_EXIST_USER_ID);
+        }
+        User user = userRepository.findById(userId).orElseThrow();
+
+        //유저의 팔로워들 조회
+        List<Follow> follows= followRepository.findAllByFollowerUser(user);
+
+
+        return getFollowResList(follows, false);
+    }
+
+    public BaseResponse<List<FollowRes>> getFollowResList(List<Follow> follows, Boolean isFollower){
         List<FollowRes> followResList = new ArrayList<>();
+        Long userId;
         for (Follow follow : follows) {
-            User followUser = userRepository.findById(follow.getFollowerUser().getId()).orElseThrow();
+
+            if (isFollower){ //팔로워 조회
+                userId = follow.getFollowerUser().getId();
+            } else { //팔로잉 조회
+                userId = follow.getFolloweeUser().getId();
+            }
+            User followUser = userRepository.findById(userId).orElseThrow();
             followResList.add(FollowRes.builder()
                     .followerId(followUser.getId())
                     .followerName(followUser.getName())
@@ -88,5 +110,6 @@ public class FollowService {
 
         return followRepository.findFollowByFollowerUserAndFolloweeUser(followerUser, followeeUser);
     }
+
 
 }
