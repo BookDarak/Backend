@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.bookjeok.bookdarak.base.BaseResponseStatus.*;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -26,7 +28,7 @@ public class FollowService {
         User followeeUser = userRepository.findById(followeeId).orElseThrow();
 
         if (followRepository.existsFollowByFollowerUserAndFolloweeUser(followerUser, followeeUser)) {
-            return new BaseResponse<>(BaseResponseStatus.FOLLOW_ALREADY_ADDED);
+            return new BaseResponse<>(FOLLOW_ALREADY_ADDED);
         }
 
         Follow follow = Follow.builder()
@@ -40,7 +42,7 @@ public class FollowService {
     public BaseResponse<String> unfollowUser(Long followerId, Long followeeId) {
         Follow follow = getFollowEntity(followeeId, followerId);
         if (follow==null){
-            return new BaseResponse<>(BaseResponseStatus.FOLLOW_ALREADY_DELETED);
+            return new BaseResponse<>(FOLLOW_ALREADY_DELETED);
         }
         followRepository.delete(follow);
         return new BaseResponse<>("팔로우를 취소했습니다.");
@@ -60,7 +62,7 @@ public class FollowService {
     public BaseResponse<List<FollowRes>> getUserFollowers(Long userId){
         //유저 조회
         if (!userRepository.existsById(userId)) {
-            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USER_ID);
+            return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
         User user = userRepository.findById(userId).orElseThrow();
 

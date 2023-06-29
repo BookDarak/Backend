@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.bookjeok.bookdarak.base.BaseResponseStatus.*;
+
 
 @Service
 @Transactional
@@ -26,17 +28,17 @@ public class ReviewService {
     public BaseResponse<ReviewRes.ReviewId> addReview(Long userId, Long bookId, ReviewReq.AddReviewReq request)  {
         //유저와 도서 조회
         if (!userRepository.existsById(userId)) {
-            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USER_ID);
+            return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
         if (!bookRepository.existsById(bookId)){
-            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_BOOK_ID);
+            return new BaseResponse<>(NOT_EXIST_BOOK_ID);
         }
         User user = userRepository.findById(userId).orElseThrow();
         Book book = bookRepository.findById(bookId).orElseThrow();
 
         //유저id, 도서id를 비교해 기존 서평 있는지 체크
         if (reviewRepository.existsByUserAndBook(user,book)){
-            return new BaseResponse<>(BaseResponseStatus.REVIEW_ALREADY_EXISTS);
+            return new BaseResponse<>(REVIEW_ALREADY_EXISTS);
         }
 
         //없으면 서평 저장
@@ -49,24 +51,24 @@ public class ReviewService {
     public BaseResponse<ReviewRes.GetReviewRes> getReview(Long userId, Long bookId) {
         Review review = reviewRepository.findReviewByUserIdAndBookId(userId, bookId);
         if (review == null){
-            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_REVIEW);
+            return new BaseResponse<>(NOT_EXIST_REVIEW);
         }
         return new BaseResponse<>(new ReviewRes.GetReviewRes(review));
     }
 
-    public BaseResponse<String> updateReview(ReviewReq.UpdateReviewReq request, Long userId, Long bookId){
+    public BaseResponse<BaseResponseStatus> updateReview(ReviewReq.UpdateReviewReq request, Long userId, Long bookId){
         Review review = reviewRepository.findReviewByUserIdAndBookId(userId, bookId);
         if (review == null){
-            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_REVIEW);
+            return new BaseResponse<>(NOT_EXIST_REVIEW);
         }
         review.updateReview(request);
-        return new BaseResponse<>("수정을 완료했습니다.");
+        return new BaseResponse<>(UPDATE_SUCCESS);
     }
 
     public BaseResponse<String> deleteReview(Long userId, Long bookId){
         Review review = reviewRepository.findReviewByUserIdAndBookId(userId, bookId);
         if (review == null){
-            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_REVIEW);
+            return new BaseResponse<>(NOT_EXIST_REVIEW);
         }
         reviewRepository.delete(review);
         return new BaseResponse<>("삭제를 완료했습니다.");

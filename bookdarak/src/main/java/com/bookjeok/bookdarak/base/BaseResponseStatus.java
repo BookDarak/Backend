@@ -12,6 +12,9 @@ public enum BaseResponseStatus {
      */
     SUCCESS(true, 1000, "성공"),
 
+    UPDATE_SUCCESS(true, 1001, "수정에 성공하였습니다."),
+
+    DELETE_SUCCESS(true, 1002, "삭제를 완료하였습니다."),
 
     /**
      * 2000 : Request 오류

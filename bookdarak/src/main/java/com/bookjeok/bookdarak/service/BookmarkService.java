@@ -1,7 +1,6 @@
 package com.bookjeok.bookdarak.service;
 
 import com.bookjeok.bookdarak.base.BaseResponse;
-import com.bookjeok.bookdarak.base.BaseResponseStatus;
 import com.bookjeok.bookdarak.domain.Book;
 import com.bookjeok.bookdarak.domain.Bookmark;
 import com.bookjeok.bookdarak.domain.User;
@@ -14,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
+import static com.bookjeok.bookdarak.base.BaseResponseStatus.*;
 
 @Service
 @Transactional
@@ -30,7 +31,7 @@ public class BookmarkService {
         Book book = bookRepository.findById(bookId).orElseThrow();
 
         if (bookmarkRepository.existsByUserAndBook(user,book)){
-            return new BaseResponse<>(BaseResponseStatus.BOOKMARK_ALREADY_ADDED);
+            return new BaseResponse<>(BOOKMARK_ALREADY_ADDED);
         }
         bookmarkRepository.save(Bookmark.builder()
                 .user(user)
@@ -50,7 +51,7 @@ public class BookmarkService {
 
         Bookmark bookmark = bookmarkRepository.findBookmarkByUserAndBook(user, book);
         if (bookmark == null){
-            return new BaseResponse<>(BaseResponseStatus.BOOKMARK_ALREADY_DELETED);
+            return new BaseResponse<>(BOOKMARK_ALREADY_DELETED);
         }
         bookmarkRepository.delete(bookmark);
 
@@ -78,14 +79,14 @@ public class BookmarkService {
     @Transactional(readOnly = true)
     public BaseResponse<List<BookmarkRes>> getUserBookmarks(Long userId) {
         if (!userRepository.existsById(userId)){
-            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USER_ID);
+            return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
 
         User user = userRepository.findById(userId).orElseThrow();
         List<Bookmark> bookmarks = bookmarkRepository.findAllByUser(user);
 
         if (bookmarks.isEmpty()){
-            return new BaseResponse<>(BaseResponseStatus.BOOKMARK_NOT_EXISTS);
+            return new BaseResponse<>(BOOKMARK_NOT_EXISTS);
         }
         List<BookmarkRes> bookmarkResList = BookmarkRes.getBookmarkResList(bookmarks);
 
@@ -95,10 +96,10 @@ public class BookmarkService {
 
     public BaseResponse<String> validateId(Long userId, Long bookId){
         if (!userRepository.existsById(userId)){
-            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USER_ID);
+            return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
         if (!bookRepository.existsById(bookId)){
-            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_BOOK_ID);
+            return new BaseResponse<>(NOT_EXIST_BOOK_ID);
         }
         return null;
     }
