@@ -99,6 +99,8 @@ public enum BaseResponseStatus {
 
     FOLLOW_ALREADY_ADDED(false, 2055, "이미 팔로우한 유저입니다."),
     FOLLOW_ALREADY_DELETED(false, 2056, "이미 팔로우 취소한 유저입니다."),
+
+    DUPLICATED_USER_NAME(false, 2057, "중복된 유저 닉네임입니다."),
     /**
      * 3000 : Response 오류
      */

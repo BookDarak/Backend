@@ -2,6 +2,7 @@ package com.bookjeok.bookdarak.domain;
 
 import com.bookjeok.bookdarak.base.BaseEntity;
 
+import com.bookjeok.bookdarak.dto.user.UserReq;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,5 +35,17 @@ public class User extends BaseEntity {
         this.age = age;
         this.introduction = introduction;
         this.profileUrl = profileUrl;
+    }
+
+    public void updateUserInfo(UserReq.UpdateUserInfo userInfo) {
+        if (userInfo.getName()!=null){
+            this.name = userInfo.getName();
+        }
+        if (userInfo.getAge()!=null){
+            this.age = userInfo.getAge();
+        }
+        if (userInfo.getIntroduction()!=null){
+            this.introduction = userInfo.getIntroduction();
+        }
     }
 }

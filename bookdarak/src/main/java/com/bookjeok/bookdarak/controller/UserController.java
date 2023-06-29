@@ -1,6 +1,7 @@
 package com.bookjeok.bookdarak.controller;
 
 import com.bookjeok.bookdarak.base.BaseResponse;
+import com.bookjeok.bookdarak.base.BaseResponseStatus;
 import com.bookjeok.bookdarak.dto.user.UserReq;
 import com.bookjeok.bookdarak.dto.user.UserRes;
 import com.bookjeok.bookdarak.service.UserService;
@@ -36,4 +37,9 @@ public class UserController {
     public BaseResponse<UserRes.UserInfo> getUserInfo(@PathVariable Long id){
         return userService.getUserInfo(id);
     }
+
+    @ApiOperation(value = "유저 정보 수정")
+    @PatchMapping("/users/info/{id}")
+    public BaseResponse<BaseResponseStatus> editUserInfo(@PathVariable Long id, @RequestBody UserReq.UpdateUserInfo updateUserInfoReq){
+        return userService.editUserInfo(id, updateUserInfoReq);}
 }

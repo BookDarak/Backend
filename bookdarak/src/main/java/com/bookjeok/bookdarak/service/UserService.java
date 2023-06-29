@@ -2,7 +2,6 @@ package com.bookjeok.bookdarak.service;
 
 import com.bookjeok.bookdarak.base.BaseResponse;
 import com.bookjeok.bookdarak.base.BaseResponseStatus;
-import com.bookjeok.bookdarak.domain.Bookmark;
 import com.bookjeok.bookdarak.domain.User;
 import com.bookjeok.bookdarak.dto.user.UserReq;
 import com.bookjeok.bookdarak.dto.user.UserRes;
@@ -28,10 +27,9 @@ public class UserService {
 
     public BaseResponse<UserRes.Signup> signup(UserReq.Signup request){
 
-        if (userRepository.existsByEmail(request.getEmail())){
+        if (userRepository.existsByEmail(request.getEmail())) {
             return new BaseResponse<>(BaseResponseStatus.DUPLICATED_USER_EMAIL);
         }
-
         String encodedPassword = passwordEncoder.encode(request.getPassword());
 
         User user = userRepository.save(User.builder()
@@ -86,5 +84,18 @@ public class UserService {
         UserRes.UserInfo userInfo = new UserRes.UserInfo(user, reviewCount, bookmarkCount, followCount);
 
         return new BaseResponse<>(userInfo);
+    }
+
+    public BaseResponse<BaseResponseStatus> editUserInfo(Long id, UserReq.UpdateUserInfo userInfo) {
+        if (!userRepository.existsById(id)) {
+            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USER_ID);
+        }
+        User user = userRepository.findById(id).orElseThrow();
+
+        if (userRepository.existsByName(userInfo.getName())){
+            return new BaseResponse<>(BaseResponseStatus.DUPLICATED_USER_NAME);
+        }
+        user.updateUserInfo(userInfo);
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }
 }
