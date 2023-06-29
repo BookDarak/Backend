@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.bookjeok.bookdarak.base.BaseResponseStatus.*;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -36,7 +38,7 @@ public class ShortReviewService {
         }
 
         if (reviews.isEmpty()){
-            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_REVIEW);
+            return new BaseResponse<>(NOT_EXIST_REVIEW);
         }
 
         List<ShortReviewRes> shortReviews = ShortReviewRes.extractShortReviews(reviews);
@@ -47,7 +49,7 @@ public class ShortReviewService {
     public BaseResponse<List<ShortReviewRes>> getBookPublicReviews(Long bookId, String orderCriteria){
         // 책 조회
         if (!bookRepository.existsById(bookId)) {
-            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_BOOK_ID);
+            return new BaseResponse<>(NOT_EXIST_BOOK_ID);
         }
         Book book = bookRepository.findById(bookId).orElseThrow();
 
@@ -62,7 +64,7 @@ public class ShortReviewService {
         }
 
         if (reviews.isEmpty()){
-            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_REVIEW);
+            return new BaseResponse<>(NOT_EXIST_REVIEW);
         }
         List<ShortReviewRes> shortReviewRes = ShortReviewRes.extractShortReviews(reviews);
 
@@ -73,7 +75,7 @@ public class ShortReviewService {
         System.out.println(owner);
         List<Review> reviews = new ArrayList<>();
         if (!userRepository.existsById(userId)) {
-            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USER_ID);
+            return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
         User user = userRepository.findById(userId).orElseThrow();
 
@@ -85,7 +87,7 @@ public class ShortReviewService {
 
         }
         if (reviews.isEmpty()){
-            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_REVIEW);
+            return new BaseResponse<>(NOT_EXIST_REVIEW);
         }
 
         List<ShortReviewRes> shortReviews = ShortReviewRes.extractShortReviews(reviews);

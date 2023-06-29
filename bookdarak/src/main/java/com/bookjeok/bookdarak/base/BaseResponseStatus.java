@@ -12,6 +12,9 @@ public enum BaseResponseStatus {
      */
     SUCCESS(true, 1000, "성공"),
 
+    UPDATE_SUCCESS(true, 1001, "수정에 성공하였습니다."),
+
+    DELETE_SUCCESS(true, 1002, "삭제를 완료하였습니다."),
 
     /**
      * 2000 : Request 오류
@@ -99,6 +102,8 @@ public enum BaseResponseStatus {
 
     FOLLOW_ALREADY_ADDED(false, 2055, "이미 팔로우한 유저입니다."),
     FOLLOW_ALREADY_DELETED(false, 2056, "이미 팔로우 취소한 유저입니다."),
+
+    DUPLICATED_USER_NAME(false, 2057, "중복된 유저 닉네임입니다."),
     /**
      * 3000 : Response 오류
      */

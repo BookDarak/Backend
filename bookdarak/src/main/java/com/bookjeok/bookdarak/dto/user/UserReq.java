@@ -40,4 +40,11 @@ public class UserReq {
         @NotBlank(message="비밀번호를 입력해주세요.")
         private String password;
     }
+
+    @Getter @AllArgsConstructor
+    public static class UpdateUserInfo {
+        private String name;
+        private String introduction;
+        private Integer age;
+    }
 }

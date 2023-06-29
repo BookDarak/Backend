@@ -5,6 +5,8 @@ import com.bookjeok.bookdarak.base.BaseResponseStatus;
 import com.bookjeok.bookdarak.domain.User;
 import com.bookjeok.bookdarak.dto.user.UserReq;
 import com.bookjeok.bookdarak.dto.user.UserRes;
+import com.bookjeok.bookdarak.repository.BookmarkRepository;
+import com.bookjeok.bookdarak.repository.FollowRepository;
 import com.bookjeok.bookdarak.repository.ReviewRepository;
 import com.bookjeok.bookdarak.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,21 +14,27 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.bookjeok.bookdarak.base.BaseResponseStatus.*;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
+    private final BookmarkRepository bookmarkRepository;
+    private final FollowRepository followRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
 
     public BaseResponse<UserRes.Signup> signup(UserReq.Signup request){
 
-        if (userRepository.existsByEmail(request.getEmail())){
-            return new BaseResponse<>(BaseResponseStatus.DUPLICATED_USER_EMAIL);
+        if (userRepository.existsByEmail(request.getEmail())) {
+            return new BaseResponse<>(DUPLICATED_USER_EMAIL);
         }
-
+        if (userRepository.existsByName(request.getName())){
+            return new BaseResponse<>(DUPLICATED_USER_NAME);
+        }
         String encodedPassword = passwordEncoder.encode(request.getPassword());
 
         User user = userRepository.save(User.builder()
@@ -43,12 +51,12 @@ public class UserService {
     public BaseResponse<UserRes.Login> login(UserReq.Login request){
 
         if (!userRepository.existsByEmail(request.getEmail())){
-            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_EMAIL);
+            return new BaseResponse<>(NOT_EXIST_EMAIL);
         }
 
         User user = userRepository.findByEmail(request.getEmail());
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword()))
-            return new BaseResponse<>(BaseResponseStatus.NOT_CORRECT_PASSWORD);
+            return new BaseResponse<>(NOT_CORRECT_PASSWORD);
 
         // 로그인 성공 시 토큰 값을 DTO에 담아서 응답해줌
         String jwTokenString = tokenService.createToken(user.getId().toString()).getJwTokenString();
@@ -57,7 +65,7 @@ public class UserService {
 
     public BaseResponse<String> deleteUser(Long id){
         if (!userRepository.existsById(id)){
-            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USER_ID);
+            return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
         //유저가 작성한 리뷰 삭제
         User user = userRepository.findById(id).orElseThrow();
@@ -67,5 +75,32 @@ public class UserService {
 
         userRepository.deleteById(id);
         return new BaseResponse<>("회원탈퇴가 완료되었습니다.");
+    }
+
+    public BaseResponse<UserRes.UserInfo> getUserInfo(Long id) {
+        if (!userRepository.existsById(id)) {
+            return new BaseResponse<>(NOT_EXIST_USER_ID);
+        }
+        User user = userRepository.findById(id).orElseThrow();
+        Long reviewCount = reviewRepository.countByUser(user);
+        Long bookmarkCount = bookmarkRepository.countByUser(user);
+        Long followCount = followRepository.countByFollowerUser(user);
+
+        UserRes.UserInfo userInfo = new UserRes.UserInfo(user, reviewCount, bookmarkCount, followCount);
+
+        return new BaseResponse<>(userInfo);
+    }
+
+    public BaseResponse<BaseResponseStatus> editUserInfo(Long id, UserReq.UpdateUserInfo userInfo) {
+        if (!userRepository.existsById(id)) {
+            return new BaseResponse<>(NOT_EXIST_USER_ID);
+        }
+        User user = userRepository.findById(id).orElseThrow();
+
+        if (userRepository.existsByName(userInfo.getName())){
+            return new BaseResponse<>(DUPLICATED_USER_NAME);
+        }
+        user.updateUserInfo(userInfo);
+        return new BaseResponse<>(UPDATE_SUCCESS);
     }
 }

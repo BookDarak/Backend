@@ -30,7 +30,7 @@ public class ReviewController {
     }
 
     @PatchMapping("/reviews/{userId}/{bookId}")
-    public BaseResponse<String> updateReview(@RequestBody ReviewReq.UpdateReviewReq request,@PathVariable Long userId, @PathVariable Long bookId){
+    public BaseResponse<BaseResponseStatus> updateReview(@RequestBody ReviewReq.UpdateReviewReq request,@PathVariable Long userId, @PathVariable Long bookId){
         if (request.getContent()!=null && request.getContent().isBlank()){
             return new BaseResponse<>(BaseResponseStatus.EMPTY_REVIEW_CONTENT);
         }

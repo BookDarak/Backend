@@ -1,7 +1,6 @@
 package com.bookjeok.bookdarak.service;
 
 import com.bookjeok.bookdarak.base.BaseResponse;
-import com.bookjeok.bookdarak.base.BaseResponseStatus;
 import com.bookjeok.bookdarak.domain.Follow;
 import com.bookjeok.bookdarak.domain.User;
 import com.bookjeok.bookdarak.dto.user.FollowRes;
@@ -13,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.bookjeok.bookdarak.base.BaseResponseStatus.*;
 
 @Service
 @Transactional
@@ -26,7 +27,7 @@ public class FollowService {
         User followeeUser = userRepository.findById(followeeId).orElseThrow();
 
         if (followRepository.existsFollowByFollowerUserAndFolloweeUser(followerUser, followeeUser)) {
-            return new BaseResponse<>(BaseResponseStatus.FOLLOW_ALREADY_ADDED);
+            return new BaseResponse<>(FOLLOW_ALREADY_ADDED);
         }
 
         Follow follow = Follow.builder()
@@ -40,7 +41,7 @@ public class FollowService {
     public BaseResponse<String> unfollowUser(Long followerId, Long followeeId) {
         Follow follow = getFollowEntity(followeeId, followerId);
         if (follow==null){
-            return new BaseResponse<>(BaseResponseStatus.FOLLOW_ALREADY_DELETED);
+            return new BaseResponse<>(FOLLOW_ALREADY_DELETED);
         }
         followRepository.delete(follow);
         return new BaseResponse<>("팔로우를 취소했습니다.");
@@ -60,17 +61,40 @@ public class FollowService {
     public BaseResponse<List<FollowRes>> getUserFollowers(Long userId){
         //유저 조회
         if (!userRepository.existsById(userId)) {
-            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USER_ID);
+            return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
         User user = userRepository.findById(userId).orElseThrow();
 
         //유저의 팔로워들 조회
         List<Follow> follows= followRepository.findAllByFolloweeUser(user);
 
-        //팔로워들 컬럼 조회
+        return getFollowResList(follows, true);
+    }
+
+    public BaseResponse<List<FollowRes>> getUserFollowings(Long userId) {
+        if (!userRepository.existsById(userId)) {
+            return new BaseResponse<>(NOT_EXIST_USER_ID);
+        }
+        User user = userRepository.findById(userId).orElseThrow();
+
+        //유저의 팔로워들 조회
+        List<Follow> follows= followRepository.findAllByFollowerUser(user);
+
+
+        return getFollowResList(follows, false);
+    }
+
+    public BaseResponse<List<FollowRes>> getFollowResList(List<Follow> follows, Boolean isFollower){
         List<FollowRes> followResList = new ArrayList<>();
+        Long userId;
         for (Follow follow : follows) {
-            User followUser = userRepository.findById(follow.getFollowerUser().getId()).orElseThrow();
+
+            if (isFollower){ //팔로워 조회
+                userId = follow.getFollowerUser().getId();
+            } else { //팔로잉 조회
+                userId = follow.getFolloweeUser().getId();
+            }
+            User followUser = userRepository.findById(userId).orElseThrow();
             followResList.add(FollowRes.builder()
                     .followerId(followUser.getId())
                     .followerName(followUser.getName())
@@ -86,5 +110,6 @@ public class FollowService {
 
         return followRepository.findFollowByFollowerUserAndFolloweeUser(followerUser, followeeUser);
     }
+
 
 }

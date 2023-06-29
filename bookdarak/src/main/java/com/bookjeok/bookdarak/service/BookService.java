@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.bookjeok.bookdarak.base.BaseResponseStatus.*;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -33,7 +35,7 @@ public class BookService {
     @Transactional(readOnly = true)
     public BaseResponse<BookRes.BookInfo> getBookInfo(Long id){
         if (!bookRepository.existsById(id)){
-            return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_BOOK_ID);
+            return new BaseResponse<>(NOT_EXIST_BOOK_ID);
         }
         Book book = bookRepository.findById(id).orElseThrow();
 
