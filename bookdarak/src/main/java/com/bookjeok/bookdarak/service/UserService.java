@@ -59,11 +59,8 @@ public class UserService {
         if (!userRepository.existsById(id)){
             return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
-        //유저가 작성한 리뷰 삭제
-        User user = findUser(id);
-        if (reviewRepository.existsByUser(user)){
-            reviewRepository.deleteReviewsByUser(user);
-        }
+        //탈퇴 유저와 관련된 리뷰, 북마크, 팔로우 삭제
+        deleteRelatedEntity(id);
 
         userRepository.deleteById(id);
         return new BaseResponse<>("회원탈퇴가 완료되었습니다.");
@@ -92,6 +89,19 @@ public class UserService {
         }
         user.updateUserInfo(userInfo);
         return new BaseResponse<>(UPDATE_SUCCESS);
+    }
+
+    private void deleteRelatedEntity(Long id) {
+        //유저가 작성한 리뷰 삭제
+        User user = findUser(id);
+        reviewRepository.deleteReviewsByUser(user);
+
+        //유저의 북마크 삭제
+        bookmarkRepository.deleteBookmarksByUser(user);
+
+        //유저의 팔로우 삭제
+        followRepository.deleteFollowByFollowerUser(user);
+        followRepository.deleteFollowByFolloweeUser(user);
     }
 
     private User saveUser(UserReq.Signup request) {
