@@ -30,11 +30,7 @@ public class FollowService {
             return new BaseResponse<>(FOLLOW_ALREADY_ADDED);
         }
 
-        Follow follow = Follow.builder()
-                .followerUser(followerUser)
-                .followeeUser(followeeUser)
-                .build();
-        followRepository.save(follow);
+        saveFollowEntity(followerUser, followeeUser);
         return new BaseResponse<>("팔로우를 추가했습니다.");
     }
 
@@ -88,12 +84,8 @@ public class FollowService {
         List<FollowRes> followResList = new ArrayList<>();
         Long userId;
         for (Follow follow : follows) {
+            userId = isFollower ? follow.getFollowerUser().getId() : follow.getFolloweeUser().getId(); //팔로워 or 팔로이 조회
 
-            if (isFollower){ //팔로워 조회
-                userId = follow.getFollowerUser().getId();
-            } else { //팔로잉 조회
-                userId = follow.getFolloweeUser().getId();
-            }
             User followUser = userRepository.findById(userId).orElseThrow();
             followResList.add(FollowRes.builder()
                     .followerId(followUser.getId())
@@ -111,5 +103,11 @@ public class FollowService {
         return followRepository.findFollowByFollowerUserAndFolloweeUser(followerUser, followeeUser);
     }
 
-
+    private void saveFollowEntity(User followerUser, User followeeUser) {
+        Follow follow = Follow.builder()
+                .followerUser(followerUser)
+                .followeeUser(followeeUser)
+                .build();
+        followRepository.save(follow);
+    }
 }

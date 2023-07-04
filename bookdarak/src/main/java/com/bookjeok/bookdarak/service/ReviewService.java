@@ -48,29 +48,33 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
-    public BaseResponse<ReviewRes.GetReviewRes> getReview(Long userId, Long bookId) {
-        Review review = reviewRepository.findReviewByUserIdAndBookId(userId, bookId);
-        if (review == null){
+    public BaseResponse<ReviewRes.GetReviewRes> getReview(Long reviewId) {
+        if (!reviewRepository.existsById(reviewId)){
             return new BaseResponse<>(NOT_EXIST_REVIEW);
         }
+        Review review = findReviewById(reviewId);
+
         return new BaseResponse<>(new ReviewRes.GetReviewRes(review));
     }
 
-    public BaseResponse<BaseResponseStatus> updateReview(ReviewReq.UpdateReviewReq request, Long userId, Long bookId){
-        Review review = reviewRepository.findReviewByUserIdAndBookId(userId, bookId);
-        if (review == null){
+    public BaseResponse<BaseResponseStatus> updateReview(ReviewReq.UpdateReviewReq request, Long reviewId){
+        if (!reviewRepository.existsById(reviewId)){
             return new BaseResponse<>(NOT_EXIST_REVIEW);
         }
+        Review review = findReviewById(reviewId);
         review.updateReview(request);
         return new BaseResponse<>(UPDATE_SUCCESS);
     }
 
-    public BaseResponse<String> deleteReview(Long userId, Long bookId){
-        Review review = reviewRepository.findReviewByUserIdAndBookId(userId, bookId);
-        if (review == null){
+    public BaseResponse<String> deleteReview(Long reviewId){
+        if (!reviewRepository.existsById(reviewId)){
             return new BaseResponse<>(NOT_EXIST_REVIEW);
         }
+        Review review = findReviewById(reviewId);
         reviewRepository.delete(review);
         return new BaseResponse<>("삭제를 완료했습니다.");
+    }
+    public Review findReviewById(Long reviewId){
+        return reviewRepository.findById(reviewId).orElseThrow();
     }
 }

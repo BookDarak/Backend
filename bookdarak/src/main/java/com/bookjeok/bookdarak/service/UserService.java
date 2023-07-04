@@ -35,15 +35,7 @@ public class UserService {
         if (userRepository.existsByName(request.getName())){
             return new BaseResponse<>(DUPLICATED_USER_NAME);
         }
-        String encodedPassword = passwordEncoder.encode(request.getPassword());
-
-        User user = userRepository.save(User.builder()
-                            .email(request.getEmail())
-                            .password(encodedPassword)
-                            .name(request.getName())
-                            .age(request.getAge())
-                            .introduction(request.getIntroduction())
-                            .profileUrl(request.getProfile_url()).build());
+        User user = saveUser(request);
 
         return new BaseResponse<>(new UserRes.Signup(user.getId()));
     }
@@ -67,11 +59,8 @@ public class UserService {
         if (!userRepository.existsById(id)){
             return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
-        //유저가 작성한 리뷰 삭제
-        User user = userRepository.findById(id).orElseThrow();
-        if (reviewRepository.existsByUser(user)){
-            reviewRepository.deleteReviewsByUser(user);
-        }
+        //탈퇴 유저와 관련된 리뷰, 북마크, 팔로우 삭제
+        deleteRelatedEntity(id);
 
         userRepository.deleteById(id);
         return new BaseResponse<>("회원탈퇴가 완료되었습니다.");
@@ -81,26 +70,54 @@ public class UserService {
         if (!userRepository.existsById(id)) {
             return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
-        User user = userRepository.findById(id).orElseThrow();
+        User user = findUser(id);
         Long reviewCount = reviewRepository.countByUser(user);
         Long bookmarkCount = bookmarkRepository.countByUser(user);
         Long followCount = followRepository.countByFollowerUser(user);
 
-        UserRes.UserInfo userInfo = new UserRes.UserInfo(user, reviewCount, bookmarkCount, followCount);
-
-        return new BaseResponse<>(userInfo);
+        return new BaseResponse<>(new UserRes.UserInfo(user, reviewCount, bookmarkCount, followCount));
     }
 
     public BaseResponse<BaseResponseStatus> editUserInfo(Long id, UserReq.UpdateUserInfo userInfo) {
         if (!userRepository.existsById(id)) {
             return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
-        User user = userRepository.findById(id).orElseThrow();
+        User user = findUser(id);
 
         if (userRepository.existsByName(userInfo.getName())){
             return new BaseResponse<>(DUPLICATED_USER_NAME);
         }
         user.updateUserInfo(userInfo);
         return new BaseResponse<>(UPDATE_SUCCESS);
+    }
+
+    private void deleteRelatedEntity(Long id) {
+        //유저가 작성한 리뷰 삭제
+        User user = findUser(id);
+        reviewRepository.deleteReviewsByUser(user);
+
+        //유저의 북마크 삭제
+        bookmarkRepository.deleteBookmarksByUser(user);
+
+        //유저의 팔로우 삭제
+        followRepository.deleteFollowByFollowerUser(user);
+        followRepository.deleteFollowByFolloweeUser(user);
+    }
+
+    private User saveUser(UserReq.Signup request) {
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+
+        User user = userRepository.save(User.builder()
+                .email(request.getEmail())
+                .password(encodedPassword)
+                .name(request.getName())
+                .age(request.getAge())
+                .introduction(request.getIntroduction())
+                .profileUrl(request.getProfile_url()).build());
+        return user;
+    }
+
+    public User findUser(Long id){
+        return userRepository.findById(id).orElseThrow();
     }
 }

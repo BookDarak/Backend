@@ -27,17 +27,13 @@ public class BookmarkService {
         if (validateId(userId, bookId)!=null){
             return validateId(userId, bookId);
         }
-        User user = userRepository.findById(userId).orElseThrow();
-        Book book = bookRepository.findById(bookId).orElseThrow();
+        User user = findUserById(userId);
+        Book book = findBookById(bookId);
 
-        if (bookmarkRepository.existsByUserAndBook(user,book)){
+        if (isBookmarkExists(user,book)){
             return new BaseResponse<>(BOOKMARK_ALREADY_ADDED);
         }
-        bookmarkRepository.save(Bookmark.builder()
-                .user(user)
-                .book(book)
-                .bookmarkYn("Y")
-                .build());
+        saveBookmark(user, book);
 
         return new BaseResponse<>("북마크에 추가했습니다.");
     }
@@ -46,8 +42,8 @@ public class BookmarkService {
         if (validateId(userId, bookId)!=null){
             return validateId(userId, bookId);
         }
-        User user = userRepository.findById(userId).orElseThrow();
-        Book book = bookRepository.findById(bookId).orElseThrow();
+        User user = findUserById(userId);
+        Book book = findBookById(bookId);
 
         Bookmark bookmark = bookmarkRepository.findBookmarkByUserAndBook(user, book);
         if (bookmark == null){
@@ -65,10 +61,10 @@ public class BookmarkService {
         if (validateId(userId, bookId)!=null){
             return validateId(userId, bookId);
         }
-        User user = userRepository.findById(userId).orElseThrow();
-        Book book = bookRepository.findById(bookId).orElseThrow();
+        User user = findUserById(userId);
+        Book book = findBookById(bookId);
 
-        if (bookmarkRepository.existsByUserAndBook(user, book)) {
+        if (isBookmarkExists(user, book)) {
             return new BaseResponse<>("true");
         } else {
             return new BaseResponse<>("false");
@@ -82,7 +78,7 @@ public class BookmarkService {
             return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
 
-        User user = userRepository.findById(userId).orElseThrow();
+        User user = findUserById(userId);
         List<Bookmark> bookmarks = bookmarkRepository.findAllByUser(user);
 
         if (bookmarks.isEmpty()){
@@ -94,6 +90,15 @@ public class BookmarkService {
         return new BaseResponse<>(bookmarkResList);
     }
 
+
+    private void saveBookmark(User user, Book book) {
+        bookmarkRepository.save(Bookmark.builder()
+                .user(user)
+                .book(book)
+                .bookmarkYn("Y")
+                .build());
+    }
+
     public BaseResponse<String> validateId(Long userId, Long bookId){
         if (!userRepository.existsById(userId)){
             return new BaseResponse<>(NOT_EXIST_USER_ID);
@@ -102,5 +107,17 @@ public class BookmarkService {
             return new BaseResponse<>(NOT_EXIST_BOOK_ID);
         }
         return null;
+    }
+
+    private Boolean isBookmarkExists(User user, Book book) {
+        return bookmarkRepository.existsByUserAndBook(user, book);
+    }
+
+    private User findUserById(Long userId) {
+        return userRepository.findById(userId).orElseThrow();
+    }
+
+    private Book findBookById(Long bookId) {
+        return bookRepository.findById(bookId).orElseThrow();
     }
 }
