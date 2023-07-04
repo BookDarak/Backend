@@ -5,10 +5,7 @@ import com.bookjeok.bookdarak.dto.shortReview.ShortReviewRes;
 import com.bookjeok.bookdarak.service.ShortReviewService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,5 +35,12 @@ public class ShortReviewController {
     public BaseResponse<List<ShortReviewRes>>
     getUserReviews(@PathVariable Long userId, @RequestParam String owner){
         return shortReviewService.getUserReviews(userId, owner);
+    }
+
+    @ApiOperation(value="요약 서평 추천")
+    @PostMapping("/reviews/shorts/recommend/{userId}/{reviewId}")
+    public BaseResponse<String> recommendShortReview(@PathVariable Long userId, @PathVariable Long reviewId)
+    {
+        return shortReviewService.recommendShortReview(userId, reviewId);
     }
 }

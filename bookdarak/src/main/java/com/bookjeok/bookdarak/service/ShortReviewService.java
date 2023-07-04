@@ -7,11 +7,15 @@ import com.bookjeok.bookdarak.domain.Review;
 import com.bookjeok.bookdarak.domain.User;
 import com.bookjeok.bookdarak.dto.shortReview.ShortReviewRes;
 import com.bookjeok.bookdarak.repository.BookRepository;
+import com.bookjeok.bookdarak.repository.ReviewRepository;
 import com.bookjeok.bookdarak.repository.ShortReviewRepository;
 import com.bookjeok.bookdarak.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +24,7 @@ import static com.bookjeok.bookdarak.base.BaseResponseStatus.*;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class ShortReviewService {
     private final ShortReviewRepository shortReviewRepository;
     private final UserRepository userRepository;
@@ -93,5 +98,21 @@ public class ShortReviewService {
         List<ShortReviewRes> shortReviews = ShortReviewRes.extractShortReviews(reviews);
 
         return new BaseResponse<>(shortReviews);
+    }
+
+    @Transactional
+    public BaseResponse<String> recommendShortReview(Long userId, Long reviewId)
+    {
+        Review review = shortReviewRepository.findById(reviewId).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow();
+
+//        if(shortReviewRepository.existsUserAndReview(user, review)){
+//            return new BaseResponse<>(RECOMMEND_ALREADY_ADDED);
+//        }
+
+        review.addReviewCount();
+
+
+        return new BaseResponse<>("리뷰를 추천했습니다");
     }
 }
