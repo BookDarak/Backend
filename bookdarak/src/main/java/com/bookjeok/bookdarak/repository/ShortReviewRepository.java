@@ -16,4 +16,8 @@ public interface ShortReviewRepository extends JpaRepository<Review, Long> {
     List<Review> findByBookAndPublicYnOrderByUpdatedAtDesc(Book book, String publicYn);
     List<Review> findByUser(User user);
     List<Review> findByUserAndPublicYn(User user, String publicYn);
+
+//    Boolean existsUserAndReview(User user, Review review);
+
+
 }

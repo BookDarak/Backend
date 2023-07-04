@@ -5,6 +5,7 @@ import com.bookjeok.bookdarak.dto.review.ReviewReq;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -75,5 +76,9 @@ public class Review extends BaseEntity {
         if (updateDto.getEndDate()!=null){
             this.endDate = updateDto.getEndDate();
         }
+    }
+
+    public void addReviewCount(){
+        likeCount+=1;
     }
 }
