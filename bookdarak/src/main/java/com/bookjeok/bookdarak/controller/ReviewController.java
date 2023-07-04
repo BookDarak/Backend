@@ -29,8 +29,8 @@ public class ReviewController {
         return reviewService.addReview(userId, bookId, request);
     }
 
-    @PatchMapping("/reviews/{userId}/{bookId}")
-    public BaseResponse<BaseResponseStatus> updateReview(@RequestBody ReviewReq.UpdateReviewReq request,@PathVariable Long userId, @PathVariable Long bookId){
+    @PatchMapping("/reviews/{reviewId}")
+    public BaseResponse<BaseResponseStatus> updateReview(@RequestBody ReviewReq.UpdateReviewReq request,@PathVariable Long reviewId ){
         if (request.getContent()!=null && request.getContent().isBlank()){
             return new BaseResponse<>(BaseResponseStatus.EMPTY_REVIEW_CONTENT);
         }
@@ -40,18 +40,18 @@ public class ReviewController {
         if (request.getStartDate()!=null&& request.getEndDate()!=null&& ReviewReq.isInValidDateInterval(request.getStartDate(),request.getEndDate())){
             return new BaseResponse<>(BaseResponseStatus.INVALID_DATE_INTERVAL);
         }
-        return reviewService.updateReview(request, userId, bookId);
+        return reviewService.updateReview(request, reviewId);
     }
 
-    @ApiOperation(value = "유저Id와 책Id로 서평 조회")
-    @GetMapping("/reviews/{userId}/{bookId}")
-    public BaseResponse<ReviewRes.GetReviewRes> getReview(@PathVariable Long userId, @PathVariable Long bookId ){
-        return reviewService.getReview(userId, bookId);
+    @ApiOperation(value = "서평 조회")
+    @GetMapping("/reviews/{reviewId}")
+    public BaseResponse<ReviewRes.GetReviewRes> getReview(@PathVariable Long reviewId ){
+        return reviewService.getReview(reviewId);
     }
 
     @ApiOperation(value = "서평 삭제")
-    @DeleteMapping("/reviews/{userId}/{bookId}")
-    public BaseResponse<String> deleteReview(@PathVariable Long userId, @PathVariable Long bookId){
-        return reviewService.deleteReview(userId, bookId);
+    @DeleteMapping("/reviews/{reviewId}")
+    public BaseResponse<String> deleteReview(@PathVariable Long reviewId){
+        return reviewService.deleteReview(reviewId);
     }
 }
