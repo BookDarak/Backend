@@ -48,10 +48,11 @@ public class ShortReviewService {
 
     public BaseResponse<List<ShortReviewRes>> getBookPublicReviews(Long bookId, String orderCriteria){
         // 책 조회
-        if (!bookRepository.existsById(bookId)) {
+        Book book = bookRepository.findById(bookId).orElse(null);
+
+        if (book==null) {
             return new BaseResponse<>(NOT_EXIST_BOOK_ID);
         }
-        Book book = bookRepository.findById(bookId).orElseThrow();
 
         // 정렬 기준에 맞는 리뷰 조회
         List<Review> reviews = new ArrayList<>();
@@ -74,10 +75,11 @@ public class ShortReviewService {
     public BaseResponse<List<ShortReviewRes>> getUserReviews(Long userId, String owner){
         System.out.println(owner);
         List<Review> reviews = new ArrayList<>();
-        if (!userRepository.existsById(userId)) {
+        User user = userRepository.findById(userId).orElse(null);
+
+        if (user==null) {
             return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
-        User user = userRepository.findById(userId).orElseThrow();
 
         if (owner.equals("Y")){
             reviews = shortReviewRepository.findByUser(user);

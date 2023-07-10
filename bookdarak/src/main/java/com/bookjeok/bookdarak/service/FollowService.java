@@ -55,11 +55,11 @@ public class FollowService {
 
     @Transactional(readOnly = true)
     public BaseResponse<List<FollowRes>> getUserFollowers(Long userId){
+        User user = userRepository.findById(userId).orElse(null);
         //유저 조회
-        if (!userRepository.existsById(userId)) {
+        if (user==null) {
             return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
-        User user = userRepository.findById(userId).orElseThrow();
 
         //유저의 팔로워들 조회
         List<Follow> follows= followRepository.findAllByFolloweeUser(user);
@@ -68,11 +68,10 @@ public class FollowService {
     }
 
     public BaseResponse<List<FollowRes>> getUserFollowings(Long userId) {
-        if (!userRepository.existsById(userId)) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user==null) {
             return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
-        User user = userRepository.findById(userId).orElseThrow();
-
         //유저의 팔로워들 조회
         List<Follow> follows= followRepository.findAllByFollowerUser(user);
 

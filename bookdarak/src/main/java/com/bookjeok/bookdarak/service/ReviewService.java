@@ -59,7 +59,7 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
-    public BaseResponse<ReviewRes.ReviewId> getReviewExistence(Long userId, Long bookId){
+    public BaseResponse<ReviewRes.ReviewId> getReviewId(Long userId, Long bookId){
         User user = userRepository.findById(userId).orElse(null);
         Book book = bookRepository.findById(bookId).orElse(null);
         if (user==null){
