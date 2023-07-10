@@ -50,10 +50,10 @@ public class ReviewController {
         return reviewService.getReview(reviewId);
     }
 
-    @ApiOperation(value = "서평 Id 조회", notes = "해당 서평 없으면 id는 -1 반환")
+    @ApiOperation(value = "서평 Id 조회", notes = "해당 서평 없으면 id는 -1 반환 (=서평 존재 여부 조회)")
     @GetMapping("/reviews/{userId}/{bookId}")
     public BaseResponse<ReviewRes.ReviewId> getReviewId(@PathVariable Long userId, @PathVariable Long bookId){
-        return reviewService.getReviewExistence(userId, bookId);
+        return reviewService.getReviewId(userId, bookId);
     }
 
     @ApiOperation(value = "서평 삭제")

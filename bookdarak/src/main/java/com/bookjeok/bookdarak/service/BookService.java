@@ -34,10 +34,11 @@ public class BookService {
 
     @Transactional(readOnly = true)
     public BaseResponse<BookRes.BookInfo> getBookInfo(Long id){
-        if (!bookRepository.existsById(id)){
+        Book book = bookRepository.findById(id).orElse(null);
+
+        if (book==null){
             return new BaseResponse<>(NOT_EXIST_BOOK_ID);
         }
-        Book book = bookRepository.findById(id).orElseThrow();
 
         return new BaseResponse<>(new BookRes.BookInfo(book));
     }
