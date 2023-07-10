@@ -14,6 +14,7 @@ import java.util.List;
 @Builder
 @Getter @AllArgsConstructor
 public class ShortReviewRes {
+    private Long reviewId;
     private Long userId;
     private String username;
     private Long bookId;
@@ -28,6 +29,7 @@ public class ShortReviewRes {
 
         for (Review review : reviews) {// 리뷰 꺼냄
             ShortReviewRes dto = ShortReviewRes.builder()
+                    .reviewId(review.getId())
                     .userId(review.getUser().getId())
                     .username(review.getUser().getName())
                     .bookId(review.getBook().getId())
