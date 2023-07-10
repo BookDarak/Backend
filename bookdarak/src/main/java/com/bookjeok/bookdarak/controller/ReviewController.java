@@ -29,6 +29,7 @@ public class ReviewController {
         return reviewService.addReview(userId, bookId, request);
     }
 
+    @ApiOperation(value = "서평 수정")
     @PatchMapping("/reviews/{reviewId}")
     public BaseResponse<BaseResponseStatus> updateReview(@RequestBody ReviewReq.UpdateReviewReq request,@PathVariable Long reviewId ){
         if (request.getContent()!=null && request.getContent().isBlank()){
@@ -47,6 +48,12 @@ public class ReviewController {
     @GetMapping("/reviews/{reviewId}")
     public BaseResponse<ReviewRes.GetReviewRes> getReview(@PathVariable Long reviewId ){
         return reviewService.getReview(reviewId);
+    }
+
+    @ApiOperation(value = "서평 Id 조회", notes = "해당 서평 없으면 id는 -1 반환")
+    @GetMapping("/reviews/{userId}/{bookId}")
+    public BaseResponse<ReviewRes.ReviewId> getReviewId(@PathVariable Long userId, @PathVariable Long bookId){
+        return reviewService.getReviewExistence(userId, bookId);
     }
 
     @ApiOperation(value = "서평 삭제")

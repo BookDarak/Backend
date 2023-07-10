@@ -13,7 +13,7 @@ public class ReviewRes {
     @Getter
     @AllArgsConstructor
     public static class ReviewId {
-        private Long createdReviewId;
+        private Long reviewId;
     }
 
     @Getter @AllArgsConstructor
