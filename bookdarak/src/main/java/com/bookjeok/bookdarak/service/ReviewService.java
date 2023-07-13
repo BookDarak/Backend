@@ -14,6 +14,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.bookjeok.bookdarak.base.BaseResponseStatus.*;
 
 
@@ -92,6 +97,20 @@ public class ReviewService {
         reviewRepository.delete(review);
         return new BaseResponse<>("삭제를 완료했습니다.");
     }
+
+    public BaseResponse<List<ReviewRes.Calendar>> getCalendar(ReviewReq.Calendar request) {
+
+        List<Review> result = reviewRepository.findReviewByDate(request.getCalStartDate(), request.getCalEndDate());
+
+        List<ReviewRes.Calendar> lst = new ArrayList<>();
+        for (Review r: result){
+            ReviewRes.Calendar calendarRes = new ReviewRes.Calendar(r);
+            lst.add(calendarRes);
+        }
+        return new BaseResponse<>(lst);
+    }
+
+
     //
     public Review findReviewById(Long reviewId){
         return reviewRepository.findById(reviewId).orElseThrow();

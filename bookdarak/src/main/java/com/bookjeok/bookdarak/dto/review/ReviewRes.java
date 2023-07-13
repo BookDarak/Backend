@@ -37,4 +37,17 @@ public class ReviewRes {
             this.endDate = review.getEndDate();
         }
     }
+
+    @Getter
+    public static class Calendar{
+        private Long reviewId;
+        private LocalDate startDate;
+        private LocalDate endDate;
+
+        public Calendar(Review review) {
+            this.reviewId = review.getId();
+            this.startDate = review.getStartDate();
+            this.endDate = review.getEndDate();
+        }
+    }
 }

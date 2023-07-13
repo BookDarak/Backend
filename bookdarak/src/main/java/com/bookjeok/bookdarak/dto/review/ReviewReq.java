@@ -44,6 +44,12 @@ public class ReviewReq {
         private LocalDate endDate;
     }
 
+    @Getter
+    public static class Calendar{
+        private LocalDate calStartDate;
+        private LocalDate calEndDate;
+    }
+
     //시작일, 종료일 크기 비교
     public static boolean isInValidDateInterval(LocalDate stDate, LocalDate edDate){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
