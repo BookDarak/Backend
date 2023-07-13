@@ -42,7 +42,7 @@ public class UserReq {
         private String password;
     }
 
-    @Getter @AllArgsConstructor
+    @Getter @AllArgsConstructor @NoArgsConstructor
     public static class UpdateUserInfo {
         private String name;
         private String introduction;
