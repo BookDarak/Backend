@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -60,5 +61,11 @@ public class ReviewController {
     @DeleteMapping("/reviews/{reviewId}")
     public BaseResponse<String> deleteReview(@PathVariable Long reviewId){
         return reviewService.deleteReview(reviewId);
+    }
+
+    @ApiOperation(value ="캘린더 조회")
+    @GetMapping("/calendar/{userId}")
+    public BaseResponse<List<ReviewRes.Calendar>> getCalendar(@RequestBody ReviewReq.Calendar request, @PathVariable Long userId){
+        return reviewService.getCalendar(request);
     }
 }
