@@ -45,9 +45,14 @@ public class GlobalExceptionHandler{
         BaseResponseStatus sDate = BaseResponseStatus.EMPTY_REVIEW_START_DATE;
         BaseResponseStatus eDate = BaseResponseStatus.EMPTY_REVIEW_END_DATE;
 
+        //캘린더
+        BaseResponseStatus calStart = BaseResponseStatus.CALENDAR_EMPTY_START;
+        BaseResponseStatus calEnd = BaseResponseStatus.CALENDAR_EMPTY_END;
+
         BaseResponseStatus[] statusList = new BaseResponseStatus[]{email, emailFormat, pwd, pwdFormat, name, age, intro,
                 bookName, authors, isbn,
-                rating, content, publicYn, sDate, eDate};
+                rating, content, publicYn, sDate, eDate,
+                calStart, calEnd};
 
         for (BaseResponseStatus status: statusList) {
             if (errors.contains(status.getMessage())){

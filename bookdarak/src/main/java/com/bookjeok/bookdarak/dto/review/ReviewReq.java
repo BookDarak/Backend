@@ -46,7 +46,9 @@ public class ReviewReq {
 
     @Getter
     public static class Calendar{
+        @NotNull(message = "캘린더 시작 날짜를 입력해주세요.")
         private LocalDate calStartDate;
+        @NotNull(message = "캘린더 종료 날짜를 입력해주세요.")
         private LocalDate calEndDate;
     }
 

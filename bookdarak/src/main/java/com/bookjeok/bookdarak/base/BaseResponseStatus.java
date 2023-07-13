@@ -105,7 +105,13 @@ public enum BaseResponseStatus {
 
     DUPLICATED_USER_NAME(false, 2057, "중복된 유저 닉네임입니다."),
 
+
     RECOMMEND_ALREADY_ADDED(false,2058, "이미 추천한 서평입니다."),
+
+    CALENDAR_EMPTY_START(false,2059,"캘린더 시작 날짜를 입력해주세요."),
+
+    CALENDAR_EMPTY_END(false,2060,"캘린더 종료 날짜를 입력해주세요."),
+
     /**
      * 3000 : Response 오류
      */
