@@ -98,9 +98,12 @@ public class ReviewService {
         return new BaseResponse<>("삭제를 완료했습니다.");
     }
 
-    public BaseResponse<List<ReviewRes.Calendar>> getCalendar(ReviewReq.Calendar request) {
-
-        List<Review> result = reviewRepository.findReviewByDate(request.getCalStartDate(), request.getCalEndDate());
+    public BaseResponse<List<ReviewRes.Calendar>> getCalendar(ReviewReq.Calendar request, Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user==null){
+            return new BaseResponse<>(NOT_EXIST_USER_ID);
+        }
+        List<Review> result = reviewRepository.findReviewByDate(user, request.getCalStartDate(), request.getCalEndDate());
 
         List<ReviewRes.Calendar> lst = new ArrayList<>();
         for (Review r: result){

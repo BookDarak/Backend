@@ -17,6 +17,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Long countByUser(User user);
 
     @Query(value = "select r from Review r where"+
-            " (r.startDate between :calStartD and :calEndD) or (r.endDate between : calStartD and :calEndD)")
-    List<Review> findReviewByDate(@Param("calStartD")LocalDate calStartD, @Param("calEndD")LocalDate calEndD);
+            " r.user = :user and ((r.startDate between :calStartD and :calEndD) or (r.endDate between : calStartD and :calEndD))")
+    List<Review> findReviewByDate(@Param("user")User user, @Param("calStartD")LocalDate calStartD, @Param("calEndD")LocalDate calEndD);
 }

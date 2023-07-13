@@ -65,7 +65,7 @@ public class ReviewController {
 
     @ApiOperation(value ="캘린더 조회")
     @GetMapping("/calendar/{userId}")
-    public BaseResponse<List<ReviewRes.Calendar>> getCalendar(@RequestBody ReviewReq.Calendar request, @PathVariable Long userId){
-        return reviewService.getCalendar(request);
+    public BaseResponse<List<ReviewRes.Calendar>> getCalendar(@RequestBody @Valid ReviewReq.Calendar request, @PathVariable Long userId){
+        return reviewService.getCalendar(request, userId);
     }
 }

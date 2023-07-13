@@ -104,6 +104,12 @@ public enum BaseResponseStatus {
     FOLLOW_ALREADY_DELETED(false, 2056, "이미 팔로우 취소한 유저입니다."),
 
     DUPLICATED_USER_NAME(false, 2057, "중복된 유저 닉네임입니다."),
+
+    CALENDAR_EMPTY_START(false,2058,"캘린더 시작 날짜를 입력해주세요."),
+
+    CALENDAR_EMPTY_END(false,2059,"캘린더 종료 날짜를 입력해주세요."),
+
+
     /**
      * 3000 : Response 오류
      */
