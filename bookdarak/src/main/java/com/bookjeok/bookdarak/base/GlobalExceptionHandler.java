@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.bookjeok.bookdarak.base.BaseResponseStatus.*;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler{
 
@@ -23,7 +25,6 @@ public class GlobalExceptionHandler{
     }
 
     private BaseResponse<BaseResponseStatus> extractErrors(List<String> errors){
-        // 회원
         BaseResponseStatus email = BaseResponseStatus.EMPTY_USER_EMAIL;
         BaseResponseStatus emailFormat = BaseResponseStatus.INVALID_USER_EMAIL;
         BaseResponseStatus pwd = BaseResponseStatus.EMPTY_USER_PASSWORD;
@@ -60,7 +61,6 @@ public class GlobalExceptionHandler{
             }
         }
         return new BaseResponse<>(BaseResponseStatus.RESPONSE_ERROR);
-
     }
 
 

@@ -2,6 +2,7 @@ package com.bookjeok.bookdarak.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -9,7 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 public class UserReq {
-    @Getter @AllArgsConstructor
+    @Getter @AllArgsConstructor @NoArgsConstructor
     public static class Signup {
         @NotBlank(message="이메일을 입력해주세요.")
         @Email(message="이메일 형식을 확인해주세요.")
@@ -31,7 +32,7 @@ public class UserReq {
 
         private String profile_url;
     }
-    @Getter @AllArgsConstructor
+    @Getter @AllArgsConstructor @NoArgsConstructor
     public static class Login {
         @NotBlank(message="이메일을 입력해주세요.")
         @Email(message="이메일 형식을 확인해주세요.")
