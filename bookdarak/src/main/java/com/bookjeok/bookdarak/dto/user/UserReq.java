@@ -1,6 +1,7 @@
 package com.bookjeok.bookdarak.dto.user;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -56,5 +57,11 @@ public class UserReq {
         @Pattern(regexp = "^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[`~!@$!%*#^?&\\(\\)\\-_=+])(?!.*[^a-zA-z0-9`~!@$!%*#^?&\\(\\)\\-_=+]).{8,16}$",
                 message = "비밀번호는 숫자, 영문, 특수문자를 포함해서 8자~16자 이내로 설정해주세요.")
         private String newPw;
+    }
+
+    @Getter @AllArgsConstructor @NoArgsConstructor
+    public static class MailTmpPw {
+        private Long userId;
+        private String email;
     }
 }

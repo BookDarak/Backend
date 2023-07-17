@@ -52,4 +52,6 @@ public class User extends BaseEntity {
     public void changeUserPw(String password){
         this.password = password;
     }
+
+
 }
