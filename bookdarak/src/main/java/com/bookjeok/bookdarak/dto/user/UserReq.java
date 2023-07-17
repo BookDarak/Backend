@@ -48,4 +48,13 @@ public class UserReq {
         private String introduction;
         private Integer age;
     }
+
+    @Getter @AllArgsConstructor @NoArgsConstructor
+    public static class ChangePw{
+        private Long userId;
+        private String oldPw;
+        @Pattern(regexp = "^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[`~!@$!%*#^?&\\(\\)\\-_=+])(?!.*[^a-zA-z0-9`~!@$!%*#^?&\\(\\)\\-_=+]).{8,16}$",
+                message = "비밀번호는 숫자, 영문, 특수문자를 포함해서 8자~16자 이내로 설정해주세요.")
+        private String newPw;
+    }
 }

@@ -112,6 +112,8 @@ public enum BaseResponseStatus {
 
     CALENDAR_EMPTY_END(false,2060,"캘린더 종료 날짜를 입력해주세요."),
 
+    INCORRECT_OLD_PW(false,2061,"기존 비밀번호를 올바르게 입력해주세요."),
+
     /**
      * 3000 : Response 오류
      */

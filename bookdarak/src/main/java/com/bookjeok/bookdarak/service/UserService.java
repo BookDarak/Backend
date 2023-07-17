@@ -91,6 +91,19 @@ public class UserService {
         return new BaseResponse<>(UPDATE_SUCCESS);
     }
 
+    public BaseResponse<String> changePassword(UserReq.ChangePw request) {
+        User user = userRepository.findById(request.getUserId()).orElse(null);
+        if (user==null){
+            return new BaseResponse<>(NOT_EXIST_USER_ID);
+        }
+        if (passwordEncoder.matches(request.getOldPw(), user.getPassword())){
+            user.changeUserPw(passwordEncoder.encode(request.getNewPw()));
+        } else {
+            return new BaseResponse<>(INCORRECT_OLD_PW);
+        }
+        return new BaseResponse<>(SUCCESS);
+    }
+
     private void deleteRelatedEntity(Long id) {
         //유저가 작성한 리뷰 삭제
         User user = findUser(id);
@@ -107,14 +120,13 @@ public class UserService {
     private User saveUser(UserReq.Signup request) {
         String encodedPassword = passwordEncoder.encode(request.getPassword());
 
-        User user = userRepository.save(User.builder()
+        return userRepository.save(User.builder()
                 .email(request.getEmail())
                 .password(encodedPassword)
                 .name(request.getName())
                 .age(request.getAge())
                 .introduction(request.getIntroduction())
                 .profileUrl(request.getProfile_url()).build());
-        return user;
     }
 
     public User findUser(Long id){

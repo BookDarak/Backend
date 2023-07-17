@@ -42,4 +42,11 @@ public class UserController {
     @PatchMapping("/users/info/{id}")
     public BaseResponse<BaseResponseStatus> editUserInfo(@PathVariable Long id, @RequestBody UserReq.UpdateUserInfo updateUserInfoReq){
         return userService.editUserInfo(id, updateUserInfoReq);}
+
+    @ApiOperation(value = "비밀번호 변경")
+    @PatchMapping("/users/pw")
+    public BaseResponse<String> changePassword(@Valid @RequestBody UserReq.ChangePw changePwReq){
+        return userService.changePassword(changePwReq);
+    }
+
 }
