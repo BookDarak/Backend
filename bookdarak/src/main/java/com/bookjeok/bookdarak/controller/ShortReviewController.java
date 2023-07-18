@@ -43,4 +43,13 @@ public class ShortReviewController {
     {
         return shortReviewService.recommendShortReview(userId, reviewId);
     }
+
+    @ApiOperation(value="요약 서평 추천 취소")
+    @DeleteMapping("/reviews/shorts/recommend/{userId}/{reviewId}")
+    public BaseResponse<String> deleteShortReviewLike(@PathVariable Long userId, @PathVariable Long reviewId)
+    {
+        return shortReviewService.deleteShortReviewLike(userId, reviewId);
+    }
 }
+
+

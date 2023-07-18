@@ -81,4 +81,7 @@ public class Review extends BaseEntity {
     public void addReviewCount(){
         likeCount+=1;
     }
+    public void deleteReviewCount(){
+        likeCount-=1;
+    }
 }

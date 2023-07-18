@@ -2,14 +2,9 @@ package com.bookjeok.bookdarak.service;
 
 import com.bookjeok.bookdarak.base.BaseResponse;
 import com.bookjeok.bookdarak.base.BaseResponseStatus;
-import com.bookjeok.bookdarak.domain.Book;
-import com.bookjeok.bookdarak.domain.Review;
-import com.bookjeok.bookdarak.domain.User;
+import com.bookjeok.bookdarak.domain.*;
 import com.bookjeok.bookdarak.dto.shortReview.ShortReviewRes;
-import com.bookjeok.bookdarak.repository.BookRepository;
-import com.bookjeok.bookdarak.repository.ReviewRepository;
-import com.bookjeok.bookdarak.repository.ShortReviewRepository;
-import com.bookjeok.bookdarak.repository.UserRepository;
+import com.bookjeok.bookdarak.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,6 +24,7 @@ public class ShortReviewService {
     private final ShortReviewRepository shortReviewRepository;
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
+    private final Review_likeRepository review_likerepository;
 
     public BaseResponse<List<ShortReviewRes>> getAllPublicReviews(String orderCriteria) {
         List<Review> reviews = new ArrayList<>();
@@ -51,9 +47,9 @@ public class ShortReviewService {
         return new BaseResponse<>(shortReviews);
     }
 
-    public BaseResponse<List<ShortReviewRes>> getBookPublicReviews(Long bookId, String orderCriteria){
+    public BaseResponse<List<ShortReviewRes>> getBookPublicReviews(Long reviewId, String orderCriteria){
         // 책 조회
-        Book book = bookRepository.findById(bookId).orElse(null);
+        Book book = bookRepository.findById(reviewId).orElse(null);
 
         if (book==null) {
             return new BaseResponse<>(NOT_EXIST_BOOK_ID);
@@ -102,19 +98,58 @@ public class ShortReviewService {
         return new BaseResponse<>(shortReviews);
     }
 
+    //서평 추천
     @Transactional
     public BaseResponse<String> recommendShortReview(Long userId, Long reviewId)
     {
+        if (validateId(userId, reviewId)!=null){
+            return validateId(userId, reviewId);
+        }
         Review review = shortReviewRepository.findById(reviewId).orElseThrow();
         User user = userRepository.findById(userId).orElseThrow();
 
-//        if(shortReviewRepository.existsUserAndReview(user, review)){
-//            return new BaseResponse<>(RECOMMEND_ALREADY_ADDED);
-//        }
+        if(review_likerepository.existsReview_likeByUserAndReview(user, review)){
+            return new BaseResponse<>(RECOMMEND_ALREADY_ADDED);
+        }
+
+        Review_like review_like = Review_like.builder().review(review).user(user).build();
+        review_likerepository.save(review_like);
 
         review.addReviewCount();
+        return new BaseResponse<>("요약서평을 추천했습니다");
+    }
+    //서평 추천 삭제
+    @Transactional
+    public BaseResponse<String> deleteShortReviewLike(Long userId, Long reviewId){
+        if (validateId(userId, reviewId)!=null){
+            return validateId(userId, reviewId);
+        }
+        Review review = shortReviewRepository.findById(reviewId).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow();
 
+        Review_like review_like = review_likerepository.findReview_likeByUserAndReview(user,review);
+        if (review_like == null){
+            return new BaseResponse<>(RECOMMEND_ALREADY_DELETED);
+        }
 
-        return new BaseResponse<>("리뷰를 추천했습니다");
+        review.deleteReviewCount();
+        review_likerepository.delete(review_like);
+
+        return new BaseResponse<>("요약서평 추천을 삭제했습니다.");
+
+    }
+
+    public BaseResponse<String> validateId(Long userId, Long reviewId) {
+        if (!userRepository.existsById(userId)) {
+            return new BaseResponse<>(NOT_EXIST_USER_ID);
+        }
+        if (!shortReviewRepository.existsById(reviewId)) {
+            return new BaseResponse<>(NOT_EXIST_REVIEW_ID);
+        }
+        return null;
     }
 }
+
+
+
+

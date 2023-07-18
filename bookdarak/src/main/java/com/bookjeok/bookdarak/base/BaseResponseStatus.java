@@ -94,7 +94,7 @@ public enum BaseResponseStatus {
 
     BOOKMARK_ALREADY_ADDED(false, 2051, "이미 북마크에 추가된 책입니다."),
 
-    BOOKMARK_ALREADY_DELETED(false, 2052, "이미 북마크에 추가된 책입니다."),
+    BOOKMARK_ALREADY_DELETED(false, 2052, "이미 삭제된 북마크 책입니다."),
 
     BOOKMARK_NOT_EXISTS(false, 2053, "북마크에 추가된 책이 없습니다."),
 
@@ -111,6 +111,10 @@ public enum BaseResponseStatus {
     CALENDAR_EMPTY_START(false,2059,"캘린더 시작 날짜를 입력해주세요."),
 
     CALENDAR_EMPTY_END(false,2060,"캘린더 종료 날짜를 입력해주세요."),
+
+    RECOMMEND_ALREADY_DELETED(false,2061,"이미 추천을 삭제했습니다."),
+
+    NOT_EXIST_REVIEW_ID(false,2062,"존재하지 않는 리뷰입니다."),
 
     /**
      * 3000 : Response 오류
