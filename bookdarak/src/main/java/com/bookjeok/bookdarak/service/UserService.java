@@ -10,6 +10,9 @@ import com.bookjeok.bookdarak.repository.FollowRepository;
 import com.bookjeok.bookdarak.repository.ReviewRepository;
 import com.bookjeok.bookdarak.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +29,9 @@ public class UserService {
     private final FollowRepository followRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
+    private final JavaMailSender javaMailSender;
+    @Value("${spring.mail.username}")
+    private String from;
 
     public BaseResponse<UserRes.Signup> signup(UserReq.Signup request){
 
@@ -91,6 +97,36 @@ public class UserService {
         return new BaseResponse<>(UPDATE_SUCCESS);
     }
 
+    public BaseResponse<String> changePassword(UserReq.ChangePw request) {
+        User user = userRepository.findById(request.getUserId()).orElse(null);
+        if (user==null){
+            return new BaseResponse<>(NOT_EXIST_USER_ID);
+        }
+        if (passwordEncoder.matches(request.getOldPw(), user.getPassword())){
+            user.changeUserPw(passwordEncoder.encode(request.getNewPw()));
+        } else {
+            return new BaseResponse<>(INCORRECT_OLD_PW);
+        }
+        return new BaseResponse<>(SUCCESS);
+    }
+
+    public BaseResponse<String> mailTempPassword(UserReq.MailTmpPw request){
+        User user = userRepository.findById(request.getUserId()).orElse(null);
+        if (user==null){
+            return new BaseResponse<>(NOT_EXIST_USER_ID);
+        }
+        if (!request.getEmail().equals(user.getEmail())) {
+            return new BaseResponse<>(INCORRECT_EMAIL);
+        }
+
+        String tmpPassword = getTmpPassword();
+        user.changeUserPw(passwordEncoder.encode(tmpPassword));
+
+
+        sendTmpPwd(user.getEmail(), tmpPassword);
+        return new BaseResponse<>(SUCCESS);
+    }
+
     private void deleteRelatedEntity(Long id) {
         //유저가 작성한 리뷰 삭제
         User user = findUser(id);
@@ -107,17 +143,43 @@ public class UserService {
     private User saveUser(UserReq.Signup request) {
         String encodedPassword = passwordEncoder.encode(request.getPassword());
 
-        User user = userRepository.save(User.builder()
+        return userRepository.save(User.builder()
                 .email(request.getEmail())
                 .password(encodedPassword)
                 .name(request.getName())
                 .age(request.getAge())
                 .introduction(request.getIntroduction())
                 .profileUrl(request.getProfile_url()).build());
-        return user;
     }
 
     public User findUser(Long id){
         return userRepository.findById(id).orElseThrow();
     }
+
+    public String getTmpPassword() {
+        char[] charSet = new char[]{ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+                'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+
+        String pwd = "";
+
+        /* 문자 배열 길이의 값을 랜덤으로 10개를 뽑아 조합 */
+        int idx = 0;
+        for(int i = 0; i < 10; i++){
+            idx = (int) (charSet.length * Math.random());
+            pwd += charSet[idx];
+        }
+        return pwd;
+    }
+
+    private void sendTmpPwd(String email, String tmpPassword) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(email);
+        message.setFrom(from);
+        message.setSubject("[북다락] 임시 비밀번호가 발급되었습니다.");
+        message.setText("임시 비밀번호는 "+ tmpPassword + "입니다.");
+
+        javaMailSender.send(message);
+    }
+
 }

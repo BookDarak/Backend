@@ -48,4 +48,10 @@ public class User extends BaseEntity {
             this.introduction = userInfo.getIntroduction();
         }
     }
+
+    public void changeUserPw(String password){
+        this.password = password;
+    }
+
+
 }

@@ -112,9 +112,14 @@ public enum BaseResponseStatus {
 
     CALENDAR_EMPTY_END(false,2060,"캘린더 종료 날짜를 입력해주세요."),
 
-    RECOMMEND_ALREADY_DELETED(false,2061,"이미 추천을 삭제했습니다."),
+    INCORRECT_OLD_PW(false,2061,"기존 비밀번호를 올바르게 입력해주세요."),
 
-    NOT_EXIST_REVIEW_ID(false,2062,"존재하지 않는 리뷰입니다."),
+    INCORRECT_EMAIL(false, 2062, "이메일을 올바르게 입력해주세요."),
+
+    RECOMMEND_ALREADY_DELETED(false,2063,"이미 추천을 삭제했습니다."),
+
+    NOT_EXIST_REVIEW_ID(false,2064,"존재하지 않는 리뷰입니다."),
+
 
     /**
      * 3000 : Response 오류

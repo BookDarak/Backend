@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 @RestController
@@ -42,4 +43,19 @@ public class UserController {
     @PatchMapping("/users/info/{id}")
     public BaseResponse<BaseResponseStatus> editUserInfo(@PathVariable Long id, @RequestBody UserReq.UpdateUserInfo updateUserInfoReq){
         return userService.editUserInfo(id, updateUserInfoReq);}
+
+    @ApiOperation(value = "비밀번호 변경")
+    @PatchMapping("/users/pw")
+    public BaseResponse<String> changePassword(@Valid @RequestBody UserReq.ChangePw changePwReq){
+        return userService.changePassword(changePwReq);
+    }
+
+
+    @ApiOperation(value = "비밀번호 재설정")
+    @PostMapping("/users/pw/tmp")
+    public BaseResponse<String> mailTempPassword(@Valid @RequestBody UserReq.MailTmpPw mailTmpPwReq) {
+            return userService.mailTempPassword(mailTmpPwReq);
+    }
+
+
 }
