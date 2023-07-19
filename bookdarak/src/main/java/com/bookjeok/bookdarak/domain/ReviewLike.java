@@ -10,7 +10,7 @@ import javax.persistence.*;
 
 @Entity @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Review_like extends BaseEntity {
+public class ReviewLike extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_like_id")
@@ -28,7 +28,7 @@ public class Review_like extends BaseEntity {
 
 
     @Builder
-    public Review_like(User user, Review review){
+    public ReviewLike(User user, Review review){
         this.user = user;
         this.review=review;
     }

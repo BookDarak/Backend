@@ -39,9 +39,9 @@ public class ShortReviewController {
 
     @ApiOperation(value="요약 서평 추천")
     @PostMapping("/reviews/shorts/recommend/{userId}/{reviewId}")
-    public BaseResponse<String> recommendShortReview(@PathVariable Long userId, @PathVariable Long reviewId)
+    public BaseResponse<String> likeShortReview(@PathVariable Long userId, @PathVariable Long reviewId)
     {
-        return shortReviewService.recommendShortReview(userId, reviewId);
+        return shortReviewService.likeShortReview(userId, reviewId);
     }
 
     @ApiOperation(value="요약 서평 추천 취소")
@@ -53,17 +53,15 @@ public class ShortReviewController {
 
     @ApiOperation(value="요약 서평 추천 여부 조회")
     @GetMapping("/reviews/shorts/recommend/{userId}/{reviewId}")
-    public BaseResponse<String> recommendShortReviewStatus(@PathVariable Long userId, @PathVariable Long reviewId)
+    public BaseResponse<String> getShortReviewLikeStatus(@PathVariable Long userId, @PathVariable Long reviewId)
     {
-        return shortReviewService.recommendShortReviewStatus(userId, reviewId);
+        return shortReviewService.getShortReviewLikeStatus(userId, reviewId);
     }
 
     @ApiOperation(value="요약 서평 추천 수 조회")
     @GetMapping("/reviews/shorts/recommend/{reviewId}")
-    public BaseResponse<String> recommendShortReviewCount(@PathVariable Long reviewId)
+    public BaseResponse<String> getShortReviewLikeCount(@PathVariable Long reviewId)
     {
-        return shortReviewService.recommendShortReviewCount(reviewId);
+        return shortReviewService.getShortReviewLikeCount(reviewId);
     }
 }
-
-
