@@ -114,7 +114,7 @@ public enum BaseResponseStatus {
 
     INCORRECT_OLD_PW(false,2061,"기존 비밀번호를 올바르게 입력해주세요."),
 
-    INCORRECT_EMAIL(false, 2062, "이메일을 올바르게 입력해주세요."),
+    INCORRECT_EMAIL(false, 2062, "이메일이 일치하지 않습니다."),
 
     RECOMMEND_ALREADY_DELETED(false,2063,"이미 추천을 삭제했습니다."),
 

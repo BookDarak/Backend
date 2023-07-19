@@ -62,6 +62,9 @@ public class UserReq {
     @Getter @AllArgsConstructor @NoArgsConstructor
     public static class MailTmpPw {
         private Long userId;
+
+        @NotBlank(message="이메일을 입력해주세요.")
+        @Email(message="이메일 형식을 확인해주세요.")
         private String email;
     }
 }

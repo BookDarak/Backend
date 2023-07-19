@@ -163,10 +163,10 @@ public class UserService {
 
         String pwd = "";
 
-        /* 문자 배열 길이의 값을 랜덤으로 10개를 뽑아 조합 */
-        int idx = 0;
-        for(int i = 0; i < 10; i++){
-            idx = (int) (charSet.length * Math.random());
+        /* 문자 배열 길이의 값을 랜덤으로 12개를 뽑아 조합 */
+
+        for(int i = 0; i < 12; i++){
+            int idx = (int) (charSet.length * Math.random());
             pwd += charSet[idx];
         }
         return pwd;
