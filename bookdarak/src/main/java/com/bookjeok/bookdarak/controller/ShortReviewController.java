@@ -50,6 +50,20 @@ public class ShortReviewController {
     {
         return shortReviewService.deleteShortReviewLike(userId, reviewId);
     }
+
+    @ApiOperation(value="요약 서평 추천 여부 조회")
+    @GetMapping("/reviews/shorts/recommend/{userId}/{reviewId}")
+    public BaseResponse<String> recommendShortReviewStatus(@PathVariable Long userId, @PathVariable Long reviewId)
+    {
+        return shortReviewService.recommendShortReviewStatus(userId, reviewId);
+    }
+
+    @ApiOperation(value="요약 서평 추천 수 조회")
+    @GetMapping("/reviews/shorts/recommend/{reviewId}")
+    public BaseResponse<String> recommendShortReviewCount(@PathVariable Long reviewId)
+    {
+        return shortReviewService.recommendShortReviewCount(reviewId);
+    }
 }
 
 

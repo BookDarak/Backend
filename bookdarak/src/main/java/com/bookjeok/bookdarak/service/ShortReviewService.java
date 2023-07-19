@@ -139,6 +139,33 @@ public class ShortReviewService {
 
     }
 
+    //서평 추천 여부 조회
+    public BaseResponse<String> recommendShortReviewStatus(Long userId, Long reviewId) {
+        if (validateId(userId, reviewId)!=null){
+            return validateId(userId, reviewId);
+        }
+        Review review = shortReviewRepository.findById(reviewId).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow();
+
+        if(review_likerepository.existsReview_likeByUserAndReview(user,review)){
+            return new BaseResponse<>("true");
+        } else {
+            return new BaseResponse<>("false");
+        }
+    }
+
+    // 서평 추천 수 조회
+    public BaseResponse<String> recommendShortReviewCount(Long reviewId) {
+        Review review = shortReviewRepository.findById(reviewId).orElseThrow();
+        if (!shortReviewRepository.existsById(reviewId)) {
+            return new BaseResponse<>(NOT_EXIST_REVIEW_ID);
+        }
+        else{
+            return new BaseResponse<>(String.valueOf(review.getLikeCount()));
+        }
+    }
+
+
     public BaseResponse<String> validateId(Long userId, Long reviewId) {
         if (!userRepository.existsById(userId)) {
             return new BaseResponse<>(NOT_EXIST_USER_ID);
