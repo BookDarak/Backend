@@ -43,7 +43,7 @@ public class ShortReviewService {
         // DTO 변환
         Page<ShortReviewRes> shortReviewsPage = pagedReviews.map(ShortReviewRes::of);
 
-        //Page->PageResponse
+        // Page->PageResponse
         PageResponse<ShortReviewRes> pageResponse
                 = PageResponse.fromPage(shortReviewsPage);
 

@@ -84,10 +84,9 @@ public class BookmarkService {
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USER_ID);
         }
         Pageable pageable = PageRequest.of(pageNo, pageSize);
-        Page<Bookmark> bookmarksPage = bookmarkRepository.findAllByUser(user, pageable);
+        Page<Bookmark> pagedBookmarks = bookmarkRepository.findAllByUser(user, pageable);
 
-        Page<BookmarkRes> bookmarkResPage
-                = bookmarksPage.map(b -> new BookmarkRes(b.getBook().getId(), b.getBook().getName(), b.getBook().getImgUrl()));
+        Page<BookmarkRes> bookmarkResPage = pagedBookmarks.map(BookmarkRes::of);
         PageResponse<BookmarkRes> pageResponse = PageResponse.fromPage(bookmarkResPage);
 
         return new BaseResponse<>(pageResponse);
