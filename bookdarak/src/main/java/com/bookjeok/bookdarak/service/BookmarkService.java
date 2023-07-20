@@ -78,12 +78,12 @@ public class BookmarkService {
     }
 
     @Transactional(readOnly = true)
-    public BaseResponse<PageResponse<BookmarkRes>> getUserBookmarks(Long userId, int page, int size) {
+    public BaseResponse<PageResponse<BookmarkRes>> getUserBookmarks(Long userId, int pageNo, int pageSize) {
         User user = userRepository.findById(userId).orElse(null);
         if (user==null){
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USER_ID);
         }
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<Bookmark> bookmarksPage = bookmarkRepository.findAllByUser(user, pageable);
 
         Page<BookmarkRes> bookmarkResPage

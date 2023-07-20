@@ -1,10 +1,12 @@
 package com.bookjeok.bookdarak.controller;
 
 import com.bookjeok.bookdarak.base.BaseResponse;
+import com.bookjeok.bookdarak.base.PageResponse;
 import com.bookjeok.bookdarak.dto.shortReview.ShortReviewRes;
 import com.bookjeok.bookdarak.service.ShortReviewService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,9 +18,11 @@ public class ShortReviewController {
 
     @ApiOperation(value = "모든 공개 서평(요약) 조회", notes = "추천순, 최신순 정렬")
     @GetMapping("/reviews/shorts")
-    public BaseResponse<List<ShortReviewRes>>
-    getAllPublicReviews(@RequestParam(required = false, defaultValue = "likeCount") String orderCriteria) {
-        return shortReviewService.getAllPublicReviews(orderCriteria);
+    public BaseResponse<PageResponse<ShortReviewRes>>
+    getAllPublicReviews(@RequestParam(required = false, defaultValue = "likeCount") String orderCriteria,
+                        @RequestParam(required = false, defaultValue = "0") int pageNo,
+                        @RequestParam(required = false, defaultValue = "10") int pageSize) {
+        return shortReviewService.getAllPublicReviews(orderCriteria, pageNo, pageSize);
     }
 
     @ApiOperation(value = "특정 책 공개 서평(요약) 조회", notes = "추천순, 최신순 정렬")

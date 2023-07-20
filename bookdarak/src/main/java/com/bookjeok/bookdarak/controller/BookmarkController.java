@@ -8,8 +8,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 public class BookmarkController {
@@ -37,9 +35,9 @@ public class BookmarkController {
     @GetMapping("/bookmarks/{userId}")
     public BaseResponse<PageResponse<BookmarkRes>> getUserBookmarks(
             @PathVariable Long userId,
-            @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "10") int size) {
-        return bookmarkService.getUserBookmarks(userId, page, size);
+            @RequestParam(required = false, defaultValue = "0") int pageNo,
+            @RequestParam(required = false, defaultValue = "10") int pageSize) {
+        return bookmarkService.getUserBookmarks(userId, pageNo, pageSize);
     }
 
 }

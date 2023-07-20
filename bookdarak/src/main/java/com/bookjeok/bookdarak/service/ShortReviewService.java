@@ -1,11 +1,17 @@
 package com.bookjeok.bookdarak.service;
 
 import com.bookjeok.bookdarak.base.BaseResponse;
+import com.bookjeok.bookdarak.base.PageResponse;
 import com.bookjeok.bookdarak.domain.*;
+import com.bookjeok.bookdarak.dto.book.BookmarkRes;
 import com.bookjeok.bookdarak.dto.shortReview.ShortReviewRes;
 import com.bookjeok.bookdarak.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,25 +30,24 @@ public class ShortReviewService {
     private final BookRepository bookRepository;
     private final ReviewLikeRepository reviewLikerepository;
 
-    public BaseResponse<List<ShortReviewRes>> getAllPublicReviews(String orderCriteria) {
-        List<Review> reviews = new ArrayList<>();
+    public BaseResponse<PageResponse<ShortReviewRes>> getAllPublicReviews(String orderCriteria, int pageNo, int pageSize) {
+        // Sort 객체 생성
+        Sort sort = Sort.by(Sort.Direction.DESC, orderCriteria);
 
-        // 정렬 기준에 맞는 리뷰 조회
-        if (orderCriteria.equals("likeCount")) {
-            reviews = shortReviewRepository.findByPublicYnOrderByLikeCountDesc("Y");
+        // Pageable 객체 생성
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 
-        }
-        if (orderCriteria.equals("latest")){
-            reviews = shortReviewRepository.findByPublicYnOrderByUpdatedAtDesc("Y");
-        }
+        // 페이징된 데이터 조회
+        Page<Review> pagedReviews = shortReviewRepository.findByPublicYn("Y", pageable);
 
-        if (reviews.isEmpty()){
-            return new BaseResponse<>(NOT_EXIST_REVIEW);
-        }
+        // DTO 변환
+        Page<ShortReviewRes> shortReviewsPage = pagedReviews.map(ShortReviewRes::of);
 
-        List<ShortReviewRes> shortReviews = ShortReviewRes.extractShortReviews(reviews);
+        //Page->PageResponse
+        PageResponse<ShortReviewRes> pageResponse
+                = PageResponse.fromPage(shortReviewsPage);
 
-        return new BaseResponse<>(shortReviews);
+        return new BaseResponse<>(pageResponse);
     }
 
     public BaseResponse<List<ShortReviewRes>> getBookPublicReviews(Long reviewId, String orderCriteria){
