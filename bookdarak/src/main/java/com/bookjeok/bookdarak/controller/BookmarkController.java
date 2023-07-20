@@ -1,6 +1,7 @@
 package com.bookjeok.bookdarak.controller;
 
 import com.bookjeok.bookdarak.base.BaseResponse;
+import com.bookjeok.bookdarak.base.PageResponse;
 import com.bookjeok.bookdarak.dto.book.BookmarkRes;
 import com.bookjeok.bookdarak.service.BookmarkService;
 import io.swagger.annotations.ApiOperation;
@@ -32,10 +33,13 @@ public class BookmarkController {
         return bookmarkService.getBookmarkStatus(userId, bookId);
     }
 
-    @ApiOperation(value="유저의 모든 북마크 조회")
+    @ApiOperation(value="유저의 모든 북마크 조회, 페이징 처리")
     @GetMapping("/bookmarks/{userId}")
-    public BaseResponse<List<BookmarkRes>> getUserBookmarks(@PathVariable Long userId){
-        return bookmarkService.getUserBookmarks(userId);
+    public BaseResponse<PageResponse<BookmarkRes>> getUserBookmarks(
+            @PathVariable Long userId,
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "10") int size) {
+        return bookmarkService.getUserBookmarks(userId, page, size);
     }
 
 }
