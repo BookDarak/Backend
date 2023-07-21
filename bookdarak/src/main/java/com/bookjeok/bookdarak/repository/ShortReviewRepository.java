@@ -13,10 +13,8 @@ import java.util.List;
 public interface ShortReviewRepository extends JpaRepository<Review, Long> {
 
     Page<Review> findByPublicYn(String publicYn, Pageable pageable);
-    List<Review> findByBookAndPublicYnOrderByLikeCountDesc(Book book, String publicYn);
+    Page<Review> findByUser(User user, Pageable pageable);
+    Page<Review> findByUserAndPublicYn(User user, String publicYn, Pageable pageable);
 
-    List<Review> findByBookAndPublicYnOrderByUpdatedAtDesc(Book book, String publicYn);
-    List<Review> findByUser(User user);
-    List<Review> findByUserAndPublicYn(User user, String publicYn);
-
+    Page<Review> findByPublicYnAndBook(String publicYn, Book book, Pageable pageable);
 }

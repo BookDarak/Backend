@@ -32,73 +32,50 @@ public class ShortReviewService {
 
     public BaseResponse<PageResponse<ShortReviewRes>> getAllPublicReviews(String orderCriteria, int pageNo, int pageSize) {
         // Sort 객체 생성
-        Sort sort = Sort.by(Sort.Direction.DESC, orderCriteria);
-
-        // Pageable 객체 생성
-        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        Pageable pageable = getPageable(orderCriteria, pageNo, pageSize);
 
         // 페이징된 데이터 조회
         Page<Review> pagedReviews = shortReviewRepository.findByPublicYn("Y", pageable);
 
-        // DTO 변환
-        Page<ShortReviewRes> shortReviewsPage = pagedReviews.map(ShortReviewRes::of);
-
-        // Page->PageResponse
-        PageResponse<ShortReviewRes> pageResponse
-                = PageResponse.fromPage(shortReviewsPage);
+        //DTO 변환 함수
+        PageResponse<ShortReviewRes> pageResponse = getShortReviewResPageResponse(pagedReviews);
 
         return new BaseResponse<>(pageResponse);
     }
 
-    public BaseResponse<List<ShortReviewRes>> getBookPublicReviews(Long reviewId, String orderCriteria){
+    public BaseResponse<PageResponse<ShortReviewRes>> getBookPublicReviews(Long bookId, String orderCriteria, int pageNo, int pageSize){
         // 책 조회
-        Book book = bookRepository.findById(reviewId).orElse(null);
-
+        Book book = bookRepository.findById(bookId).orElse(null);
         if (book==null) {
             return new BaseResponse<>(NOT_EXIST_BOOK_ID);
         }
 
-        // 정렬 기준에 맞는 리뷰 조회
-        List<Review> reviews = new ArrayList<>();
+        Pageable pageable = getPageable(orderCriteria, pageNo, pageSize);
 
-        if (orderCriteria.equals("likeCount")){
-            reviews = shortReviewRepository.findByBookAndPublicYnOrderByLikeCountDesc(book,"Y");
-        }
-        if (orderCriteria.equals("latest")){
-            reviews = shortReviewRepository.findByBookAndPublicYnOrderByUpdatedAtDesc(book,"Y");
-        }
+        Page<Review> pagedReviews = shortReviewRepository.findByPublicYnAndBook("Y", book, pageable);
+        PageResponse<ShortReviewRes> pageResponse = getShortReviewResPageResponse(pagedReviews);
 
-        if (reviews.isEmpty()){
-            return new BaseResponse<>(NOT_EXIST_REVIEW);
-        }
-        List<ShortReviewRes> shortReviewRes = ShortReviewRes.extractShortReviews(reviews);
-
-        return new BaseResponse<>(shortReviewRes);
+        return new BaseResponse<>(pageResponse);
     }
 
-    public BaseResponse<List<ShortReviewRes>> getUserReviews(Long userId, String owner){
-        System.out.println(owner);
-        List<Review> reviews = new ArrayList<>();
+    public BaseResponse<PageResponse<ShortReviewRes>> getUserReviews(Long userId, String isOwner, int pageNo, int pageSize){
         User user = userRepository.findById(userId).orElse(null);
 
         if (user==null) {
             return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
 
-        if (owner.equals("Y")){
-            reviews = shortReviewRepository.findByUser(user);
-        }
-        if (owner.equals("N")){
-            reviews = shortReviewRepository.findByUserAndPublicYn(user, "Y");
-
-        }
-        if (reviews.isEmpty()){
-            return new BaseResponse<>(NOT_EXIST_REVIEW);
+        Page<Review> pagedReviews;
+        if (isOwner.equals("Y")){
+            pagedReviews = shortReviewRepository.findByUser(user, pageable);
+        } else{
+            pagedReviews = shortReviewRepository.findByUserAndPublicYn(user, "Y",pageable);
         }
 
-        List<ShortReviewRes> shortReviews = ShortReviewRes.extractShortReviews(reviews);
+        PageResponse<ShortReviewRes> pageResponse = getShortReviewResPageResponse(pagedReviews);
 
-        return new BaseResponse<>(shortReviews);
+        return new BaseResponse<>(pageResponse);
     }
 
     //서평 추천
@@ -166,6 +143,23 @@ public class ShortReviewService {
         else{
             return new BaseResponse<>(String.valueOf(review.getLikeCount()));
         }
+    }
+
+    private static Pageable getPageable(String orderCriteria, int pageNo, int pageSize) {
+        // Sort 객체 생성
+        Sort sort = Sort.by(Sort.Direction.DESC, orderCriteria);
+
+        // Pageable 객체 생성
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+        return pageable;
+    }
+
+    private static PageResponse<ShortReviewRes> getShortReviewResPageResponse(Page<Review> pagedReviews) {
+        // ShortReviewRes -> Page<ShortReviewRes>
+        Page<ShortReviewRes> shortReviewsPage = pagedReviews.map(ShortReviewRes::of);
+
+        // Page->PageResponse
+        return PageResponse.fromPage(shortReviewsPage);
     }
 
 
