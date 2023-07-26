@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class GptController {
     @PostMapping("/question")
     public String sendQuestion(@Valid @RequestBody QuestionRequestDto requestDto) {
         System.out.println("sendQuestion");
-        OpenAiService service = new OpenAiService(apiKey);
+        OpenAiService service = new OpenAiService(apiKey, Duration.ofSeconds(60));
 
         List<ChatMessage> messages = new ArrayList<>();
         ChatMessage chatMessage = new ChatMessage("user", requestDto.getQuestion());
@@ -42,7 +43,7 @@ public class GptController {
                 .temperature(1.0)
                 .n(1)
                 .stream(Boolean.FALSE)
-                .maxTokens(200)
+                .maxTokens(500)
                 .presencePenalty(0.0)
                 .frequencyPenalty(0.0)
                 .build();
