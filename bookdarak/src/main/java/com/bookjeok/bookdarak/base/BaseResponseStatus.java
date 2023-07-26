@@ -120,6 +120,8 @@ public enum BaseResponseStatus {
 
     NOT_EXIST_REVIEW_ID(false,2064,"존재하지 않는 리뷰입니다."),
 
+    EMPTY_GPT_QUESTION(false, 2065, "질문을 입력해주세요."),
+
 
     /**
      * 3000 : Response 오류
