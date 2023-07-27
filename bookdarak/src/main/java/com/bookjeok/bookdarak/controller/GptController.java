@@ -20,7 +20,6 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@Slf4j
 @RequestMapping("/api/chat-gpt")
 public class GptController {
     @Value("${spring.openai.api-key}")
@@ -48,8 +47,6 @@ public class GptController {
                 .frequencyPenalty(0.0)
                 .build();
 
-        String responseMessage = service.createChatCompletion(chatCompletionRequest).getChoices().get(0).getMessage().getContent();
-
-        return responseMessage;
+        return service.createChatCompletion(chatCompletionRequest).getChoices().get(0).getMessage().getContent();
     }
 }
