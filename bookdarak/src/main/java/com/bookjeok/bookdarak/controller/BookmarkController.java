@@ -6,6 +6,8 @@ import com.bookjeok.bookdarak.dto.book.BookmarkRes;
 import com.bookjeok.bookdarak.service.BookmarkService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -35,9 +37,8 @@ public class BookmarkController {
     @GetMapping("/bookmarks/{userId}")
     public BaseResponse<PageResponse<BookmarkRes>> getUserBookmarks(
             @PathVariable Long userId,
-            @RequestParam(required = false, defaultValue = "0") int pageNo,
-            @RequestParam(required = false, defaultValue = "10") int pageSize) {
-        return bookmarkService.getUserBookmarks(userId, pageNo, pageSize);
+            @PageableDefault Pageable pageable) {
+        return bookmarkService.getUserBookmarks(userId, pageable);
     }
 
 }
