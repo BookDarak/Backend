@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -45,6 +46,7 @@ public class Review extends BaseEntity {
     public Review(User user, Book book, ReviewReq.AddReviewReq dto){
         this.user = user;
         this.book = book;
+        this.likeCount = 0;
         this.rating = dto.getRating();
         this.content = dto.getContent();
         this.phrase = dto.getPhrase();
@@ -67,9 +69,7 @@ public class Review extends BaseEntity {
         if (updateDto.getPublicYn()!=null){
             this.publicYn = updateDto.getPublicYn();
         }
-        if (updateDto.getLikeCount()!=null){
-            this.likeCount = updateDto.getLikeCount();
-        }
+
         if (updateDto.getStartDate()!=null){
             this.startDate = updateDto.getStartDate();
         }

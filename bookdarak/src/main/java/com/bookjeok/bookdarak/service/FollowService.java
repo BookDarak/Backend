@@ -35,7 +35,7 @@ public class FollowService {
     }
 
     public BaseResponse<String> unfollowUser(Long followerId, Long followeeId) {
-        Follow follow = getFollowEntity(followeeId, followerId);
+        Follow follow = getFollowEntity(followerId, followeeId);
         if (follow==null){
             return new BaseResponse<>(FOLLOW_ALREADY_DELETED);
         }
