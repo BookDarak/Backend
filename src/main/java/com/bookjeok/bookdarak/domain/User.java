@@ -24,15 +24,17 @@ public class User extends BaseEntity {
     private String password;
     private String name;
     private Integer age;
+    private String gender;
     private String introduction;
     private String profileUrl;
 
     @Builder
-    public User(String email, String password, String name, Integer age, String introduction, String profileUrl) {
+    public User(String email, String password, String name,  Integer age, String gender, String introduction, String profileUrl) {
         this.email = email;
         this.password = password;
         this.name = name;
         this.age = age;
+        this.gender = gender;
         this.introduction = introduction;
         this.profileUrl = profileUrl;
     }

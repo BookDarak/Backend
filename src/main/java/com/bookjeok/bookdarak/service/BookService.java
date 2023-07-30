@@ -84,13 +84,44 @@ public class BookService {
     }
 
     @Transactional
-    public BaseResponse<List<Book>> recommendbook(Long userid){
+    public BaseResponse<List<Book>> recommendbookbyage(Long userid){
         User user = userRepository.findById(userid).orElseThrow();
         if (!userRepository.existsById(userid)) {
             return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
 
         List<Book> books = getBooksByUsersAge(user.getAge());
+        return new BaseResponse<>(books);
+    }
+
+    //성별 책 추천
+    public List<Book> getBooksByUsersAge(String gender) {
+        List<User> users = userRepository.findByGender(gender);
+        // 조회된 유저들의 모든 북마크 정보를 가져옵니다.
+        Map<Book, Integer> bookmarkCountMap = new HashMap<>();
+        for (User user : users) {
+            List<Bookmark> bookmarks = bookmarkRepository.findByUser(user);
+            for (Bookmark bookmark : bookmarks) {
+                Book book = bookmark.getBook();
+                bookmarkCountMap.put(book, bookmarkCountMap.getOrDefault(book, 0) + 1);
+            }
+        }
+
+        // 북마크된 횟수가 많은 순으로 정렬하여 상위 5개의 책을 얻습니다.
+        List<Book> top5Books = new ArrayList<>(bookmarkCountMap.keySet());
+        top5Books.sort((book1, book2) -> bookmarkCountMap.get(book2).compareTo(bookmarkCountMap.get(book1)));
+        top5Books = top5Books.subList(0, Math.min(5, top5Books.size()));
+
+        return top5Books;
+    }
+    @Transactional
+    public BaseResponse<List<Book>> recommendbookbygender(Long userid){
+        User user = userRepository.findById(userid).orElseThrow();
+        if (!userRepository.existsById(userid)) {
+            return new BaseResponse<>(NOT_EXIST_USER_ID);
+        }
+
+        List<Book> books = getBooksByUsersAge(user.getGender());
         return new BaseResponse<>(books);
     }
 }

@@ -28,7 +28,7 @@ spring:
     secret: yn2kjibddfawtnpj2afll8wxmohjmcvigqggaeypa5e=
     timeOut: 1800
   openai:
-    api-key: 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
+    api-key: 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
 
 logging.level:
   org.hibernate.SQL: debug
