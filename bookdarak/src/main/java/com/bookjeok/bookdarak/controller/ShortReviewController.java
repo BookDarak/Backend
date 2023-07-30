@@ -6,6 +6,9 @@ import com.bookjeok.bookdarak.dto.shortReview.ShortReviewRes;
 import com.bookjeok.bookdarak.service.ShortReviewService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,20 +19,16 @@ public class ShortReviewController {
     @ApiOperation(value = "모든 공개 서평(요약) 조회", notes = "추천순, 최신순 정렬")
     @GetMapping("/reviews/shorts")
     public BaseResponse<PageResponse<ShortReviewRes>>
-    getAllPublicReviews(@RequestParam(required = false, defaultValue = "likeCount") String orderCriteria,
-                        @RequestParam(required = false, defaultValue = "0") int pageNo,
-                        @RequestParam(required = false, defaultValue = "10") int pageSize) {
-        return shortReviewService.getAllPublicReviews(orderCriteria, pageNo, pageSize);
+    getAllPublicReviews(@PageableDefault(sort="updatedAt",direction = Sort.Direction.DESC)Pageable pageable) {
+        return shortReviewService.getAllPublicReviews(pageable);
     }
 
     @ApiOperation(value = "특정 책 공개 서평(요약) 조회", notes = "추천순, 최신순 정렬")
     @GetMapping("/reviews/shorts/books/{bookId}")
     public BaseResponse<PageResponse<ShortReviewRes>>
     getBookPublicReviews(@PathVariable Long bookId,
-                         @RequestParam(required = false, defaultValue = "likeCount") String orderCriteria,
-                        @RequestParam(required = false, defaultValue = "0") int pageNo,
-                        @RequestParam(required = false, defaultValue = "10") int pageSize) {
-        return shortReviewService.getBookPublicReviews(bookId, orderCriteria, pageNo, pageSize);
+                        @PageableDefault(sort="updatedAt",direction = Sort.Direction.DESC) Pageable pageable) {
+        return shortReviewService.getBookPublicReviews(bookId, pageable);
     }
 
 
@@ -37,9 +36,8 @@ public class ShortReviewController {
     @GetMapping("/reviews/shorts/users/{userId}")
     public BaseResponse<PageResponse<ShortReviewRes>>
     getUserReviews(@PathVariable Long userId, @RequestParam String isOwner,
-                   @RequestParam(required = false, defaultValue = "0") int pageNo,
-                   @RequestParam(required = false, defaultValue = "10") int pageSize){
-        return shortReviewService.getUserReviews(userId, isOwner, pageNo, pageSize);
+                   @PageableDefault(sort="updatedAt",direction = Sort.Direction.DESC) Pageable pageable){
+        return shortReviewService.getUserReviews(userId, isOwner,pageable);
     }
 
     @ApiOperation(value="요약 서평 추천")
