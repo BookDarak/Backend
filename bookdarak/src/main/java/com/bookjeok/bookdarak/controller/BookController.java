@@ -1,6 +1,7 @@
 package com.bookjeok.bookdarak.controller;
 
 import com.bookjeok.bookdarak.base.BaseResponse;
+import com.bookjeok.bookdarak.domain.Book;
 import com.bookjeok.bookdarak.dto.book.BookReq;
 import com.bookjeok.bookdarak.dto.book.BookRes;
 import com.bookjeok.bookdarak.service.BookService;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,5 +27,17 @@ public class BookController {
     @GetMapping("/books/{id}")
     public BaseResponse<BookRes.BookInfo> getBookInfo(@PathVariable Long id){
         return bookService.getBookInfo(id);
+    }
+
+    @ApiOperation(value = "연령대별 책 추천")
+    @GetMapping("/books/recommedbyage/{userId}")
+    public BaseResponse<List<Book>> recommendbookbyage(@PathVariable Long userId){
+        return bookService.recommendbookbyage(userId);
+    }
+
+    @ApiOperation(value = "성별 책 추천")
+    @GetMapping("/books/recommedbygender/{userId}")
+    public BaseResponse<List<Book>> recommendbookbygender(@PathVariable Long userId){
+        return bookService.recommendbookbygender(userId);
     }
 }

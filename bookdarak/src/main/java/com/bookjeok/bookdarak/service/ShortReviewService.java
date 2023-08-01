@@ -26,6 +26,7 @@ import static com.bookjeok.bookdarak.base.BaseResponseStatus.*;
 @Slf4j
 public class ShortReviewService {
     private final ShortReviewRepository shortReviewRepository;
+    private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
     private final ReviewLikeRepository reviewLikerepository;
@@ -115,11 +116,16 @@ public class ShortReviewService {
 
     //서평 추천 여부 조회
     public BaseResponse<String> getShortReviewLikeStatus(Long userId, Long reviewId) {
+
         if (validateId(userId, reviewId)!=null){
             return validateId(userId, reviewId);
         }
-        Review review = shortReviewRepository.findById(reviewId).orElseThrow();
+
         User user = userRepository.findById(userId).orElseThrow();
+        Review review = shortReviewRepository.findById(reviewId).orElseThrow();
+
+        log.info("1");
+        log.info(review.getContent());
 
         if(reviewLikerepository.existsReviewLikeByUserAndReview(user,review)){
             return new BaseResponse<>("true");
@@ -127,6 +133,7 @@ public class ShortReviewService {
             return new BaseResponse<>("false");
         }
     }
+
 
     // 서평 추천 수 조회
     public BaseResponse<String> getShortReviewLikeCount(Long reviewId) {

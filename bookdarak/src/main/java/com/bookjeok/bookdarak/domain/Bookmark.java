@@ -20,7 +20,7 @@ public class Bookmark extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
 
