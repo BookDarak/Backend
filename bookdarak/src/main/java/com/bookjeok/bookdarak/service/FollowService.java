@@ -23,8 +23,8 @@ public class FollowService {
     private final UserRepository userRepository;
 
     public BaseResponse<String> followUser(Long followerId, Long followeeId) {
-        User followerUser = userRepository.findById(followerId).orElseThrow();
-        User followeeUser = userRepository.findById(followeeId).orElseThrow();
+        User followerUser = getFollowerUser(followerId);
+        User followeeUser = getFolloweeUser(followeeId);
 
         if (followRepository.existsFollowByFollowerUserAndFolloweeUser(followerUser, followeeUser)) {
             return new BaseResponse<>(FOLLOW_ALREADY_ADDED);
@@ -85,7 +85,7 @@ public class FollowService {
         for (Follow follow : follows) {
             userId = isFollower ? follow.getFollowerUser().getId() : follow.getFolloweeUser().getId(); //팔로워 or 팔로이 조회
 
-            User followUser = userRepository.findById(userId).orElseThrow();
+            User followUser = getFollowerUser(userId);
             followResList.add(FollowRes.builder()
                     .followerId(followUser.getId())
                     .followerName(followUser.getName())
@@ -95,9 +95,17 @@ public class FollowService {
         return new BaseResponse<>(followResList);
     }
 
+    public User getFollowerUser(Long followerId){
+        return userRepository.findById(followerId).orElseThrow();
+    }
+
+    public User getFolloweeUser(Long followeeId){
+        return userRepository.findById(followeeId).orElseThrow();
+    }
+
     public Follow getFollowEntity(Long followerId, Long followeeId){
-        User followerUser = userRepository.findById(followerId).orElseThrow();
-        User followeeUser = userRepository.findById(followeeId).orElseThrow();
+        User followerUser = getFollowerUser(followerId);
+        User followeeUser = getFolloweeUser(followeeId);
 
         return followRepository.findFollowByFollowerUserAndFolloweeUser(followerUser, followeeUser);
     }

@@ -73,10 +73,10 @@ public class UserService {
     }
 
     public BaseResponse<UserRes.UserInfo> getUserInfo(Long id) {
-        if (!userRepository.existsById(id)) {
+        User user = findUser(id);
+        if (user==null){
             return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
-        User user = findUser(id);
         Long reviewCount = reviewRepository.countByUser(user);
         Long bookmarkCount = bookmarkRepository.countByUser(user);
         Long followCount = followRepository.countByFollowerUser(user);
@@ -85,10 +85,10 @@ public class UserService {
     }
 
     public BaseResponse<BaseResponseStatus> editUserInfo(Long id, UserReq.UpdateUserInfo userInfo) {
-        if (!userRepository.existsById(id)) {
+        User user = findUser(id);
+        if (user==null){
             return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
-        User user = findUser(id);
 
         if (userRepository.existsByName(userInfo.getName())){
             return new BaseResponse<>(DUPLICATED_USER_NAME);
@@ -154,7 +154,7 @@ public class UserService {
     }
 
     public User findUser(Long id){
-        return userRepository.findById(id).orElseThrow();
+        return userRepository.findById(id).orElse(null);
     }
 
     public String getTmpPassword() {
