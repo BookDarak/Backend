@@ -25,8 +25,13 @@ public class UserReq {
         @NotBlank(message="닉네임을 입력해주세요.")
         private String name;
 
+        @NotBlank(message="성별을 입력해주세요.")
+        @Pattern(regexp = "^[FM]$", message = "성별 형식이 올바르지 않습니다.")
+        private String gender;
+
         @NotNull(message="나이를 입력해주세요.")
         private Integer age;
+
 
         @NotBlank(message="자기소개를 입력해주세요.")
         private String introduction;

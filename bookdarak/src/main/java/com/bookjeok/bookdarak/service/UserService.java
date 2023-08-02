@@ -147,6 +147,7 @@ public class UserService {
                 .email(request.getEmail())
                 .password(encodedPassword)
                 .name(request.getName())
+                .gender(request.getGender())
                 .age(request.getAge())
                 .introduction(request.getIntroduction())
                 .profileUrl(request.getProfile_url()).build());

@@ -23,8 +23,8 @@ public class User extends BaseEntity {
     private String email;
     private String password;
     private String name;
-    private Integer age;
     private String gender;
+    private Integer age;
     private String introduction;
     private String profileUrl;
 

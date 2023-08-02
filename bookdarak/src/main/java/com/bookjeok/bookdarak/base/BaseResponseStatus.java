@@ -70,9 +70,13 @@ public enum BaseResponseStatus {
 
     NOT_EXIST_BOOK_ID(false, 2033, "존재하지 않는 책 id입니다."),
 
-    EMPTY_USER_AGE(false, 2034, "나이를 입력해주세요."),
+    EMPTY_USER_GENDER(false, 2034, "성별을 입력해주세요."),
 
-    EMPTY_USER_INTRO(false, 2035, "자기소개를 입력해주세요."),
+    INVALID_USER_GENDER(false, 2035, "성별 형식이 올바르지 않습니다."),
+
+    EMPTY_USER_AGE(false, 2036, "나이를 입력해주세요."),
+
+    EMPTY_USER_INTRO(false, 2036, "자기소개를 입력해주세요."),
 
 
     EMPTY_REVIEW_RATING(false, 2040, "평점을 입력해주세요."),
