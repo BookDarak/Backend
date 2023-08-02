@@ -130,14 +130,14 @@ public class UserService {
     private void deleteRelatedEntity(Long id) {
         //유저가 작성한 리뷰 삭제
         User user = findUser(id);
-        reviewRepository.deleteReviewsByUser(user);
+        reviewRepository.deleteByUser(user);
 
         //유저의 북마크 삭제
-        bookmarkRepository.deleteBookmarksByUser(user);
+        bookmarkRepository.deleteByUser(user);
 
         //유저의 팔로우 삭제
-        followRepository.deleteFollowByFollowerUser(user);
-        followRepository.deleteFollowByFolloweeUser(user);
+        followRepository.deleteByFollowerUser(user);
+        followRepository.deleteByFolloweeUser(user);
     }
 
     private User saveUser(UserReq.Signup request) {

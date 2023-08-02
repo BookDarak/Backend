@@ -14,8 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,7 +101,7 @@ public class ReviewService {
         if (user==null){
             return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
-        List<Review> result = reviewRepository.findReviewByDate(user, request.getCalStartDate(), request.getCalEndDate());
+        List<Review> result = reviewRepository.findByDate(user, request.getCalStartDate(), request.getCalEndDate());
 
         List<ReviewRes.Calendar> lst = new ArrayList<>();
         for (Review r: result){

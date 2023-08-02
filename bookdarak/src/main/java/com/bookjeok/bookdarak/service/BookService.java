@@ -1,7 +1,6 @@
 package com.bookjeok.bookdarak.service;
 
 import com.bookjeok.bookdarak.base.BaseResponse;
-import com.bookjeok.bookdarak.base.BaseResponseStatus;
 import com.bookjeok.bookdarak.domain.Book;
 import com.bookjeok.bookdarak.domain.Bookmark;
 import com.bookjeok.bookdarak.domain.User;
@@ -35,7 +34,7 @@ public class BookService {
         책 있으면 책 아이디 반환
         책 없으면 책 저장 후 아이디 반환
          */
-        Book book = bookRepository.findBookByIsbn(request.getIsbn());
+        Book book = bookRepository.findByIsbn(request.getIsbn());
 
         if (book == null){
             book = bookRepository.save(new Book(request));

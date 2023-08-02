@@ -13,10 +13,10 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     Review findByUserAndBook(User user, Book book);
     boolean existsByUserAndBook(User user, Book book);
-    void deleteReviewsByUser(User user);
+    void deleteByUser(User user);
     Long countByUser(User user);
 
     @Query(value = "select r from Review r where"+
             " r.user = :user and ((r.startDate between :calStartD and :calEndD) or (r.endDate between : calStartD and :calEndD))")
-    List<Review> findReviewByDate(@Param("user")User user, @Param("calStartD")LocalDate calStartD, @Param("calEndD")LocalDate calEndD);
+    List<Review> findByDate(@Param("user")User user, @Param("calStartD")LocalDate calStartD, @Param("calEndD")LocalDate calEndD);
 }

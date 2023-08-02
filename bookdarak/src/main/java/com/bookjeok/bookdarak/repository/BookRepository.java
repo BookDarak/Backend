@@ -4,5 +4,5 @@ import com.bookjeok.bookdarak.domain.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
-    Book findBookByIsbn(String isbn);
+    Book findByIsbn(String isbn);
 }

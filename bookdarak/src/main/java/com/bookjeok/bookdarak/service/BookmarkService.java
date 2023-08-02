@@ -12,12 +12,9 @@ import com.bookjeok.bookdarak.repository.BookmarkRepository;
 import com.bookjeok.bookdarak.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import static com.bookjeok.bookdarak.base.BaseResponseStatus.*;
 
@@ -50,7 +47,7 @@ public class BookmarkService {
         User user = findUserById(userId);
         Book book = findBookById(bookId);
 
-        Bookmark bookmark = bookmarkRepository.findBookmarkByUserAndBook(user, book);
+        Bookmark bookmark = bookmarkRepository.findByUserAndBook(user, book);
         if (bookmark == null){
             return new BaseResponse<>(BOOKMARK_ALREADY_DELETED);
         }
@@ -83,7 +80,7 @@ public class BookmarkService {
         if (user==null){
             return new BaseResponse<>(BaseResponseStatus.NOT_EXIST_USER_ID);
         }
-        Page<Bookmark> pagedBookmarks = bookmarkRepository.findAllByUser(user, pageable);
+        Page<Bookmark> pagedBookmarks = bookmarkRepository.findByUser(user, pageable);
 
         Page<BookmarkRes> bookmarkResPage = pagedBookmarks.map(BookmarkRes::of);
         PageResponse<BookmarkRes> pageResponse = PageResponse.fromPage(bookmarkResPage);

@@ -26,7 +26,7 @@ public class FollowService {
         User followerUser = getFollowerUser(followerId);
         User followeeUser = getFolloweeUser(followeeId);
 
-        if (followRepository.existsFollowByFollowerUserAndFolloweeUser(followerUser, followeeUser)) {
+        if (followRepository.existsByFollowerUserAndFolloweeUser(followerUser, followeeUser)) {
             return new BaseResponse<>(FOLLOW_ALREADY_ADDED);
         }
 
@@ -62,7 +62,7 @@ public class FollowService {
         }
 
         //유저의 팔로워들 조회
-        List<Follow> follows= followRepository.findAllByFolloweeUser(user);
+        List<Follow> follows= followRepository.findByFolloweeUser(user);
 
         return getFollowResList(follows, true);
     }
@@ -73,7 +73,7 @@ public class FollowService {
             return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
         //유저의 팔로워들 조회
-        List<Follow> follows= followRepository.findAllByFollowerUser(user);
+        List<Follow> follows= followRepository.findByFollowerUser(user);
 
 
         return getFollowResList(follows, false);
@@ -107,7 +107,7 @@ public class FollowService {
         User followerUser = getFollowerUser(followerId);
         User followeeUser = getFolloweeUser(followeeId);
 
-        return followRepository.findFollowByFollowerUserAndFolloweeUser(followerUser, followeeUser);
+        return followRepository.findByFollowerUserAndFolloweeUser(followerUser, followeeUser);
     }
 
     private void saveFollowEntity(User followerUser, User followeeUser) {
