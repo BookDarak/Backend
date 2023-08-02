@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+import static com.bookjeok.bookdarak.base.BaseResponseStatus.*;
+
 @RestController
 @RequiredArgsConstructor
 public class ReviewController {
@@ -21,7 +23,7 @@ public class ReviewController {
     @PostMapping("/reviews/{userId}/{bookId}")
     public BaseResponse<ReviewRes.ReviewId> addReview (@PathVariable Long userId, @PathVariable Long bookId, @Valid @RequestBody ReviewReq.AddReviewReq request){
         if (ReviewReq.isInValidDateInterval(request.getStartDate(),request.getEndDate())){
-            return new BaseResponse<>(BaseResponseStatus.INVALID_DATE_INTERVAL);
+            return new BaseResponse<>(INVALID_DATE_INTERVAL);
         }
         return reviewService.addReview(userId, bookId, request);
     }
@@ -30,10 +32,10 @@ public class ReviewController {
     @PatchMapping("/reviews/{reviewId}")
     public BaseResponse<BaseResponseStatus> updateReview(@RequestBody ReviewReq.UpdateReviewReq request,@PathVariable Long reviewId ){
         if (request.getContent()!=null && request.getContent().isBlank()){
-            return new BaseResponse<>(BaseResponseStatus.EMPTY_REVIEW_CONTENT);
+            return new BaseResponse<>(EMPTY_REVIEW_CONTENT);
         }
         if (request.getStartDate()!=null&& request.getEndDate()!=null&& ReviewReq.isInValidDateInterval(request.getStartDate(),request.getEndDate())){
-            return new BaseResponse<>(BaseResponseStatus.INVALID_DATE_INTERVAL);
+            return new BaseResponse<>(INVALID_DATE_INTERVAL);
         }
         return reviewService.updateReview(request, reviewId);
     }

@@ -1,9 +1,6 @@
 package com.bookjeok.bookdarak.dto.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -11,7 +8,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 public class UserReq {
-    @Getter @AllArgsConstructor @NoArgsConstructor
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Signup {
         @NotBlank(message="이메일을 입력해주세요.")
         @Email(message="이메일 형식을 확인해주세요.")
@@ -38,7 +36,7 @@ public class UserReq {
 
         private String profile_url;
     }
-    @Getter @AllArgsConstructor @NoArgsConstructor
+    @Getter @AllArgsConstructor
     public static class Login {
         @NotBlank(message="이메일을 입력해주세요.")
         @Email(message="이메일 형식을 확인해주세요.")
@@ -48,14 +46,14 @@ public class UserReq {
         private String password;
     }
 
-    @Getter @AllArgsConstructor @NoArgsConstructor
+    @Getter @AllArgsConstructor
     public static class UpdateUserInfo {
         private String name;
         private String introduction;
         private Integer age;
     }
 
-    @Getter @AllArgsConstructor @NoArgsConstructor
+    @Getter @AllArgsConstructor
     public static class ChangePw{
         private Long userId;
         private String oldPw;
@@ -64,7 +62,7 @@ public class UserReq {
         private String newPw;
     }
 
-    @Getter @AllArgsConstructor @NoArgsConstructor
+    @Getter @AllArgsConstructor
     public static class MailTmpPw {
         private Long userId;
 
