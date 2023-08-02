@@ -7,4 +7,6 @@ public interface ReviewLikeRepository extends JpaRepository<ReviewLike, Long> {
     //서평 좋아요
     Boolean existsReviewLikeByUserAndReview(User user, Review review);
     ReviewLike findReviewLikeByUserAndReview(User user, Review review);
+
+    void deleteByReview(Review review);
 }
