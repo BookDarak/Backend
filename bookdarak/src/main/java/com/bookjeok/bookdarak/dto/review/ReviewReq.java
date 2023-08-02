@@ -4,6 +4,7 @@ import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,6 +23,7 @@ public class ReviewReq {
         private String phrase;
 
         @NotBlank(message="공개여부를 입력해주세요.")
+        @Pattern(regexp = "^[YN]$", message = "공개여부 형식이 올바르지 않습니다.")
         private String publicYn;
 
         @NotNull(message="시작 독서일을 선택해주세요.")
@@ -52,8 +54,7 @@ public class ReviewReq {
     //시작일, 종료일 크기 비교
     public static boolean isInValidDateInterval(LocalDate stDate, LocalDate edDate){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date startDate;
-        Date endDate;
+        Date startDate, endDate;
 
         try {
             startDate = dateFormat.parse( String.valueOf(stDate) );
@@ -62,12 +63,7 @@ public class ReviewReq {
             e.printStackTrace();
             return false;
         }
-        int compare = startDate.compareTo( endDate );
 
-        return (compare > 0);
-    }
-
-    public static boolean isInValidPublicYn(String publicYn){
-        return !(publicYn.equals("Y") || publicYn.equals("N"));
+        return (startDate.compareTo(endDate) > 0);
     }
 }

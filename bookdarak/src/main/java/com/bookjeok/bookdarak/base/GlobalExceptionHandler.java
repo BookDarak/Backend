@@ -30,7 +30,10 @@ public class GlobalExceptionHandler{
                 EMPTY_USER_GENDER, INVALID_USER_GENDER, EMPTY_USER_AGE, EMPTY_USER_NICKNAME, EMPTY_USER_INTRO,
 
                 EMPTY_BOOK_NAME, EMPTY_BOOK_ISBN, EMPTY_BOOK_AUTHOR,
-                EMPTY_REVIEW_RATING, EMPTY_REVIEW_CONTENT, EMPTY_PUBLIC_YN, EMPTY_REVIEW_START_DATE, EMPTY_REVIEW_END_DATE,
+
+                EMPTY_REVIEW_RATING, EMPTY_REVIEW_CONTENT, EMPTY_PUBLIC_YN, WRONG_REVIEW_PUBLIC_FORMAT,
+                EMPTY_REVIEW_START_DATE, EMPTY_REVIEW_END_DATE,
+
                 CALENDAR_EMPTY_START, CALENDAR_EMPTY_END,
                 EMPTY_GPT_QUESTION
         };
@@ -41,7 +44,7 @@ public class GlobalExceptionHandler{
                 return new BaseResponse<>(status);
             }
         }
-        return new BaseResponse<>(RESPONSE_ERROR);
 
+        return new BaseResponse<>(RESPONSE_ERROR);
     }
 }
