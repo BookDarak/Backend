@@ -162,15 +162,15 @@ public class UserService {
                 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
                 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
-        String pwd = "";
+        StringBuilder pwd = new StringBuilder();
 
         /* 문자 배열 길이의 값을 랜덤으로 12개를 뽑아 조합 */
 
         for(int i = 0; i < 12; i++){
-            int idx = (int) (charSet.length * Math.random());
-            pwd += charSet[idx];
+            int ind = (int) (charSet.length * Math.random());
+            pwd.append(charSet[ind]);
         }
-        return pwd;
+        return pwd.toString();
     }
 
     private void sendTmpPwd(String email, String tmpPassword) {
