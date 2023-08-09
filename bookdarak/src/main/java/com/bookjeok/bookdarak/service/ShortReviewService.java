@@ -81,7 +81,7 @@ public class ShortReviewService {
             return validateId(userId, reviewId);
         }
         Review review = shortReviewRepository.findById(reviewId).orElseThrow();
-        User user = userRepository.findById(userId).orElseThrow();
+        User user = userRepository.findById(userId). orElse(null);
 
         if(reviewLikerepository.existsReviewLikeByUserAndReview(user, review)){
             return new BaseResponse<>(RECOMMEND_ALREADY_ADDED);
@@ -99,8 +99,8 @@ public class ShortReviewService {
         if (validateId(userId, reviewId)!=null){
             return validateId(userId, reviewId);
         }
-        Review review = shortReviewRepository.findById(reviewId).orElseThrow();
-        User user = userRepository.findById(userId).orElseThrow();
+        Review review = shortReviewRepository.findById(reviewId). orElse(null);
+        User user = userRepository.findById(userId). orElse(null);
 
         ReviewLike reviewLike = reviewLikerepository.findReviewLikeByUserAndReview(user,review);
         if (reviewLike == null){
@@ -121,11 +121,8 @@ public class ShortReviewService {
             return validateId(userId, reviewId);
         }
 
-        User user = userRepository.findById(userId).orElseThrow();
-        Review review = shortReviewRepository.findById(reviewId).orElseThrow();
-
-        log.info("1");
-        log.info(review.getContent());
+        User user = userRepository.findById(userId). orElse(null);
+        Review review = shortReviewRepository.findById(reviewId). orElse(null);
 
         if(reviewLikerepository.existsReviewLikeByUserAndReview(user,review)){
             return new BaseResponse<>("true");
@@ -137,7 +134,7 @@ public class ShortReviewService {
 
     // 서평 추천 수 조회
     public BaseResponse<String> getShortReviewLikeCount(Long reviewId) {
-        Review review = shortReviewRepository.findById(reviewId).orElseThrow();
+        Review review = shortReviewRepository.findById(reviewId). orElse(null);
         if (!shortReviewRepository.existsById(reviewId)) {
             return new BaseResponse<>(NOT_EXIST_REVIEW_ID);
         }

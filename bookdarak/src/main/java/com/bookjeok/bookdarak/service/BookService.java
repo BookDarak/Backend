@@ -81,8 +81,8 @@ public class BookService {
     }
 
     @Transactional
-    public BaseResponse<List<Book>> recommendbookbyage(Long userid){
-        User user = userRepository.findById(userid).orElseThrow();
+    public BaseResponse<List<Book>> recommendBookByAge(Long userid){
+        User user = userRepository.findById(userid). orElse(null);
         if (!userRepository.existsById(userid)) {
             return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
@@ -92,7 +92,7 @@ public class BookService {
     }
 
     //성별 책 추천
-    public List<Book> getBooksByUsersAge(String gender) {
+    public List<Book> getBooksByUsersGender(String gender) {
         List<User> users = userRepository.findByGender(gender);
         // 조회된 유저들의 모든 북마크 정보를 가져옵니다.
         Map<Book, Integer> bookmarkCountMap = new HashMap<>();
@@ -112,13 +112,12 @@ public class BookService {
         return top5Books;
     }
     @Transactional
-    public BaseResponse<List<Book>> recommendbookbygender(Long userid){
-        User user = userRepository.findById(userid).orElseThrow();
+    public BaseResponse<List<Book>> recommendBookByGender(Long userid){
+        User user = userRepository.findById(userid). orElse(null);
         if (!userRepository.existsById(userid)) {
             return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
-
-        List<Book> books = getBooksByUsersAge(user.getGender());
+        List<Book> books = getBooksByUsersGender(user.getGender());
         return new BaseResponse<>(books);
     }
 }
