@@ -30,14 +30,14 @@ public class BookController {
     }
 
     @ApiOperation(value = "연령대별 책 추천")
-    @GetMapping("/books/recommed/age/{userId}")
-    public BaseResponse<List<Book>> recommendbookbyage(@PathVariable Long userId){
+    @GetMapping("/books/recommend/age/{userId}")
+    public BaseResponse<List<Book>> recommendBookByAge(@PathVariable Long userId){
         return bookService.recommendBookByAge(userId);
     }
 
     @ApiOperation(value = "성별 책 추천")
-    @GetMapping("/books/recommed/gender/{userId}")
-    public BaseResponse<List<Book>> recommendbookbygender(@PathVariable Long userId){
+    @GetMapping("/books/recommend/gender/{userId}")
+    public BaseResponse<List<Book>> recommendBookByGender(@PathVariable Long userId){
         return bookService.recommendBookByGender(userId);
     }
 }
