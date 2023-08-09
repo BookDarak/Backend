@@ -28,8 +28,6 @@ public enum BaseResponseStatus {
 
     INVALID_USER_JWT(false,2003,"권한이 없는 유저의 접근입니다."),
 
-    USERS_EMPTY_USER_ID(false, 2010, "유저 아이디 값을 확인해주세요."),
-
     EMPTY_USER_EMAIL(false, 2014, "이메일을 입력해주세요."),
 
     INVALID_USER_EMAIL(false, 2015, "이메일 형식을 확인해주세요."),
@@ -41,10 +39,6 @@ public enum BaseResponseStatus {
     INVALID_FORMAT_PASSWORD(false, 2018, "비밀번호는 숫자, 영문, 특수문자를 포함해서 8자~16자 이내로 설정해주세요."),
 
     FAILED_TO_SIGN_UP(false, 2019, "회원가입에 실패하였습니다."),
-
-    USERS_EXISTS_EMAIL(false,2020,"중복된 이메일입니다."),
-
-    USERS_EXISTS_NICKNAME(false,2021,"중복된 닉네임입니다."),
 
     EMPTY_USER_NICKNAME(false,2022,"닉네임을 입력해주세요."),
 
@@ -76,7 +70,7 @@ public enum BaseResponseStatus {
 
     EMPTY_USER_AGE(false, 2036, "나이를 입력해주세요."),
 
-    EMPTY_USER_INTRO(false, 2036, "자기소개를 입력해주세요."),
+    EMPTY_USER_INTRO(false, 2037, "자기소개를 입력해주세요."),
 
 
     EMPTY_REVIEW_RATING(false, 2040, "평점을 입력해주세요."),
@@ -112,9 +106,9 @@ public enum BaseResponseStatus {
 
     RECOMMEND_ALREADY_ADDED(false,2058, "이미 추천한 서평입니다."),
 
-    CALENDAR_EMPTY_START(false,2059,"캘린더 시작 날짜를 입력해주세요."),
+    EMPTY_CAL_STARTD(false,2059,"캘린더 시작 날짜를 입력해주세요."),
 
-    CALENDAR_EMPTY_END(false,2060,"캘린더 종료 날짜를 입력해주세요."),
+    EMPTY_CAL_ENDD(false,2060,"캘린더 종료 날짜를 입력해주세요."),
 
     INCORRECT_OLD_PW(false,2061,"기존 비밀번호를 올바르게 입력해주세요."),
 
