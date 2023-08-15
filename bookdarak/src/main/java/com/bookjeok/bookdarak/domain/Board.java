@@ -1,6 +1,7 @@
 package com.bookjeok.bookdarak.domain;
 
 import com.bookjeok.bookdarak.base.BaseEntity;
+import com.bookjeok.bookdarak.dto.board.BoardReq;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,4 +20,18 @@ public class Board extends BaseEntity {
     private Book book;
 
     private String question;
+
+    public Board(BoardReq.boardInfo dto){
+        this.book = dto.getBook();
+        this.question = dto.getQuestion();
+    }
+
+    public void updateBoardInfo(BoardReq.UpdateBoardInfo boardInfo) {
+        if (boardInfo.getBook()!=null){
+            this.book = boardInfo.getBook();
+        }
+            if (boardInfo.getQuestion()!=null){
+            this.question = boardInfo.getQuestion();
+        }
+    }
 }

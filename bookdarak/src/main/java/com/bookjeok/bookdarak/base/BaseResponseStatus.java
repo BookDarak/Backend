@@ -120,6 +120,10 @@ public enum BaseResponseStatus {
 
     EMPTY_GPT_QUESTION(false, 2065, "질문을 입력해주세요."),
 
+    NOT_EXIST_BOARD_ID(false, 2066, "존재하지 않는 보드입니다."),
+
+    NOT_EXIST_BOARDCOMMENT_ID(false, 2066, "존재하지 않는 보드 댓글입니다"),
+
 
     /**
      * 3000 : Response 오류
