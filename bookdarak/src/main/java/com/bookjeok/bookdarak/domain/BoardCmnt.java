@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Entity @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BoardCmnt extends BaseEntity {
-    @Id @GeneratedValue
+    @Id @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "board_cmnt_id")
     private Long id;
 
@@ -27,9 +27,9 @@ public class BoardCmnt extends BaseEntity {
     private String content;
 
 
-    public BoardCmnt(BoardCmntReq.boardcmntInfo dto) {
-        this.board = dto.getBoard();
-        this.user= dto.getUser();
-        this.content = dto.getContent();
+    public BoardCmnt(Board board, User user, String content) {
+        this.board = board;
+        this.user= user;
+        this.content = content;
     }
 }

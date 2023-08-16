@@ -2,15 +2,14 @@ package com.bookjeok.bookdarak.service;
 
 import com.bookjeok.bookdarak.base.BaseResponse;
 import com.bookjeok.bookdarak.base.BaseResponseStatus;
-import com.bookjeok.bookdarak.domain.Board;
-import com.bookjeok.bookdarak.domain.Review;
-import com.bookjeok.bookdarak.domain.ReviewLike;
-import com.bookjeok.bookdarak.domain.User;
+import com.bookjeok.bookdarak.domain.*;
 import com.bookjeok.bookdarak.dto.board.BoardReq;
 import com.bookjeok.bookdarak.dto.board.BoardRes;
 import com.bookjeok.bookdarak.dto.book.BookRes;
 import com.bookjeok.bookdarak.repository.BoardRepository;
+import com.bookjeok.bookdarak.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,14 +23,20 @@ import static com.bookjeok.bookdarak.base.BaseResponseStatus.*;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class BoardService {
     private final BoardRepository boardRepository;
+    private final BookRepository bookRepository;
 
     //게시판 등록
     @Transactional
     public BaseResponse<String> addBoard(BoardReq.boardInfo request)
     {
-        boardRepository.save(new Board(request));
+        Book book = bookRepository.findById(request.getBookId()). orElse(null);
+        if (book == null){
+            return new BaseResponse<>(NOT_EXIST_BOOK_ID);
+        }
+        boardRepository.save(new Board(book,request.getQuestion()));
         return new BaseResponse<>("게시판을 등록하였습니다");
     }
     //게시판 삭제
@@ -62,11 +67,18 @@ public class BoardService {
 
     // 게시판 수정
     public BaseResponse<BaseResponseStatus> changeBoard(Long boardId, BoardReq.UpdateBoardInfo updateBoardInfo) {
+
         if (validateId(boardId)!=null){
             return new BaseResponse<>(NOT_EXIST_BOARD_ID);
         }
+
+        Book book = bookRepository.findById(updateBoardInfo.getBookId()). orElse(null);
+        if (book == null){
+            return new BaseResponse<>(NOT_EXIST_BOOK_ID);
+        }
+
         Board board = boardRepository.findById(boardId). orElse(null);
-        board.updateBoardInfo(updateBoardInfo);
+        board.updateBoardInfo(book, updateBoardInfo.getQuestion());
 
         return new BaseResponse<>(UPDATE_SUCCESS);
     }

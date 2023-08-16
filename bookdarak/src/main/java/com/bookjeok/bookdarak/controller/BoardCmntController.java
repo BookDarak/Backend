@@ -25,7 +25,7 @@ public class BoardCmntController {
     }
 
     @ApiOperation(value="게시판 댓글 삭제")
-    @DeleteMapping("/boards/{boardId}/{commentId}")
+    @DeleteMapping("/boards/{commentId}")
     public BaseResponse<String> deleteBoardComment(@PathVariable Long boardId,@PathVariable Long commentId)
     {
         return boardCmntService.deleteBoardComment(boardId,commentId);

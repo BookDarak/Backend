@@ -11,14 +11,14 @@ public class BoardReq {
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class boardInfo {
         @NotNull
-        private Book book;
+        private Long bookId;
         @NotBlank
         private String question;
     }
 
     @Getter @AllArgsConstructor
     public static class UpdateBoardInfo {
-        private Book book;
+        private Long bookId ;
         private String question;
     }
 }

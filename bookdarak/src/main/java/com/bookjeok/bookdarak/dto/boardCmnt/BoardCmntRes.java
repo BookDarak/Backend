@@ -12,8 +12,10 @@ public class BoardCmntRes {
         private Long userId;
         private String content;
         private String userImg;
+        private Long boardId;
 
         public BoardCmntInfo(BoardCmnt boardCmnt){
+            this.boardId = boardCmnt.getBoard().getId();
             this.userId = boardCmnt.getUser().getId();
             this.content = boardCmnt.getContent();
             this.userImg = boardCmnt.getUser().getProfileUrl();

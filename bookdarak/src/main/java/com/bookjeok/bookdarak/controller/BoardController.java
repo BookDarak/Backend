@@ -10,12 +10,14 @@ import com.bookjeok.bookdarak.dto.user.UserReq;
 import com.bookjeok.bookdarak.service.BoardService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class BoardController {
     private final BoardService boardService;
     @ApiOperation(value="게시판 등록")

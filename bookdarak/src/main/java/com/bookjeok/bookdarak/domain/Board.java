@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Entity @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Board extends BaseEntity {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")
     private Long id;
 
@@ -21,17 +21,15 @@ public class Board extends BaseEntity {
 
     private String question;
 
-    public Board(BoardReq.boardInfo dto){
-        this.book = dto.getBook();
-        this.question = dto.getQuestion();
+    public Board(Book book, String question){
+        this.book = book;
+        this.question = question;
     }
 
-    public void updateBoardInfo(BoardReq.UpdateBoardInfo boardInfo) {
-        if (boardInfo.getBook()!=null){
-            this.book = boardInfo.getBook();
-        }
-            if (boardInfo.getQuestion()!=null){
-            this.question = boardInfo.getQuestion();
+    public void updateBoardInfo(Book book, String question) {
+        this.book = book;
+            if (question!=null){
+                this.question = question;
         }
     }
 }
