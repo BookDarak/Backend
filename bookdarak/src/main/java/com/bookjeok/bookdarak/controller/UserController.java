@@ -57,12 +57,9 @@ public class UserController {
         return userService.mailTempPassword(mailTmpPwReq);
     }
 
-    @ApiOperation(value="유저 일자 계산")
+    @ApiOperation(value="유저 일자 조회")
     @GetMapping("/users/day/{id}")
-    public BaseResponse<Integer> getDayCnt(@PathVariable Long id){
+    public BaseResponse<Long> getDayCnt(@PathVariable Long id){
         return userService.getDayCnt(id);
     }
-
-
-
 }

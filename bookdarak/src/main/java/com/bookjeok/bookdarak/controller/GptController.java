@@ -29,7 +29,7 @@ public class GptController {
     private String apiKey;
 
 
-    @ApiOperation(value="동기부여 명언")
+    @ApiOperation(value="명언 가져오기")
     @PostMapping("/quote")
     public BaseResponse<GptRes.Quote> getRandomQuote() throws JsonProcessingException {
         OpenAiService service = new OpenAiService(apiKey, Duration.ofSeconds(60));

@@ -17,6 +17,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 import static com.bookjeok.bookdarak.base.BaseResponseStatus.*;
 
 @Service
@@ -127,6 +132,14 @@ public class UserService {
         return new BaseResponse<>(SUCCESS);
     }
 
+    public BaseResponse<Long> getDayCnt(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user==null) return new BaseResponse<>(NOT_EXIST_USER_ID);
+        LocalDate startDate = user.getCreatedAt().toLocalDate();
+        LocalDate endDate = LocalDate.now();
+        return new BaseResponse<>(ChronoUnit.DAYS.between(startDate, endDate)+1);
+    }
+
     private void deleteRelatedEntity(Long id) {
         //유저가 작성한 리뷰 삭제
         User user = findUser(id);
@@ -181,12 +194,5 @@ public class UserService {
         message.setText("임시 비밀번호는 "+ tmpPassword + "입니다.");
 
         javaMailSender.send(message);
-    }
-
-    public BaseResponse<Integer> getDayCnt(Long id) {
-        User user = userRepository.findById(id).orElse(null);
-        if (user==null) return new BaseResponse<>(NOT_EXIST_USER_ID);
-
-        return new BaseResponse<>(1);
     }
 }
