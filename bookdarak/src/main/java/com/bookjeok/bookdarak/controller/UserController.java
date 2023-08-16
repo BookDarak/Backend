@@ -54,8 +54,15 @@ public class UserController {
     @ApiOperation(value = "비밀번호 재설정")
     @PostMapping("/users/pw/tmp")
     public BaseResponse<String> mailTempPassword(@Valid @RequestBody UserReq.MailTmpPw mailTmpPwReq) {
-            return userService.mailTempPassword(mailTmpPwReq);
+        return userService.mailTempPassword(mailTmpPwReq);
     }
+
+    @ApiOperation(value="유저 일자 계산")
+    @GetMapping("/users/day/{id}")
+    public BaseResponse<Integer> getDayCnt(@PathVariable Long id){
+        return userService.getDayCnt(id);
+    }
+
 
 
 }

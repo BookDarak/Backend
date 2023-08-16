@@ -183,4 +183,10 @@ public class UserService {
         javaMailSender.send(message);
     }
 
+    public BaseResponse<Integer> getDayCnt(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user==null) return new BaseResponse<>(NOT_EXIST_USER_ID);
+
+        return new BaseResponse<>(1);
+    }
 }
