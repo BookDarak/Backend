@@ -16,12 +16,10 @@ public class BoardRes {
         private Long bookId;
         private String question;
         private String bookImg;
-        private LocalDateTime bookdate;
 
         public BoardInfo(Board board){
             this.bookId = board.getBook().getId();
             this.bookImg = board.getBook().getImgUrl();
-            this.bookdate = board.getBook().getCreatedAt();
             this.question = board.getQuestion();
         }
     }
