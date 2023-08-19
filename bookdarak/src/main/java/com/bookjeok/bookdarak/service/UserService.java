@@ -85,7 +85,6 @@ public class UserService {
         Long reviewCount = reviewRepository.countByUser(user);
         Long bookmarkCount = bookmarkRepository.countByUser(user);
         Long followCount = followRepository.countByFollowerUser(user);
-
         return new BaseResponse<>(new UserRes.UserInfo(user, reviewCount, bookmarkCount, followCount));
     }
 
