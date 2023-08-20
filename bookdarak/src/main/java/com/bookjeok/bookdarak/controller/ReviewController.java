@@ -7,9 +7,11 @@ import com.bookjeok.bookdarak.dto.review.ReviewRes;
 import com.bookjeok.bookdarak.service.ReviewService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 
 import static com.bookjeok.bookdarak.base.BaseResponseStatus.*;
@@ -60,7 +62,10 @@ public class ReviewController {
 
     @ApiOperation(value ="캘린더 조회")
     @GetMapping("/calendar/{userId}")
-    public BaseResponse<List<ReviewRes.Calendar>> getCalendar(@RequestBody @Valid ReviewReq.Calendar request, @PathVariable Long userId){
-        return reviewService.getCalendar(request, userId);
+    public BaseResponse<List<ReviewRes.Calendar>> getCalendar(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startD,
+                                                              @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endD,
+                                                              @PathVariable Long userId){
+        return reviewService.getCalendar(startD, endD, userId);
     }
+
 }

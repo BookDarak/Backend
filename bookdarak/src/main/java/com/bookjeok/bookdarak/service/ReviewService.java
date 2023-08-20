@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,12 +103,12 @@ public class ReviewService {
         return new BaseResponse<>("삭제를 완료했습니다.");
     }
 
-    public BaseResponse<List<ReviewRes.Calendar>> getCalendar(ReviewReq.Calendar request, Long userId) {
+    public BaseResponse<List<ReviewRes.Calendar>> getCalendar(LocalDate startDate, LocalDate endDate, Long userId) {
         User user = findUserById(userId);
         if (user==null){
             return new BaseResponse<>(NOT_EXIST_USER_ID);
         }
-        List<Review> result = reviewRepository.findByDate(user, request.getCalStartDate(), request.getCalEndDate());
+        List<Review> result = reviewRepository.findByDate(user, startDate, endDate);
 
         List<ReviewRes.Calendar> lst = new ArrayList<>();
         for (Review r: result){
@@ -116,6 +117,7 @@ public class ReviewService {
         }
         return new BaseResponse<>(lst);
     }
+
 
 
     //
