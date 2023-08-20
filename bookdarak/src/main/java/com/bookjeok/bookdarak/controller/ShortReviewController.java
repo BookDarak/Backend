@@ -19,7 +19,7 @@ public class ShortReviewController {
     @ApiOperation(value = "모든 공개 서평(요약) 조회", notes = "추천순, 최신순 정렬")
     @GetMapping("/reviews/shorts")
     public BaseResponse<PageResponse<ShortReviewRes>>
-    getAllPublicReviews(@PageableDefault(sort="updatedAt",direction = Sort.Direction.DESC)Pageable pageable) {
+    getAllPublicReviews(@PageableDefault(sort="createdAt",direction = Sort.Direction.DESC)Pageable pageable) {
         return shortReviewService.getAllPublicReviews(pageable);
     }
 
@@ -27,7 +27,7 @@ public class ShortReviewController {
     @GetMapping("/reviews/shorts/books/{bookId}")
     public BaseResponse<PageResponse<ShortReviewRes>>
     getBookPublicReviews(@PathVariable Long bookId,
-                        @PageableDefault(sort="updatedAt",direction = Sort.Direction.DESC) Pageable pageable) {
+                        @PageableDefault(sort="createdAt",direction = Sort.Direction.DESC) Pageable pageable) {
         return shortReviewService.getBookPublicReviews(bookId, pageable);
     }
 
@@ -36,7 +36,7 @@ public class ShortReviewController {
     @GetMapping("/reviews/shorts/users/{userId}")
     public BaseResponse<PageResponse<ShortReviewRes>>
     getUserReviews(@PathVariable Long userId, @RequestParam String isOwner,
-                   @PageableDefault(sort="updatedAt",direction = Sort.Direction.DESC) Pageable pageable){
+                   @PageableDefault(sort="createdAt",direction = Sort.Direction.DESC) Pageable pageable){
         return shortReviewService.getUserReviews(userId, isOwner,pageable);
     }
 

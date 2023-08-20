@@ -19,9 +19,10 @@ public class ShortReviewRes {
     private String username;
     private Long bookId;
     private String bookImgUrl;
+    private String content;
     private BigDecimal rating;
     private Integer likeCount;
-    private LocalDate updatedDate;
+    private LocalDate createdDate;
 
     public static ShortReviewRes of(Review review) {
         return ShortReviewRes.builder()
@@ -30,9 +31,10 @@ public class ShortReviewRes {
                 .username(review.getUser().getName())
                 .bookId(review.getBook().getId())
                 .bookImgUrl(review.getBook().getImgUrl())
+                .content(review.getContent())
                 .rating(review.getRating())
                 .likeCount(review.getLikeCount())
-                .updatedDate(review.getUpdatedAt().toLocalDate())
+                .createdDate(review.getCreatedAt().toLocalDate())
                 .build();
     }
 

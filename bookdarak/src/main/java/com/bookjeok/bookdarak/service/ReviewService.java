@@ -82,6 +82,7 @@ public class ReviewService {
         }
     }
     public BaseResponse<BaseResponseStatus> updateReview(ReviewReq.UpdateReviewReq request, Long reviewId){
+
         Review review = findReviewById(reviewId);
 
         if (review == null) {
