@@ -124,6 +124,8 @@ public enum BaseResponseStatus {
 
     NOT_EXIST_BOARDCOMMENT_ID(false, 2067, "존재하지 않는 게시판 댓글입니다"),
 
+    INVALID_USER_AGE(false, 2068, "나이를 올바르게 입력해주세요."),
+
 
     /**
      * 3000 : Response 오류
