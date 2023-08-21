@@ -7,9 +7,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import static lombok.AccessLevel.*;
+
 public class UserReq {
     @Getter
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @NoArgsConstructor(access = PROTECTED)
     public static class Signup {
         @NotBlank(message="이메일을 입력해주세요.")
         @Email(message="이메일 형식을 확인해주세요.")
@@ -36,7 +38,7 @@ public class UserReq {
 
         private String profile_url;
     }
-    @Getter @AllArgsConstructor
+    @Getter @AllArgsConstructor @NoArgsConstructor(access = PROTECTED)
     public static class Login {
         @NotBlank(message="이메일을 입력해주세요.")
         @Email(message="이메일 형식을 확인해주세요.")
