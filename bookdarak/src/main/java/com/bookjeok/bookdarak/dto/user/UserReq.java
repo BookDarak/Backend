@@ -1,6 +1,7 @@
 package com.bookjeok.bookdarak.dto.user;
 
 import lombok.*;
+import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.*;
 
@@ -27,8 +28,7 @@ public class UserReq {
         private String gender;
 
         @NotNull(message="나이를 입력해주세요.")
-        @Min(value = 10,message = "나이를 올바르게 입력해주세요.")
-        @Max(value = 10, message = "나이를 올바르게 입력해주세요.")
+        @Range(min=10, max = 100, message = "나이를 올바르게 입력해주세요.")
         private Integer age;
 
 
