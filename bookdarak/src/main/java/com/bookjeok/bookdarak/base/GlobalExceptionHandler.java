@@ -27,7 +27,7 @@ public class GlobalExceptionHandler{
     private BaseResponse<BaseResponseStatus> extractErrors(List<String> errors){
         BaseResponseStatus[] statusList = new BaseResponseStatus[]{
                 EMPTY_USER_EMAIL, INVALID_USER_EMAIL, EMPTY_USER_PASSWORD, INVALID_FORMAT_PASSWORD,
-                EMPTY_USER_GENDER, INVALID_USER_GENDER, EMPTY_USER_AGE, EMPTY_USER_NICKNAME, EMPTY_USER_INTRO,
+                EMPTY_USER_GENDER, INVALID_USER_GENDER, EMPTY_USER_AGE, INVALID_USER_AGE, EMPTY_USER_NICKNAME, EMPTY_USER_INTRO,
 
                 EMPTY_BOOK_NAME, EMPTY_BOOK_ISBN, EMPTY_BOOK_AUTHOR,
 

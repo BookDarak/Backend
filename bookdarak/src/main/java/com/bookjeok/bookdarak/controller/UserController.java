@@ -21,9 +21,6 @@ public class UserController {
     @ApiOperation(value = "회원가입")
     @PostMapping("/signup")
     public BaseResponse<UserRes.Signup> signup(@Valid @RequestBody UserReq.Signup request){
-        if (request.getAge()<=0 || request.getAge()>=100){
-            return new BaseResponse<>(INVALID_USER_AGE);
-        }
         return userService.signup(request);
     }
     @ApiOperation(value = "로그인")

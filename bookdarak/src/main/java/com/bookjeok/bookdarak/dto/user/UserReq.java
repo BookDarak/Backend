@@ -2,10 +2,7 @@ package com.bookjeok.bookdarak.dto.user;
 
 import lombok.*;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 
 import static lombok.AccessLevel.*;
 
@@ -30,6 +27,8 @@ public class UserReq {
         private String gender;
 
         @NotNull(message="나이를 입력해주세요.")
+        @Min(value = 10,message = "나이를 올바르게 입력해주세요.")
+        @Max(value = 10, message = "나이를 올바르게 입력해주세요.")
         private Integer age;
 
 
