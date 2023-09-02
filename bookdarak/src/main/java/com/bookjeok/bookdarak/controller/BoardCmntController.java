@@ -43,12 +43,12 @@ public class BoardCmntController {
         return boardCmntService.getComment(boardId,commentId);
     }
 
-//    @ApiOperation(value="게시판 댓글 전체조회", notes = "")
-//    @GetMapping("/boards/{boardId}")
-//    public BaseResponse<PageResponse<BoardCmntRes>>
-//    getBoardComment(@PathVariable Long boardId, @PageableDefault(sort="createdAt",direction = Sort.Direction.DESC) Pageable pageable){
-//        return boardCmntService.getBoardComment(boardId,pageable);
-//    }
+    @ApiOperation(value="게시판 댓글 전체조회", notes = "")
+    @GetMapping("/boards/comment/{boardId}")
+    public BaseResponse<PageResponse<BoardCmntRes>>
+    getBoardComment(@PathVariable Long boardId, @PageableDefault(sort="createdAt",direction = Sort.Direction.DESC) Pageable pageable){
+        return boardCmntService.getBoardComment(boardId,pageable);
+    }
 
 //    @ApiOperation(value="유저 서평(요약) 조회", notes = "주인 여부 입력 필요")
 //    @GetMapping("/reviews/shorts/users/{userId}")
