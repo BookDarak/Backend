@@ -45,7 +45,6 @@ public class BookService {
     @Transactional(readOnly = true)
     public BaseResponse<BookRes.BookInfo> getBookInfo(Long id){
         Book book = bookRepository.findById(id).orElse(null);
-
         if (book==null){
             return new BaseResponse<>(NOT_EXIST_BOOK_ID);
         }
