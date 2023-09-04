@@ -23,40 +23,30 @@ public class BoardCmntController {
     private final BoardCmntService boardCmntService;
 
     @ApiOperation(value="게시판 댓글 등록")
-    @PostMapping("/boards/{boardId}")
-    public BaseResponse<String> addBoardComment(@PathVariable Long boardId, @Valid @RequestBody BoardCmntReq.boardcmntInfo request)
+    @PostMapping("/boards/comments/{boardId}/{userId}")
+    public BaseResponse<String> addBoardComment(@PathVariable Long boardId,@PathVariable Long userId, @Valid @RequestBody BoardCmntReq.boardcmntInfo request)
     {
-        return boardCmntService.addBoardComment(boardId, request);
+        return boardCmntService.addBoardComment(boardId, userId, request);
     }
 
     @ApiOperation(value="게시판 댓글 삭제")
-    @DeleteMapping("/boards/{boardId}/{commentId}")
-    public BaseResponse<String> deleteBoardComment(@PathVariable Long boardId,@PathVariable Long commentId)
+    @DeleteMapping("/boards/comments/{commentId}")
+    public BaseResponse<String> deleteBoardComment(@PathVariable Long commentId)
     {
-        return boardCmntService.deleteBoardComment(boardId,commentId);
+        return boardCmntService.deleteBoardComment(commentId);
     }
 
-    @ApiOperation(value="게시판 댓글 상세 조회")
-    @GetMapping("/boards/{boardId}/{commentId}")
-    public BaseResponse<BoardCmntRes.BoardCmntInfo> getComment(@PathVariable Long boardId, @PathVariable Long commentId)
-    {
-        return boardCmntService.getComment(boardId,commentId);
-    }
+//    @ApiOperation(value="게시판 댓글 상세 조회")
+//    @GetMapping("/boards/{boardId}/{commentId}")
+//    public BaseResponse<BoardCmntRes.BoardCmntInfo> getComment(@PathVariable Long boardId, @PathVariable Long commentId)
+//    {
+//        return boardCmntService.getComment(boardId,commentId);
+//    }
 
-    @ApiOperation(value="게시판 댓글 전체조회", notes = "")
-    @GetMapping("/boards/comment/{boardId}")
+    @ApiOperation(value="게시판 댓글 전체조회")
+    @GetMapping("/boards/comments/{boardId}")
     public BaseResponse<PageResponse<BoardCmntRes>>
     getBoardComment(@PathVariable Long boardId, @PageableDefault(sort="createdAt",direction = Sort.Direction.DESC) Pageable pageable){
         return boardCmntService.getBoardComment(boardId,pageable);
     }
-
-//    @ApiOperation(value="유저 서평(요약) 조회", notes = "주인 여부 입력 필요")
-//    @GetMapping("/reviews/shorts/users/{userId}")
-//    public BaseResponse<PageResponse<ShortReviewRes>>
-//    getUserReviews(@PathVariable Long userId, @RequestParam String isOwner,
-//                   @PageableDefault(sort="createdAt",direction = Sort.Direction.DESC) Pageable pageable){
-//        return shortReviewService.getUserReviews(userId, isOwner,pageable);
-//    }
-
-
 }

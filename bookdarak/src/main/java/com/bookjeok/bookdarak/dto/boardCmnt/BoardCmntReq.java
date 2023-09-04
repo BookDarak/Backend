@@ -14,8 +14,6 @@ public class BoardCmntReq {
     @AllArgsConstructor
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class boardcmntInfo {
-        @NotNull
-        private Long userId;
         @NotBlank
         private String content;
     }
