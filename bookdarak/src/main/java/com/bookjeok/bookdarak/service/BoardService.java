@@ -36,8 +36,9 @@ public class BoardService {
         if (book == null){
             return new BaseResponse<>(NOT_EXIST_BOOK_ID);
         }
-        boardRepository.save(new Board(book,request.getQuestion()));
-        return new BaseResponse<>("게시판을 등록하였습니다");
+        Board board =  boardRepository.save(new Board(book,request.getQuestion()));
+        String BoardId = Integer.toString(Math.toIntExact(board.getId()));
+        return new BaseResponse<>(BoardId);
     }
     //게시판 삭제
     @Transactional
