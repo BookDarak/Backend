@@ -29,6 +29,10 @@ public class BookController {
         return bookService.getBookInfo(id);
     }
 
+    @ApiOperation(value = "책 삭제", notes = "관리자용")
+    @DeleteMapping("/books/{id}")
+    public BaseResponse<String> deleteBook(@PathVariable Long id) {return bookService.deleteBook(id);}
+
     @ApiOperation(value = "연령대별 책 추천")
     @GetMapping("/books/recommend/age/{userId}")
     public BaseResponse<List<Book>> recommendBookByAge(@PathVariable Long userId){

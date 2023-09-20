@@ -33,7 +33,7 @@ public class GptController {
     @PostMapping("/quote")
     public BaseResponse<GptRes.Quote> getRandomQuote() throws JsonProcessingException {
         OpenAiService service = new OpenAiService(apiKey, Duration.ofSeconds(60));
-        String question = "Give me a popular line about motivation. Format answer as json object with the keys line, speaker";
+        String question = "Give me a popular English line about motivation. Format answer as json object with the keys line, speaker";
         List<ChatMessage> messages = new ArrayList<>();
         ChatMessage chatMessage = new ChatMessage("user", question);
         messages.add(chatMessage);

@@ -6,6 +6,7 @@ import com.bookjeok.bookdarak.domain.*;
 import com.bookjeok.bookdarak.dto.board.BoardReq;
 import com.bookjeok.bookdarak.dto.board.BoardRes;
 import com.bookjeok.bookdarak.dto.book.BookRes;
+import com.bookjeok.bookdarak.repository.BoardCmntRepository;
 import com.bookjeok.bookdarak.repository.BoardRepository;
 import com.bookjeok.bookdarak.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ import static com.bookjeok.bookdarak.base.BaseResponseStatus.*;
 @Slf4j
 public class BoardService {
     private final BoardRepository boardRepository;
+    private final BoardCmntRepository boardCmntRepository;
     private final BookRepository bookRepository;
 
     //게시판 등록
@@ -49,6 +51,7 @@ public class BoardService {
 
         Board board = boardRepository.findById(boardId). orElse(null);
         boardRepository.delete(board);
+        boardCmntRepository.deleteBoardCmntByBoard(board);
 
         return new BaseResponse<>("게시판을 삭제했습니다.");
 

@@ -1,14 +1,13 @@
 package com.bookjeok.bookdarak.service;
 
 import com.bookjeok.bookdarak.base.BaseResponse;
+import com.bookjeok.bookdarak.domain.Board;
 import com.bookjeok.bookdarak.domain.Book;
 import com.bookjeok.bookdarak.domain.Bookmark;
 import com.bookjeok.bookdarak.domain.User;
 import com.bookjeok.bookdarak.dto.book.BookReq;
 import com.bookjeok.bookdarak.dto.book.BookRes;
-import com.bookjeok.bookdarak.repository.BookRepository;
-import com.bookjeok.bookdarak.repository.BookmarkRepository;
-import com.bookjeok.bookdarak.repository.UserRepository;
+import com.bookjeok.bookdarak.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +26,9 @@ public class BookService {
     private final BookRepository bookRepository;
     private final BookmarkRepository bookmarkRepository;
     private final UserRepository userRepository;
+    private final ReviewRepository reviewRepository;
+    private final BoardRepository boardRepository;
+    private final BoardCmntRepository boardCmntRepository;
 
     public BaseResponse<BookRes.BookId> findBookByIsbn(BookReq.bookInfo request){
         /*
@@ -50,6 +52,25 @@ public class BookService {
         }
 
         return new BaseResponse<>(new BookRes.BookInfo(book));
+    }
+
+
+    public BaseResponse<String> deleteBook(Long id) {
+        Book book = bookRepository.findById(id).orElse(null);
+        if (book == null)
+            return new BaseResponse<>(NOT_EXIST_BOOK_ID);
+        deleteRelatedEntity(book);
+        bookRepository.delete(book);
+        return new BaseResponse<>(SUCCESS);
+    }
+    private void deleteRelatedEntity(Book book) {
+        //연관관계 삭제
+        bookmarkRepository.deleteByBook(book);
+        reviewRepository.deleteByBook(book);
+
+        Board board = boardRepository.findByBook(book);
+        boardCmntRepository.deleteByBoard(board);
+        boardRepository.deleteByBook(book);
     }
 
     //연령별 책 추천

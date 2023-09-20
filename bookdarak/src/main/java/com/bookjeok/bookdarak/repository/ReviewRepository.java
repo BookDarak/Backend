@@ -14,6 +14,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Review findByUserAndBook(User user, Book book);
     boolean existsByUserAndBook(User user, Book book);
     void deleteByUser(User user);
+    void deleteByBook(Book book);
     Long countByUser(User user);
 
     @Query(value = "select r from Review r where"+

@@ -33,7 +33,6 @@ public class ReviewService {
     private final ReviewLikeRepository reviewLikeRepository;
 
     public BaseResponse<ReviewRes.ReviewId> addReview(Long userId, Long bookId, ReviewReq.AddReviewReq request)  {
-
         User user = findUserById(userId);
         Book book = findBookById(bookId);
         //유저와 도서 조회
@@ -103,6 +102,7 @@ public class ReviewService {
         return new BaseResponse<>("삭제를 완료했습니다.");
     }
 
+    @Transactional(readOnly = true)
     public BaseResponse<List<ReviewRes.Calendar>> getCalendar(LocalDate startDate, LocalDate endDate, Long userId) {
         User user = findUserById(userId);
         if (user==null){
@@ -117,8 +117,6 @@ public class ReviewService {
         }
         return new BaseResponse<>(lst);
     }
-
-
 
     //
     public User findUserById(Long userId){return userRepository.findById(userId).orElse(null);}

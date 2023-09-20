@@ -5,10 +5,7 @@ import com.bookjeok.bookdarak.base.BaseResponseStatus;
 import com.bookjeok.bookdarak.domain.User;
 import com.bookjeok.bookdarak.dto.user.UserReq;
 import com.bookjeok.bookdarak.dto.user.UserRes;
-import com.bookjeok.bookdarak.repository.BookmarkRepository;
-import com.bookjeok.bookdarak.repository.FollowRepository;
-import com.bookjeok.bookdarak.repository.ReviewRepository;
-import com.bookjeok.bookdarak.repository.UserRepository;
+import com.bookjeok.bookdarak.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -17,9 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 import static com.bookjeok.bookdarak.base.BaseResponseStatus.*;
@@ -32,6 +27,8 @@ public class UserService {
     private final ReviewRepository reviewRepository;
     private final BookmarkRepository bookmarkRepository;
     private final FollowRepository followRepository;
+    private final BoardCmntRepository boardCmntRepository;
+
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
     private final JavaMailSender javaMailSender;
@@ -139,6 +136,7 @@ public class UserService {
         return new BaseResponse<>(ChronoUnit.DAYS.between(startDate, endDate)+1);
     }
 
+    //유저 연관관계 삭제
     private void deleteRelatedEntity(Long id) {
         //유저가 작성한 리뷰 삭제
         User user = findUser(id);
@@ -150,6 +148,9 @@ public class UserService {
         //유저의 팔로우 삭제
         followRepository.deleteByFollowerUser(user);
         followRepository.deleteByFolloweeUser(user);
+
+        //게시판 유저 댓글 삭제
+        boardCmntRepository.deleteByUser(user);
     }
 
     private User saveUser(UserReq.Signup request) {
