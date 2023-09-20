@@ -50,11 +50,11 @@ public class BoardController {
     public BaseResponse<BaseResponseStatus> changeBoard(@PathVariable Long boardId, @RequestBody BoardReq.UpdateBoardInfo updateBoardInfo){
         return boardService.changeBoard(boardId, updateBoardInfo);}
 
-//    @ApiOperation(value="게시판 전체조회")
-//    @GetMapping("/boards")
-//    public BaseResponse<PageResponse<BoardRes>>
-//    getBoard(@PageableDefault(sort="createdAt",direction = Sort.Direction.DESC) Pageable pageable){
-//        return boardService.getBoard((java.awt.print.Pageable) pageable);
-//    }
+    @ApiOperation(value="게시판 전체조회")
+    @GetMapping("/boards")
+    public BaseResponse<PageResponse<BoardRes>>
+    getAllBoard(@PageableDefault(sort="createdAt",direction = Sort.Direction.DESC) Pageable pageable){
+        return boardService.getAllBoard(pageable);
+    }
 
 }

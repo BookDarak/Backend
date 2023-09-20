@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 import static com.bookjeok.bookdarak.base.BaseResponseStatus.*;
@@ -97,16 +97,16 @@ public class BoardService {
         return null;
     }
 
-//    //게시판 전체조회
-//    public BaseResponse<PageResponse<BoardRes>> getBoard(Pageable pageable){
-//        Page<Board> board = boardRepository.findAll(pageable);
-//        PageResponse<BoardRes> pageResponse = getBoardResPageResponse(board);
-//
-//        return new BaseResponse<>(pageResponse);
-//    }
-//    private static PageResponse<BoardRes> getBoardResPageResponse(Page<Board> board) {
-//        Page<BoardRes> boards = board.map(BoardRes::of);
-//        // Page->PageResponse
-//        return PageResponse.fromPage(boards);
-//    }
+//    게시판 전체조회
+    public BaseResponse<PageResponse<BoardRes>> getAllBoard(Pageable pageable){
+        Page<Board> board = boardRepository.findAll(pageable);
+        PageResponse<BoardRes> pageResponse = getBoardResPageResponse(board);
+
+        return new BaseResponse<>(pageResponse);
+    }
+    private static PageResponse<BoardRes> getBoardResPageResponse(Page<Board> board) {
+        Page<BoardRes> boards = board.map(BoardRes::of);
+        // Page->PageResponse
+        return PageResponse.fromPage(boards);
+    }
 }
