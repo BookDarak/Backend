@@ -2,15 +2,20 @@ package com.bookjeok.bookdarak.controller;
 
 import com.bookjeok.bookdarak.base.BaseResponse;
 import com.bookjeok.bookdarak.base.BaseResponseStatus;
+import com.bookjeok.bookdarak.base.PageResponse;
 import com.bookjeok.bookdarak.domain.Board;
 import com.bookjeok.bookdarak.dto.board.BoardReq;
 import com.bookjeok.bookdarak.dto.board.BoardRes;
+import com.bookjeok.bookdarak.dto.boardCmnt.BoardCmntRes;
 import com.bookjeok.bookdarak.dto.book.BookReq;
 import com.bookjeok.bookdarak.dto.user.UserReq;
 import com.bookjeok.bookdarak.service.BoardService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -44,5 +49,12 @@ public class BoardController {
     @PatchMapping("/boards/{boardId}")
     public BaseResponse<BaseResponseStatus> changeBoard(@PathVariable Long boardId, @RequestBody BoardReq.UpdateBoardInfo updateBoardInfo){
         return boardService.changeBoard(boardId, updateBoardInfo);}
+
+//    @ApiOperation(value="게시판 전체조회")
+//    @GetMapping("/boards")
+//    public BaseResponse<PageResponse<BoardRes>>
+//    getBoard(@PageableDefault(sort="createdAt",direction = Sort.Direction.DESC) Pageable pageable){
+//        return boardService.getBoard((java.awt.print.Pageable) pageable);
+//    }
 
 }
