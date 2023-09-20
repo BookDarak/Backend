@@ -15,10 +15,12 @@ public class BoardRes {
     public static class BoardInfo {
         private Long bookId;
         private String question;
+        private String bookname;
         private String bookImg;
 
         public BoardInfo(Board board){
             this.bookId = board.getBook().getId();
+            this.bookname=board.getBook().getName();
             this.bookImg = board.getBook().getImgUrl();
             this.question = board.getQuestion();
         }

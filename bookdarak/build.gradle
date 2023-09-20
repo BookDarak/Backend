@@ -27,6 +27,7 @@ dependencies {
 	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
+	implementation 'com.mysql:mysql-connector-j:8.0.31'
 	runtimeOnly 'mysql:mysql-connector-java:8.0.33'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

@@ -31,60 +31,50 @@ public class BoardCmntService {
 
     //게시판 댓글 등록
     @Transactional
-    public BaseResponse<String> addBoardComment(Long boardId, BoardCmntReq.boardcmntInfo request)
+    public BaseResponse<String> addBoardComment(Long boardId, Long userId, BoardCmntReq.boardcmntInfo request)
     {
         Board board = boardRepository.findById(boardId). orElse(null);
-        User user = userRepository.findById(request.getUserId()).orElse(null);
+        if (board == null){
+            return new BaseResponse<>(NOT_EXIST_BOARD_ID);
+        }
+
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null){
+            return new BaseResponse<>(NOT_EXIST_USER_ID);
+        }
+
         boardCmntRepository.save(new BoardCmnt(board,user,request.getContent()));
         return new BaseResponse<>("게시판 댓글을 등록하였습니다");
     }
     //게시판 댓글 삭제
     @Transactional
-    public BaseResponse<String> deleteBoardComment(Long boardId, Long commentId){
-        if (validateId(commentId)!=null){
-            return validateId(commentId);
-        }
+    public BaseResponse<String> deleteBoardComment(Long commentId){
         BoardCmnt boardCmnt = boardCmntRepository.findById(commentId).orElse(null);
+        if (boardCmnt== null){
+            return new BaseResponse<>(NOT_EXIST_BOARDCOMMENT_ID);
+        }
+
         boardCmntRepository.delete(boardCmnt);
         return new BaseResponse<>("게시판 댓글을 삭제했습니다.");
 
     }
 
-    //게시판 댓글 상세조회
-    public BaseResponse<BoardCmntRes.BoardCmntInfo> getComment(Long boardId, Long commentId) {
-        BoardCmnt boardCmnt = boardCmntRepository.findById(commentId). orElse(null);
-        if(boardCmnt == null){
-            return new BaseResponse<>(NOT_EXIST_BOARDCOMMENT_ID);
-        }
-        return new BaseResponse<>(new BoardCmntRes.BoardCmntInfo(boardCmnt));
-    }
-
     //게시판 댓글 전체조회
-
     public BaseResponse<PageResponse<BoardCmntRes>> getBoardComment(Long boardId, Pageable pageable){
-//        BoardCmnt boardCmnt = boardCmntRepository.findByBoardId(boardId). orElse(null);
-//        if(boardCmnt == null){
-//            return new BaseResponse<>(NOT_EXIST_BOARDCOMMENT_ID);
-//        }
+        Board board = boardRepository.findById(boardId). orElse(null);
+        if (board == null){
+            return new BaseResponse<>(NOT_EXIST_BOARD_ID);
+        }
+
         Page<BoardCmnt> boardCmnts = boardCmntRepository.findByBoardId(boardId, pageable);
         PageResponse<BoardCmntRes> pageResponse = getShortReviewResPageResponse(boardCmnts);
 
         return new BaseResponse<>(pageResponse);
     }
-
     private static PageResponse<BoardCmntRes> getShortReviewResPageResponse(Page<BoardCmnt> boardCmnts) {
         Page<BoardCmntRes> shortReviewsPage = boardCmnts.map(BoardCmntRes::of);
-
         // Page->PageResponse
         return PageResponse.fromPage(shortReviewsPage);
     }
 
-
-
-    public BaseResponse<String> validateId(Long commentId) {
-        if (!boardCmntRepository.existsById(commentId)) {
-            return new BaseResponse<>(NOT_EXIST_BOARDCOMMENT_ID);
-        }
-        return null;
-    }
 }
