@@ -67,14 +67,14 @@ public class BoardCmntService {
         }
 
         Page<BoardCmnt> boardCmnts = boardCmntRepository.findByBoardId(boardId, pageable);
-        PageResponse<BoardCmntRes> pageResponse = getShortReviewResPageResponse(boardCmnts);
+        PageResponse<BoardCmntRes> pageResponse = getBoardCmntResPageResponse(boardCmnts);
 
         return new BaseResponse<>(pageResponse);
     }
-    private static PageResponse<BoardCmntRes> getShortReviewResPageResponse(Page<BoardCmnt> boardCmnts) {
-        Page<BoardCmntRes> shortReviewsPage = boardCmnts.map(BoardCmntRes::of);
+    private static PageResponse<BoardCmntRes> getBoardCmntResPageResponse(Page<BoardCmnt> boardCmnts) {
+        Page<BoardCmntRes> BoardCmnt = boardCmnts.map(BoardCmntRes::of);
         // Page->PageResponse
-        return PageResponse.fromPage(shortReviewsPage);
+        return PageResponse.fromPage(BoardCmnt);
     }
 
 }
