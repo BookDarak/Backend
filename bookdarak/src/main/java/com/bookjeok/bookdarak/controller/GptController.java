@@ -41,12 +41,12 @@ public class GptController {
                 .builder()
                 .model("gpt-3.5-turbo")
                 .messages(messages)
-                .temperature(2.0)
+                .temperature(1.0)
                 .n(1)
                 .stream(Boolean.FALSE)
                 .maxTokens(500)
-                .presencePenalty(0.0)
-                .frequencyPenalty(0.0)
+                .presencePenalty(2.0)
+                .frequencyPenalty(1.0)
                 .build();
 
         String content = service.createChatCompletion(chatCompletionRequest).getChoices().get(0).getMessage().getContent();
