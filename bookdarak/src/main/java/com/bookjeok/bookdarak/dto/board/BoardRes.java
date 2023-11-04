@@ -8,12 +8,14 @@ import lombok.Getter;
 @AllArgsConstructor
 @Builder
 public class BoardRes {
+    private Long boardId;
     private Long bookId;
     private String question;
     private String bookname;
     private String bookImg;
     public static BoardRes of(Board board){
         return BoardRes.builder()
+                .boardId(board.getId())
                 .bookId(board.getBook().getId())
                 .bookname(board.getBook().getName())
                 .bookImg(board.getBook().getImgUrl())
