@@ -1,17 +1,9 @@
 package com.bookjeok.bookdarak.dto.board;
 
 import com.bookjeok.bookdarak.domain.Board;
-import com.bookjeok.bookdarak.domain.BoardCmnt;
-import com.bookjeok.bookdarak.domain.Book;
-import com.bookjeok.bookdarak.dto.boardCmnt.BoardCmntRes;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static org.hibernate.boot.model.process.spi.MetadataBuildingProcess.build;
 @Getter
 @AllArgsConstructor
 @Builder
